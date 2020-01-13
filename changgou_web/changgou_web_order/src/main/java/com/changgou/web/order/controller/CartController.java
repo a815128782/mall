@@ -36,7 +36,7 @@ public class CartController {
 
     //添加购物车
     @GetMapping("/addCart/{id}")
-    public String addCart(@PathVariable("id") String id, @RequestParam("num") Integer num, Integer type, Model model) {
+    public String addCart(@PathVariable("id") String id,@RequestParam("num") Integer num,Integer type, Model model) {
         cartFeign.addCart(id, num,type);
         Sku sku = skuFeign.findById(id).getData();
         Map map = JSON.parseObject(sku.getSpec(), Map.class);
