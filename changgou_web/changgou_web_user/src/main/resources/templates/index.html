@@ -10,10 +10,13 @@
         <link rel="stylesheet" type="text/css" href="/css/all.css"/>
         <link rel="stylesheet" type="text/css" href="/css/pages-JD-index.css"/>
         <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=suCtBF0vKGsY2aWxFfR3HOo1KG0kOhLg"></script>
+
     </head>
 
     <body>
         <div id="app">
+
+
             <!-- 头部栏位 -->
             <!--页面顶部-->
             <div id="nav-bottom">
@@ -26,7 +29,7 @@
                                     <li class="f-item">畅购欢迎您！</li>
                                     <li class="f-item">请
                                         <a
-                                           href=""
+                                           th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
                                            target="_self">登录</a>
                                         <span>
 									<a  th:href="|/api/wuser/register|" target="_self">免费注册</a>
@@ -3079,21 +3082,24 @@
             new Vue({
                 el: '#app',
                 data: {
-                    username: ""
+                    user: {
+                        username:''
+                    }
                 },
                 methods: {
                     getUsername() {
-                       /* var uid = "uid";
-                        let jti = this.getCookie(uid);*/
-                        // alert(cookie);
-                         axios.get("/api/wuser/getUsername").then(function (response) {
-                             if(response.data.success){
-                                 this.username = "heima";
-                                 // alert(this.username);
-                             }
-                         })
+                        let jti = this.getCookie("uid");
+                        if(!jti.length <=1) {
+                            axios.get("/api/oauth/getUsername?jti="+jti).then(function (response) {
+                                if (response.data.success) {
+                                    this.username = response.data.data;
+                                    // this.username.$set(this.username,);
+                                    alert(this.username);
+                                }
+                            })
+                        }
                     },
-                    /*getCookie(cookiename) {
+                    getCookie(cookiename) {
                         var name = cookiename + "=";
                         var cs = document.cookie.split(';');
                         for (var i = 0; i < cs.length; i++) {
@@ -3102,7 +3108,7 @@
                                 return c.substring(name.length, c.length);
                             }
                         }
-                    }*/
+                    }
                 },
                 created() {
                     this.getUsername();
