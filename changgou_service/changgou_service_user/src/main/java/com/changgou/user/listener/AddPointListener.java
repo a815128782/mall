@@ -25,7 +25,7 @@ public class AddPointListener {
 
     @RabbitListener(queues = RabbitMQConfig.CG_BUYING_ADDPOINT)
     public void receiveAddPointMessage(String message){
-        System.out.println("用户服务接收到了任务消息");
+        //System.out.println("用户服务接收到了任务消息");
 
         //转换消息
         Task task = JSON.parseObject(message, Task.class);

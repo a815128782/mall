@@ -19,7 +19,7 @@ public class OrderPayListener {
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_PAY)
     public void receivePayMessage(String message) {
-        System.out.println("接收到了订单支付的消息"+message);
+        //System.out.println("接收到了订单支付的消息"+message);
         Map map = JSON.parseObject(message, Map.class);
 
         //调用业务层完成订单数据库的修改

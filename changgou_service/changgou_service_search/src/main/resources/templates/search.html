@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" type="text/css" href="/css/all.css"/>
         <link rel="stylesheet" type="text/css" href="/css/pages-list.css"/>
+
     </head>
 
     <body>
@@ -582,7 +583,7 @@
             </div>
         </div>
         <!--list-content-->
-        <div class="main">
+        <div class="main" id="app">
             <div class="py-container">
                 <!--bread-->
                 <div class="bread">
@@ -617,7 +618,7 @@
                     </form>
                 </div>
                 <!--selector-->
-                <div class="clearfix selector">
+                <div class="clearfix selector" >
                     <div class="type-wrap logo" th:unless="${#maps.containsKey(searchMap,'brand')}">
                         <div class="fl key brand">品牌</div>
                         <div class="value logos">
@@ -727,7 +728,7 @@
                         </div>
                     </div>
                     <!--商品列表-->
-                    <div class="goods-list">
+                    <div class="goods-list" >
                         <ul class="yui3-g">
                             <li class="yui3-u-1-5" th:each="sku,skuStat:${result.rows}">
                                 <div class="list-wrap">
@@ -751,7 +752,9 @@
                                     <div class="operate">
                                         <a href="success-cart.html" target="_blank"
                                            class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|add('${sku.id}')|" >收藏</a>
+                                        <!--<a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|add('${row.spuId}')|">收藏</a>-->
+                                        <!--th:@click="|chooseAddr('${addr.contact}','${addr.phone}','${addr.address}')|"-->
                                     </div>
                                 </div>
                             </li>
@@ -759,8 +762,8 @@
                     </div>
                     <div class="fr page" style="margin-right: 300px">
                         <div class="sui-pagination pagination-large">
-                            <ul>
-                                <li th:class="${page.currentpage<=1}?'prev disabled':''">
+                            <ul>i
+                                <li th:class="${page.currentpage<=1}?'prev disabled':''">i
                                     <a th:href="@{${url}(pageNum=${page.upper})}" th:if="${page.currentpage>1}">«</a>
                                     <a href="javascript:void(0)" th:unless="${page.currentpage>1}">«</a>
                                 </li>
@@ -1134,11 +1137,33 @@
         </div>
 
 
+        <!--页面底部END-->
+        <script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
+        <script src="/js/vue.js"></script>
+        <script src="/js/axios.js"></script>
         <script type="text/javascript" src="/js/all.js"></script>
         <script>
             function jump() {
                 alert($("#pageNum").val());
             }
+        </script>
+        <script th:inline="javascript">
+            var app = new Vue({
+                el:"#app",
+                data:{
+
+                },
+                methods:{
+                    add:function (id) {
+                        /*alert(id);*/
+                        axios.get("/api/wcollect/add?id="+id).then(function (response) {
+                            if(response.data.success){
+                                alert(response.data.data);
+                            }
+                        })
+                    }
+                }
+            })
         </script>
     </body>
 

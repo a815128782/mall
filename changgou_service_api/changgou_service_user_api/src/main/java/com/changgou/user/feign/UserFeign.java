@@ -4,6 +4,10 @@ import com.changgou.common.entity.Result;
 import com.changgou.user.pojo.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author LiXiang
@@ -15,7 +19,10 @@ public interface UserFeign {
     public User findUserInfo(@PathVariable("username")String username);
 
     @GetMapping("/user/decr/userPoints")
-    public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);
+    public Result decrUserPoints(@RequestParam("username") String username, @RequestParam("points") Integer points);
+
+    @PostMapping("/user/collect/add")
+    public Result add(@RequestParam("skuId") String skuId);
 
     /***
      * 新增数据

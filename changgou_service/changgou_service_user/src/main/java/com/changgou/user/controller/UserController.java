@@ -7,7 +7,9 @@ import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.config.TokenDecode;
+import com.changgou.user.config.TokenDecode;
 import com.changgou.user.pojo.User;
+import com.changgou.user.service.CollectService;
 import com.changgou.user.service.UserService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,23 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
-
-
     @Autowired
     private UserService userService;
     @Autowired
     TokenDecode tokenDecode;
+
+
+    @Autowired
+    private CollectService collectService;
+
+
+    @PostMapping("/collect/add")
+    public Result add(@RequestParam("skuId") String skuId){
+        //动态获取登录人信息
+        String username = tokenDecode.getUserInfo().get("username");
+        collectService.add(username,skuId);
+        return new Result(true, StatusCode.OK,"添加收藏成功");
+    }
 
     /**
      * 查询全部数据

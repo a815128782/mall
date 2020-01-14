@@ -66,7 +66,7 @@ public class SearchController {
                 }
             }
             String urlString = url.toString();
-            //取出路劲上最后一个 &
+            //取出路径上最后一个 &
             urlString = urlString.substring(0,urlString.length()-1);
             model.addAttribute("url",urlString);
         }else{
