@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
 import com.changgou.pay.config.RabbitMQConfig;
+import com.changgou.pay.service.AlipayService;
 import com.changgou.pay.service.WXPayService;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
@@ -26,6 +27,8 @@ public class WXPayController {
     @Autowired
     WXPayService wxPayService;
     @Autowired
+    private AlipayService alipayService;
+    @Autowired
     WXPay wxPay;
     @Autowired
     RabbitTemplate rabbitTemplate;
@@ -36,6 +39,11 @@ public class WXPayController {
         return R.T("", resultMap);
     }
 
+    @RequestMapping("/createAlipayNative")
+    public Result createAlipayNative(@RequestParam("orderId") String orderId, @RequestParam("payMoney") String payMoney){
+        Map resultMap = alipayService.createNative(orderId, payMoney);
+        return R.T("", resultMap);
+    }
     @RequestMapping("/notify")
     public void notifyLogic(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("支付成功回调");

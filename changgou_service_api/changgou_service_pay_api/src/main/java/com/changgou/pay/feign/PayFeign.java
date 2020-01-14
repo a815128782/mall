@@ -2,10 +2,7 @@ package com.changgou.pay.feign;
 
 import com.changgou.common.entity.Result;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author LiXiang
@@ -21,7 +18,6 @@ public interface PayFeign {
      */
     @GetMapping("/wxpay/nativePay")
     public Result nativePay(@RequestParam("orderId") String orderId, @RequestParam("payMoney")String payMoney);
-
     /**
      * 基于微信查询订单
      * @param orderId
@@ -38,4 +34,7 @@ public interface PayFeign {
      */
     @PutMapping("/wxpay/close/{orderId}")
     public Result closeOrder(@PathVariable("orderId")String orderId);
+
+    @RequestMapping("/wxpay/createAlipayNative")
+    public Result createAlipayNative(@RequestParam("orderId") String orderId, @RequestParam("payMoney") String payMoney);
 }

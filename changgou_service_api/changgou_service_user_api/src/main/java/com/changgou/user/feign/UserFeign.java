@@ -15,7 +15,8 @@ public interface UserFeign {
     public User findUserInfo(@PathVariable("username")String username);
 
     @GetMapping("/user/decr/userPoints")
-    public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);
+    public Result decrUserPoints(@RequestParam("username") String username, @RequestParam("points") Integer points);
+
 
     /***
      * 新增数据

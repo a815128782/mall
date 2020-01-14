@@ -128,4 +128,8 @@ public class OrderController implements OrderApi {
         return R.T("发货成功");
     }
 
+    @PutMapping("/{id}/{transaction_id}")
+    void updateOrderStatus(@PathVariable("id") String out_trade_no,@PathVariable("transaction_id") String trade_no){
+        orderService.updatePayStatus(out_trade_no,trade_no);
+    }
 }

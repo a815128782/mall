@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -52,9 +55,52 @@ public class PayController {
         return "wxpay";
     }
 
+    @GetMapping("/zfb")
+    public String zfbPay(String orderId,Model model){
+        Order order = orderFeign.findById(orderId).getData();
+        if(order == null) {
+//            model.addAttribute("msg","");
+            return "fail";
+        }
+        Result payResult=payFeign.createAlipayNative(orderId,String.valueOf(order.getPayMoney()));
+        if(payResult.getData() == null) {
+//            model.addAttribute("msg","");
+            return "fail";
+        }
+        Map payMap = (Map) payResult.getData();
+        model.addAllAttributes(payMap);
+        return "zfbpay";
+    }
+
+    //支付宝的回调
+    @RequestMapping("/alipayCallBack")
+    public String alipayCallBack(HttpServletRequest request,Model model){
+        System.out.println("===================");
+        System.out.println(request.getParameterMap());
+        Map<String,String> params = new HashMap();
+        Map requestParams = request.getParameterMap();
+        for(Iterator iter = requestParams.keySet().iterator(); iter.hasNext();){
+            String name = (String)iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for(int i = 0 ; i <values.length;i++){
+
+                valueStr = (i == values.length -1)?valueStr + values[i]:valueStr + values[i]+",";
+            }
+            params.put(name,valueStr);
+        }
+        if("TRADE_SUCCESS".equals(params.get("trade_status"))) {
+            System.out.println("支付成功");
+            return "paysuccess";
+           // orderFeign.updateOrderStatus(params.get("out_trade_no")+"", params.get("trade_no"));//修改订单状态
+        }
+       return null;
+    }
+
     @RequestMapping("/toPaySuccess")
     public String toPaySuccess(Integer payMoney,Model model) {
         model.addAttribute("payMoney",payMoney);
         return "paysuccess";
     }
+
 }
