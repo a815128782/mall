@@ -34,7 +34,7 @@ public class KdniaoTrackQueryAPI {
 	public static void main(String[] args) {
 		KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
 		try {
-			String result = api.getOrderTracesByJson("ANE", "1213289895871778816");
+			String result = api.getOrderTracesByJson("SF", "773023968839072");
 			Map<String,String> map = JSON.parseObject(result, Map.class);
 			System.out.println(map);
 		} catch (Exception e) {
