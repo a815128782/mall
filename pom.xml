@@ -19,6 +19,8 @@
         <module>changgou_canal</module>
         <module>changgou_jwtTest</module>
         <module>changgou_task</module>
+        <module>changgou_common_fescar</module>
+        <module>changgou-user-oauth</module>
     </modules>
 
     <parent>

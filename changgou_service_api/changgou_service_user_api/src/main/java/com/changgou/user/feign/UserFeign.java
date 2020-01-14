@@ -16,6 +16,6 @@ public interface UserFeign {
     @GetMapping("/user/load/{username}")
     public User findUserInfo(@PathVariable("username")String username);
 
-    @GetMapping("/user/decr/userPoints")
-    public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);
+    /*@GetMapping("/user/decr/userPoints")
+    public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);*/
 }
