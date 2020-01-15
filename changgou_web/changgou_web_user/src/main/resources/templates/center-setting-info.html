@@ -1,19 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>设置-个人信息</title>
-	<link rel="icon" href="./img/favicon.ico">
+	<link rel="icon" href="/img/favicon.ico">
 
-	<link rel="stylesheet" type="text/css" href="./css/all.css" />
-	<link rel="stylesheet" type="text/css" href="./css/pages-seckillOrder.css" />
-	<script src="js/plugins/jquery/jquery.min.js"></script>
-	<script src="js/plugins/sui/sui.min.js"></script>
-	<script src="js/address.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/all.css" />
+	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
 
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<script src="/js/plugins/jquery/jquery.min.js"></script>
+	<script src="/js/plugins/sui/sui.min.js"></script>
+	<script src="/js/address.js"></script>
+	<!-- 引入组件库 -->
+	<!--<script type="text/javascript" src="/js/jquery.min.js"></script>-->
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- 引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<style>
+		.avatar-uploader .el-upload {
+			border: 1px dashed #d9d9d9;
+			border-radius: 6px;
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+		}
+		.avatar-uploader .el-upload:hover {
+			border-color: #409EFF;
+		}
+		.avatar-uploader-icon {
+			font-size: 28px;
+			color: #8c939d;
+			width: 178px;
+			height: 178px;
+			line-height: 178px;
+			text-align: center;
+		}
+		.avatar {
+			width: 178px;
+			height: 178px;
+			display: block;
+		}
+	</style>
 </head>
 
 <body>
@@ -25,26 +58,65 @@
 			<div class="top">
 				<div class="py-container">
 					<div class="shortcut">
-						<ul class="fl">
+						<ul class="fl" th:unless="${username != null}">
 							<li class="f-item">畅购欢迎您！</li>
-							<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a
-										href="register.html" target="_blank">免费注册</a></span></li>
+							<li class="f-item">请
+								<a
+										th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+										target="_self">登录</a>
+								<span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+							</li>
+						</ul>
+						<ul class="fl" th:unless="${username == null}">
+							<li class="f-item">畅购欢迎您！</li>
+							<li class="f-item">
+								<em th:text="${username}" style="color: #ff3835"></em>
+								<span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+							</li>
 						</ul>
 						<div class="fr typelist">
 							<ul class="types">
-								<li class="f-item"><span>我的订单</span></li>
+								<li class="f-item">
+									<span>我的订单</span>
+								</li>
 
-								<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-								<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
-								<li class="f-item"><span>畅购会员</span></li>
-								<li class="f-item"><span>企业采购</span></li>
-								<li class="f-item"><span>关注畅购</span></li>
-								<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-								<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-								<li class="f-item"><span>网站导航</li>
+								<li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+								</li>
+								<li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
+									</span>
+								</li>
+								<li class="f-item">
+									<span>畅购会员</span>
+								</li>
+								<li class="f-item">
+									<span>企业采购</span>
+								</li>
+								<li class="f-item">
+									<span>关注畅购</span>
+								</li>
+								<li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+								</li>
+								<li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+								</li>
+								<li class="f-item">
+									<span>网站导航</span></li>
 							</ul>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -54,20 +126,20 @@
 				<div class="py-container">
 					<div class="yui3-g Logo">
 						<div class="yui3-u Left logoArea">
-							<a class="logo-bd" title="畅购" href="index.html" target="_blank"></a>
+							<a class="logo-bd" title="畅购" th:href="@{/api/wuser/index}"></a>
 						</div>
 						<div class="yui3-u Rit searchArea">
 							<div class="search">
-								<form action="" class="sui-form form-inline">
-									<!--searchAutoComplete-->
+								<form th:action="@{/api/search/list}" class="sui-form form-inline">
 									<div class="input-append">
-										<input type="text" id="autocomplete" class="input-error input-xxlarge" />
-										<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+										<input th:type="text" id="autocomplete" name="keyWords"
+											   class="input-error input-xxlarge"/>
+										<button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+										</button>
 									</div>
 								</form>
 							</div>
 						</div>
-
 					</div>
 
 				</div>
@@ -83,9 +155,9 @@
 				<div class="yui3-u-1-6 list">
 
 					<div class="person-info">
-						<div class="person-photo"><img src="./img/_/photo.png" alt=""></div>
+						<div class="person-photo"><img src="http://192.168.200.128:8080/group1/M00/00/00/wKjIgF4fMhqAUqb_AAobTYlR3js265.jpg" style="width: 48px;height: 48px" alt=""></div>
 						<div class="person-account">
-							<span class="name">Michelle</span>
+							<span class="name" th:text="${username}"></span>
 							<span class="safe">账户安全</span>
 						</div>
 						<div class="clearfix"></div>
@@ -93,7 +165,7 @@
 					<div class="list-items">
 						<dl>
 							<dt><i>·</i> 订单中心</dt>
-							<dd><a href="center-index.html">我的订单</a></dd>
+							<dd><a th:href="|/api/wuser/user|">我的订单</a></dd>
 							<dd><a href="center-order-pay.html">待付款</a></dd>
 							<dd><a href="center-order-send.html">待发货</a></dd>
 							<dd><a href="center-order-receive.html">待收货</a></dd>
@@ -101,106 +173,165 @@
 						</dl>
 						<dl>
 							<dt><i>·</i> 我的中心</dt>
-							<dd><a href="center-collect.html">我的收藏</a></dd>
-							<dd><a href="center-footmark.html">我的足迹</a></dd>
-
+							<dd><a th:href="|/api/wcollect/list|" >我的收藏</a></dd>
+							<dd><a th:href="|/api/wcollect/list2FootMark|" >我的足迹</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 物流消息</dt>
 						</dl>
 						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a href="center-setting-info.html" class="list-active">个人信息</a></dd>
+							<dd><a th:href="|/api/wcenter/toCenterInfo|" class="list-active">个人信息</a></dd>
 							<dd><a href="center-setting-address.html">地址管理</a></dd>
 							<dd><a href="center-setting-safe.html">安全管理</a></dd>
 						</dl>
 					</div>
 				</div>
 				<!--右侧主内容-->
-				<div class="yui3-u-5-6">
+				<div class="yui3-u-5-6" id="app" v-model="center">
 					<div class="body userInfo">
-						<ul class="sui-nav nav-tabs nav-large nav-primary ">
+						<!--<ul class="sui-nav nav-tabs nav-large nav-primary ">
 							<li class="active"><a href="#one" data-toggle="tab">基本资料</a></li>
 							<li><a href="#two" data-toggle="tab">头像照片</a></li>
-						</ul>
+						</ul>-->
 						<div class="tab-content ">
-							<div id="one" class="tab-pane active">
-								<form id="form-msg" class="sui-form form-horizontal">
-									<div class="control-group">
-										<label for="inputName" class="control-label">昵称：</label>
-										<div class="controls">
-											<input type="text" id="inputName" name="email" placeholder="昵称">
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="inputGender" class="control-label">性别：</label>
-										<div class="controls">
-											<label data-toggle="radio" class="radio-pretty inline">
-												<input type="radio" name="gender" value="1"><span>男</span>
-											</label>
-											<label data-toggle="radio" class="radio-pretty inline">
-												<input type="radio" name="gender" value="2"><span>女</span>
-											</label>
-										</div>
-									</div>
+							<template>
+								<el-tabs v-model="activeName" @tab-click="handleClick">
+									<el-tab-pane label="基本资料" name="first">
+										<div id="one" class="tab-pane active" >
+											<form id="form-msg" class="sui-form form-horizontal">
+												<div class="control-group">
+													<label for="inputName" class="control-label">昵称：</label>
+													<div class="controls">
+														<input type="text" id="inputName" name="email" placeholder="昵称" v-model="center.nick_name">
 
-									<div class="control-group address">
-										<label for="inputPassword" class="control-label">所在地：</label>
-										<div class="controls">
-											<div data-toggle="distpicker">
-												<div class="form-group area">
-													<select class="form-control province1">
-													</select>
+													</div>
 												</div>
-												<div class="form-group area">
-													<select class="form-control city1"></select>
-												</div>
-												<div class="form-group area">
-													<select class="form-control district1"></select>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="inputJob" class="control-label">职业：</label>
-										<div class="controls"><span class="sui-dropdown dropdown-bordered select"><span
-													class="dropdown-inner"><a role="button" data-toggle="dropdown"
-														href="#" class="dropdown-toggle">
-														<input name="job" type="hidden" data-rules="required"><i
-															class="caret"></i><span>请选择</span></a>
-													<ul id="menu4" role="menu" aria-labelledby="drop4"
-														class="sui-dropdown-menu">
-														<li role="presentation"><a role="menuitem" tabindex="-1"
-																href="javascript:void(0);" value="bj">程序员</a></li>
-														<li role="presentation"><a role="menuitem" tabindex="-1"
-																href="javascript:void(0);" value="sb">产品经理</a></li>
-														<li role="presentation"><a role="menuitem" tabindex="-1"
-																href="javascript:void(0);" value="sb">UI设计师</a></li>
-													</ul>
-												</span>
-											</span>
-										</div>
-									</div>
-									<div class="control-group">
-										<label for="sanwei" class="control-label"></label>
-										<div class="controls">
-											<button type="submit" class="sui-btn btn-primary">完成</button>
-										</div>
-									</div>
-								</form>
-							</div>
-							<div id="two" class="tab-pane">
+												<div class="control-group">
+													<label for="inputGender" class="control-label">性别：</label>
+													<div class="controls">
+														<el-select v-model="center.sex">
+															<el-option label="男" value="1"></el-option>
+															<el-option label="女" value="2"></el-option>
+														</el-select>
+														<!--<label data-toggle="radio" :class="center.sex=='1'?'radio-pretty inline checked': 'radio-pretty inline'">
+                                                            <input type="radio" name="gender" value="1"><span>男</span>
+                                                        </label>
+                                                        <label data-toggle="radio" :class="center.sex=='2'?'radio-pretty inline checked': 'radio-pretty inline'">
 
-								<div class="new-photo">
-									<p>当前头像：</p>
-									<div class="upload">
-										<img id="imgShow_WU_FILE_0" width="100" height="100"
-											src="./img/_/photo_icon.png" alt="">
-										<input type="file" id="up_img_WU_FILE_0" />
-									</div>
+                                                            <input type="radio" name="gender" value="2"><span>女</span>
+                                                        </label>-->
+													</div>
+												</div>
 
-								</div>
-							</div>
+												<div class="control-group address">
+													<label for="inputPassword" class="control-label">所在地：</label>
+													<template>
+														<el-select v-model="center.province" placeholder="请选择" @change="findCitiesList(center.province)">
+															<el-option
+																	v-for="province in center.provincesList"
+																	:key="province.provinceid"
+																	:label="province.province"
+																	:value="province.province">
+															</el-option>
+														</el-select>
+
+														<el-select
+																v-model="center.city"
+																collapse-tags
+																style="margin-left: 20px;"
+																placeholder="请选择"
+																@change="findAreasList(center.city)">
+															<el-option
+																	v-for="city in center.citiesList"
+																	:key="city.cityid"
+																	:label="city.city"
+																	:value="city.city">
+															</el-option>
+														</el-select>
+
+														<el-select
+																v-model="center.area"
+																collapse-tags
+																style="margin-left: 20px;"
+																placeholder="请选择">
+															<el-option
+																	v-for="area in center.areasList"
+																	:key="area.areaid"
+																	:label="area.area"
+																	:value="area.area">
+															</el-option>
+														</el-select>
+													</template>
+												</div>
+
+												<div class="control-group">
+													<label for="inputJob" class="control-label">职业：</label>
+													<div class="controls">
+														<template>
+															<el-select v-model="center.occupation" placeholder="请选择">
+																<el-option
+																		v-for="occupation in center.occupationsList"
+																		:key="occupation.occupationid"
+																		:label="occupation.occupation"
+																		:value="occupation.occupation">
+																</el-option>
+															</el-select>
+														</template>
+														<!--<span class="sui-dropdown dropdown-bordered select"><span
+                                                                class="dropdown-inner"><a role="button" data-toggle="dropdown"
+                                                                    href="#" class="dropdown-toggle">
+                                                                    <input name="job" type="hidden" data-rules="required" ><i
+                                                                        class="caret" ></i><span v-model="center.occupation">请选择</span></a>
+                                                                <ul id="menu4" role="menu" aria-labelledby="drop4"
+                                                                    class="sui-dropdown-menu">
+                                                                    <li role="presentation"><a role="menuitem" tabindex="-1" v-for="occupation in center.occupationsList"
+                                                                            href="javascript:void(0);" value="bj">{{occupation.occupation}}</a></li>
+                                                                </ul>
+                                                            </span>
+                                                        </span>-->
+													</div>
+												</div>
+												<div class="control-group">
+													<label for="sanwei" class="control-label"></label>
+													<div class="controls">
+														<button type="submit" class="sui-btn btn-primary" @click="updateCenter()">完成</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</el-tab-pane>
+									<el-tab-pane label="头像照片" name="second">
+										<div id="two" class="tab-pane">
+
+											<!--<div class="new-photo">-->
+
+													<el-upload
+															class="avatar-uploader"
+															action="/api/file/upload"
+															:auto-upload="autoUpload"
+															name="file"
+															:show-file-list="false"
+															:on-success="handleAvatarSuccess"
+															:before-upload="beforeAvatarUpload">
+														<img v-if="imageUrl" :src="imageUrl" class="avatar">
+														<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+													</el-upload>
+
+												<!--<p>当前头像：</p>
+												<div class="upload">
+													<img id="imgShow_WU_FILE_0" width="100" height="100"
+														 src="/img/_/photo_icon.png" alt="">
+													<input type="file" id="up_img_WU_FILE_0" />
+												</div>-->
+
+											<!--</div>-->
+										</div>
+									</el-tab-pane>
+								</el-tabs>
+							</template>
+
+
 						</div>
 
 					</div>
@@ -317,7 +448,7 @@
 						</div>
 						<div class="yui3-u-1-6">
 							<h4>帮助中心</h4>
-							<img src="./img/wx_cz.jpg">
+							<img src="/img/wx_cz.jpg">
 						</div>
 					</div>
 				</div>
@@ -341,9 +472,97 @@
 		</div>
 	</div>
 	<!--页面底部END-->
-
-
-
 </body>
 
+
+
+<script th:inline="javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            center: {
+                nick_name : null,
+    			sex: null,
+    			city: null,
+    			province: null,
+    			area: null,
+    			occupation: null,
+    			head_pic: null,
+    			citiesList: [],
+    			provincesList: [],
+    			areasList: [],
+    			occupationsList: []
+			},
+            activeName: 'first',
+            autoUpload:true,//自动上传
+            imageUrl:null,//模型数据，用于上传图片完成后图片预览
+        },
+        created() {
+            this.findCenter();
+        },
+        methods: {
+            findCenter() {
+                axios.get("/api/wcenter/findCenter").then((res)=> {
+                    if (res.data.success) {
+                        this.center = res.data.data;
+                        this.imageUrl=res.data.data.head_pic;
+                    }
+                })
+            },
+            findCitiesList(province){
+                axios.get("/api/wcenter/findCitiesList?province="+province).then((res)=> {
+                    if (res.data.success) {
+                        this.center.citiesList = res.data.data;
+                        this.center.city=res.data.data[0].city;
+						this.findAreasList(res.data.data[0].city);
+                    }
+                })
+			},
+			findAreasList(city){
+                axios.get("/api/wcenter/findAreasList?city="+city).then((res)=> {
+                    if (res.data.success) {
+                        this.center.areasList = res.data.data;
+                        this.center.area=res.data.data[0].area;
+
+                    }
+                })
+            },
+            updateCenter(){
+                axios.put("/api/wcenter/updateCenter",this.center).then((res)=> {
+						alert("修改完成");
+                        loaction.href = "center-setting-info.html";
+
+                })
+			},
+            handleClick(tab, event) {
+                console.log(tab, event);
+            },
+            //上传图片之前执行
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                if (!isJPG) {
+                    this.$message.error('上传套餐图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传套餐图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
+            handleAvatarSuccess(response, file) {
+                //为模型数据imageUrl赋值，用于图片预览
+                this.imageUrl = response.data;
+                this.$message({
+                    type:response.success?'success':'error',
+                    message:response.message
+                });
+                //设置模型数据（图片名称），后续提交ajax请求时会提交到后台最终保存到数据库
+                this.center.head_pic=response.data;
+                this.updateCenter(this.center);
+            }
+
+        }
+    })
+</script>
 </html>

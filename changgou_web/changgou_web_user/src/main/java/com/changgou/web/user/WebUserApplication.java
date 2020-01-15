@@ -1,6 +1,7 @@
 package com.changgou.web.user;
 
 import com.changgou.common.interceptor.FeignInterceptor;
+import com.changgou.web.user.config.KdniaoTrackQueryAPI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -18,6 +19,11 @@ public class WebUserApplication {
     @Bean
     public FeignInterceptor feignInterceptor() {
         return new FeignInterceptor();
+    }
+
+    @Bean
+    public KdniaoTrackQueryAPI kdniaoTrackQueryAPI() {
+        return new KdniaoTrackQueryAPI();
     }
 
 

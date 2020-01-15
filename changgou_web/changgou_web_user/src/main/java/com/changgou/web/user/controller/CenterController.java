@@ -48,7 +48,8 @@ public class CenterController {
     }
 
     @GetMapping("/toCenterInfo")
-    public String toCenterInfo() {
+    public String toCenterInfo(Model model) {
+        model.addAttribute("username","heima");
         return "center-setting-info";
     }
 

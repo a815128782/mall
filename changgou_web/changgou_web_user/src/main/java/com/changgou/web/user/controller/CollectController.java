@@ -49,6 +49,7 @@ public class CollectController {
     public String list(Model model){
         List<Sku> list = userFeign.list();
         model.addAttribute("list",list);
+        model.addAttribute("username","heima");
         return "center-collect";
     }
 
@@ -61,6 +62,7 @@ public class CollectController {
     public String list2FootMark(Model model){
         List<Sku> list = userFeign.list2FootMark();
         model.addAttribute("list",list);
+        model.addAttribute("username","heima");
         return "center-footmark";
     }
 

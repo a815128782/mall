@@ -251,6 +251,7 @@ public class UserServiceImpl implements UserService {
                 redisTemplate.boundValueOps("occupationsList").set(occupationsList);
             }
         }
+        center = centerMapper.selectByPrimaryKey(username);
 
         center.setCitiesList(citiesList);
         center.setProvincesList(provincesList);
@@ -267,6 +268,9 @@ public class UserServiceImpl implements UserService {
     public void addCenter(String username) {
         Center center = new Center();
         center.setUsername(username);
+        center.setProvince("北京市");
+        center.setCity("北京市市辖区");
+        center.setArea("东城区");
         centerMapper.insertSelective(center);
     }
 

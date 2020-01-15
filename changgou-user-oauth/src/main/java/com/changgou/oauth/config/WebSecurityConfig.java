@@ -23,7 +23,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/search/list","/oauth/login","/oauth/logout",
+        web.ignoring().antMatchers("/oauth/login","/oauth/logout","/oauth/getUsername",
+                                    "/search/list","/oauth/login","/oauth/logout",
                 "/oauth/toLogin","/login.html","/css/**","/data/**","/fonts/**"
                 ,"/img/**","/js/**","http://jizhi.utools.club/wxpay/alipayCallBack","/wxpay/alipayCallBack");
     }

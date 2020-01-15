@@ -44,10 +44,8 @@ public class OrderController implements OrderApi {
     @GetMapping("/findOrderByUserName")
     public Result findOrderByUserName() {
         //获取当前登录人名称
-//        String username = tokenDecode.getUserInfo().get("username");
-        String username = "heima";
+        String username = tokenDecode.getUserInfo().get("username");
         List<Order> orderList = orderService.findOrderByUserName(username);
-
 
         List<Vo> voList = new ArrayList<>();
 

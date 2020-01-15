@@ -9,14 +9,18 @@
 
         <link rel="stylesheet" type="text/css" href="/css/all.css"/>
         <link rel="stylesheet" type="text/css" href="/css/pages-JD-index.css"/>
+        <script type="text/javascript" src="/js/vue.js"></script>
+        <!--        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+        <link rel="stylesheet" href="/css/index.css">
+        <!--        <script src="https://unpkg.com/element-ui/lib/index.js"></script>-->
+        <script type="text/javascript" src="/js/index.js"></script>
+
         <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=suCtBF0vKGsY2aWxFfR3HOo1KG0kOhLg"></script>
 
     </head>
 
     <body>
         <div id="app">
-
-
             <!-- 头部栏位 -->
             <!--页面顶部-->
             <div id="nav-bottom">
@@ -29,19 +33,19 @@
                                     <li class="f-item">畅购欢迎您！</li>
                                     <li class="f-item">请
                                         <a
-                                           th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
-                                           target="_self">登录</a>
+                                                th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                                target="_self">登录</a>
                                         <span>
-									<a  th:href="|/api/wuser/register|" target="_self">免费注册</a>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
 								</span>
                                     </li>
                                 </ul>
                                 <ul class="fl" th:unless="${username == null}">
                                     <li class="f-item">畅购欢迎您！</li>
-                                    <li class="f-item" >
+                                    <li class="f-item">
                                         <em th:text="${username}" style="color: #ff3835"></em>
-                                        <span >
-									<a th:href="|/api/wuser/exit|" >退出</a>
+                                        <span>
+									<a th:href="|/api/wuser/exit|">退出</a>
 								</span>
                                     </li>
                                 </ul>
@@ -57,8 +61,8 @@
 									</span>
                                         </li>
                                         <li class="f-item">
-									<span>
-										<a href="home.html" target="_blank">我的畅购</a>
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
 									</span>
                                         </li>
                                         <li class="f-item">
@@ -84,7 +88,6 @@
                                             <span>网站导航</span></li>
                                     </ul>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -115,6 +118,19 @@
                     </div>
                 </div>
             </div>
+
+            <!--<template>
+                <el-button type="text" @click="dialogTableVisible = true">打开嵌套表格的 Dialog</el-button>
+
+
+                <el-dialog title="收货地址" :visible.sync="dialogTableVisible">
+                    <el-table :data="gridData">
+                        <el-table-column property="date" label="日期" width="150"></el-table-column>
+                        <el-table-column property="name" label="姓名" width="200"></el-table-column>
+                        <el-table-column property="address" label="地址"></el-table-column>
+                    </el-table>
+                </el-dialog>
+            </template>-->
 
 
             <!-- 商品分类导航 -->
@@ -2913,7 +2929,7 @@
                     </li>
                     <li>
                         <a class="num" href="javascript:;" style="display: none;">5F</a>
-                        <a class="word" href="javascript;;" style="display: block;">运动户外</a>
+                        <a class="word" href="javascript:;" style="display: block;">运动户外</a>
                     </li>
                 </ul>
             </div>
@@ -2971,7 +2987,7 @@
                                 <h3 class="tbar-panel-header J-panel-header">
                                     <a href="#" target="_blank" class="title">
                                         <i></i>
-                                        <em class="title">我的关注</em>
+                                        <em class="title">我的收藏</em>
                                     </a>
                                     <span class="close-panel J-close"
                                           onclick="cartPanelView.tbar_panel_close('follow');"></span>
@@ -3076,25 +3092,56 @@
         <script type="text/javascript" src="/js/all.js"></script>
         <script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="/js/pages/index.js"></script>
-        <script type="text/javascript" src="/js/vue.js"></script>
+
         <script type="text/javascript" src="/js/axios.js"></script>
         <script th:inline="javascript">
             new Vue({
                 el: '#app',
                 data: {
                     user: {
-                        username:''
-                    }
+                        username: ''
+                    },
+                    gridData: [{
+                        date: '2016-05-02',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-04',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-01',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }, {
+                        date: '2016-05-03',
+                        name: '王小虎',
+                        address: '上海市普陀区金沙江路 1518 弄'
+                    }],
+                    dialogTableVisible: false,
+                    dialogFormVisible: false,
+                    form: {
+                        name: '',
+                        region: '',
+                        date1: '',
+                        date2: '',
+                        delivery: false,
+                        type: [],
+                        resource: '',
+                        desc: ''
+                    },
+                    formLabelWidth: '120px'
                 },
                 methods: {
                     getUsername() {
+                        // debugger;
                         let jti = this.getCookie("uid");
-                        if(!jti.length <=1) {
-                            axios.get("/api/oauth/getUsername?jti="+jti).then(function (response) {
+                        if (!jti.length <= 1) {
+                            axios.get("/api/oauth/getUsername?jti=" + jti).then(function (response) {
                                 if (response.data.success) {
                                     this.username = response.data.data;
                                     // this.username.$set(this.username,);
-                                    alert(this.username);
+                                    // alert(this.username);
                                 }
                             })
                         }
@@ -3108,7 +3155,10 @@
                                 return c.substring(name.length, c.length);
                             }
                         }
-                    }
+                    },
+                    /*toCenter(username){
+                        location.href='http://localhost:8001/api/wuser/user/'+username;
+                    }*/
                 },
                 created() {
                     this.getUsername();

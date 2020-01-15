@@ -66,7 +66,7 @@ spring:
         - id: changgou_user_web_route
           uri: lb://user-web
           predicates:
-            - Path=/api/wcollect/**,/api/wuser/**,/api/wuser/header.html
+            - Path=/api/wcollect/**,/api/wuser/**,/api/wuser/header.html,/api/wcenter/**,/api/logistics/**
           filters:
             - StripPrefix=1
         #评论微服务
@@ -74,6 +74,13 @@ spring:
           uri: lb://comment
           predicates:
             - Path=/api/comment/**
+          filters:
+            - StripPrefix=1
+      #文件微服务
+        - id: changgou_file_route
+          uri: lb://file
+          predicates:
+            - Path=/api/file/**
           filters:
             - StripPrefix=1
   redis:

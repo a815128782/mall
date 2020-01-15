@@ -13,7 +13,7 @@ import java.util.List;
 @FeignClient(name = "user")
 public interface AddressFeign {
 
-    @GetMapping("/user/address/list")
+    @GetMapping("/address/list")
     public Result<List<Address>> list();
 
 }

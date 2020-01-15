@@ -48,16 +48,17 @@ public class UserController {
 
     @RequestMapping("/user")
     public String userCenter(Model model){
-
         List<Vo> voList = orderFeign.findOrderByUserName().getData();
-
         model.addAttribute( "voList",voList);
-
+        model.addAttribute("username","heima");
         return "center-index";
     }
 
+    @RequestMapping("/toCenterIndex")
+    public String toCenterIndex() {
 
-
+        return "center-index";
+    }
 
 
     public static final String VALIDATECODE="validateCode_";
@@ -125,4 +126,5 @@ public class UserController {
         CookieUtil.addCookie(response,"localhost","/","uid","123",0,false);
         return "index";
     }
+
 }
