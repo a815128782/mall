@@ -1,9 +1,11 @@
 package com.changgou.user.service;
 
 import com.changgou.goods.pojo.Sku;
+import com.changgou.goods.pojo.Spu;
+import com.changgou.user.pojo.Collect;
+import com.changgou.user.pojo.Footmark;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author:sss
@@ -22,4 +24,10 @@ public interface CollectService {
     List<Sku> list(String username);
 
     List<Sku> list2FootMark(String username);
+
+    List<Collect> findBySkuId(String id);
+
+    List<Footmark> findSkuById(String id);
+
+    void deleteFootMark(String id);
 }

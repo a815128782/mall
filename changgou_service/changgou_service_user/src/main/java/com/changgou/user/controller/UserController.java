@@ -7,11 +7,14 @@ import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
 import com.changgou.goods.pojo.Sku;
+import com.changgou.goods.pojo.Spu;
 import com.changgou.order.pojo.Order;
 import com.changgou.user.config.TokenDecode;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.config.TokenDecode;
 import com.changgou.user.config.TokenDecode;
+import com.changgou.user.pojo.Collect;
+import com.changgou.user.pojo.Footmark;
 import com.changgou.user.pojo.User;
 import com.changgou.user.service.CollectService;
 import com.changgou.user.service.UserService;
@@ -44,6 +47,10 @@ public class UserController {
     public Result add(@PathVariable("id") String id){
         //动态获取登录人信息
         String username = tokenDecode.getUserInfo().get("username");
+        List<Collect> collects = collectService.findBySkuId(id);
+        if (collects.size()>0 ){
+            return new Result(true, StatusCode.OK,"该商品已收藏");
+        }
         collectService.add(username,id);
         return new Result(true, StatusCode.OK,"添加收藏成功");
     }
@@ -57,6 +64,10 @@ public class UserController {
     public Result addFootMark(@PathVariable("id") String id){
         //动态获取登录人信息
         String username = tokenDecode.getUserInfo().get("username");
+        List<Footmark> footmarks = collectService.findSkuById(id);
+        if(footmarks.size()>0){
+            collectService.deleteFootMark(id);
+        }
         collectService.addFootMark(username,id);
         return new Result(true, StatusCode.OK,"");
     }
@@ -83,11 +94,11 @@ public class UserController {
     @GetMapping("/collect/list2FootMark")
     public List<Sku> list2FootMark(){
         String username = tokenDecode.getUserInfo().get("username");
-        List<Sku> list = collectService.list2FootMark(username);
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i).getId());
+        List<Sku> skuList = collectService.list2FootMark(username);
+        for (int i = 0; i < skuList.size(); i++) {
+            System.out.println(skuList.get(i).getId());
         }
-        return list;
+        return skuList;
     }
 
 

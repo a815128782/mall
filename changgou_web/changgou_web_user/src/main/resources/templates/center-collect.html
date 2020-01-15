@@ -121,12 +121,16 @@
 					<h4>收藏的商品</h4>
 					<div class="goods-list">
 						<ul class="yui3-g"  id="goods-list">
-							<li class="yui3-u-1-4" v-for="item in list">
+							<li class="yui3-u-1-4" th:each="sku,skuStat:${list}">
 								<div class="list-wrap">
-									<div class="p-img"><img :src="item.image" alt=''></div>
-									<div class="price"><strong><em>¥</em> <i>{{item.price}}</i></strong></div>
-									<div class="attr"><em>{{item.name}}</em></div>
-									<div class="cu"><em><span>促</span>满一件可参加超值换购</em></div>
+									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+										<div class="p-img"><img th:src="${sku.image}" alt=''></div>
+									</a>
+									<div class="price"><strong><em>¥</em> <i th:text="${sku.price}" ></i></strong></div>
+									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+										<div class="attr"><em th:text="${sku.name}" ></em></div>
+										<div class="cu"><em><span>促</span>满一件可参加超值换购</em></div>
+									</a>
 									<div class="operate">
 										<a href="success-cart.html" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
 									</div>
@@ -366,7 +370,7 @@
     var app = new Vue({
         el: "#app",
         data: {
-            list: [[${list}]]
+
         },
         methods: {
 

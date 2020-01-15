@@ -730,10 +730,12 @@
                     <!--商品列表-->
                     <div class="goods-list" >
                         <ul class="yui3-g">
-                            <li class="yui3-u-1-5" th:each="sku,skuStat:${result.rows}">
+                            <li class="yui3-u-1-5"  th:each="sku,skuStat:${result.rows}" >
                                 <div class="list-wrap">
-                                    <div class="p-img">
-                                        <a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" target="_blank"><img th:src="${sku.image}"/></a>
+                                    <div class="p-img" >
+                                        <a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" target="_blank" th:@click="|addFootMark('${sku.id}')|">
+                                            <img th:src="${sku.image}" />
+                                            </a>
                                     </div>
                                     <div class="price">
                                         <strong>
@@ -743,8 +745,7 @@
                                     </div>
                                     <div class="attr">
                                         <a target="_blank" th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" th:title="${sku.spec}"
-                                           th:utext="${sku.name}">Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
-                                            (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s (A1699)</a>
+                                           th:utext="${sku.name}"></a>
                                     </div>
                                     <div class="commit">
                                         <i class="command">已有<span>2000</span>人评价</i>
@@ -1158,6 +1159,14 @@
                         axios.get("/api/wcollect/add/"+id).then(function (response) {
                             if(response.data.success){
                                 alert(response.data.message);
+                            }
+                        })
+                    },
+                    addFootMark:function (id) {
+                        alert(id);
+                        axios.get("/api/wcollect/addFootMark/"+id).then(function (response) {
+                            if(response.data.success){
+                               /* alert(response.data.message);*/
                             }
                         })
                     }
