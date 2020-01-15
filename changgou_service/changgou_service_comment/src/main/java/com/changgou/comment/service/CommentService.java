@@ -1,8 +1,12 @@
 package com.changgou.comment.service;
 
 import com.changgou.comment.pojo.Comment;
+import com.changgou.common.entity.PageResult;
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author:Administrator
@@ -21,5 +25,20 @@ public interface CommentService {
      * @param skuId
      * @return
      */
-    List<Comment> findBySkuId(String skuId);
+    /*Page<Comment> findBySkuId(Integer skuId);*/
+
+    /**
+     * 2.多条件分页
+     * @param searchMap
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    PageResult<Comment> findList(Map<String, String> searchMap, Integer pageNumber, Integer pageSize);
+
+    /**
+     * 3.更新商品总评价数
+     * @return
+     */
+    void AutoCount();
 }

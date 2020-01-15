@@ -1,4 +1,4 @@
-package com.changgou.config;
+package com.changgou.comment.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

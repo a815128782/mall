@@ -16,6 +16,7 @@ public interface OrderItemService {
 
     /**
      * 根据ID查询
+     *
      * @param id
      * @return
      */
@@ -64,6 +65,10 @@ public interface OrderItemService {
     Page<OrderItem> findPage(Map<String, Object> searchMap, int page, int size);
 
 
+    /*
+     *  根据订单Id查询订单项
+     * */
+    List<OrderItem> findOrderItemByOrderId(String OrderId);
 
 
 }

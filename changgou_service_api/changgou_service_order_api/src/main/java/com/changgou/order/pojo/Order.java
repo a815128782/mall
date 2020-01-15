@@ -16,6 +16,7 @@ public class Order implements Serializable {
 	private String id;//订单id
 
 
+
 	
 	private Integer totalNum;//数量合计
 	private Integer totalMoney;//金额合计
