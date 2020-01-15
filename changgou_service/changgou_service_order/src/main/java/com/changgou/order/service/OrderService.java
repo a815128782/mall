@@ -94,4 +94,10 @@ public interface OrderService {
      * 自动收货
      */
     void autoTack();
+
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     */
+    void updateOrderCommentStatus(String orderId);
 }

@@ -361,6 +361,18 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     */
+    @Override
+    @Transactional
+    public void updateOrderCommentStatus(String orderId) {
+        Order order = new Order();
+        order.setId(orderId);
+        order.setBuyerRate("1");
+        orderMapper.updateByPrimaryKeySelective(order);
+    }
 
 
     /**

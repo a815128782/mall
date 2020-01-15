@@ -20,4 +20,12 @@ public interface OrderFeign {
     @PutMapping("/order/{id}/{transaction_id}")
     void updateOrderStatus(@PathVariable("id") String out_trade_no,@PathVariable("transaction_id") String trade_no);
 
+
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     * @return
+     */
+    @PutMapping("/order/comment/{id}")
+    public Result updateOrderCommentStatus(@PathVariable("id") String orderId);
 }
