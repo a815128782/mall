@@ -312,9 +312,7 @@ public class UserServiceImpl implements UserService {
      * */
     @Override
     public Integer updateCenter(Center center) {
-        System.out.println(center);
         int i = centerMapper.updateByPrimaryKeySelective(center);
-        System.out.println(i);
         return i;
     }
 

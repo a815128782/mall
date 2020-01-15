@@ -16,6 +16,15 @@ import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.pojo.Cities;
 import com.changgou.user.pojo.Collect;
 import com.changgou.user.pojo.Footmark;
+import com.changgou.goods.pojo.Sku;
+import com.changgou.goods.pojo.Spu;
+import com.changgou.order.pojo.Order;
+import com.changgou.user.config.TokenDecode;
+import com.changgou.order.pojo.OrderItem;
+import com.changgou.user.config.TokenDecode;
+import com.changgou.user.config.TokenDecode;
+import com.changgou.user.pojo.Collect;
+import com.changgou.user.pojo.Footmark;
 import com.changgou.user.pojo.User;
 import com.changgou.user.service.CollectService;
 import com.changgou.user.service.UserService;
@@ -32,8 +41,6 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
-
-
     @Autowired
     private UserService userService;
     @Autowired

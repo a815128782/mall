@@ -1,5 +1,6 @@
 package com.changgou.user.service;
 
+
 import com.changgou.common.entity.Result;
 import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Task;
@@ -81,6 +82,7 @@ public interface UserService {
      * @return
      */
     int updateUserPoint(Task task);
+
 
     /*
     * 查询个人信息
