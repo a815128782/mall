@@ -1,3 +1,4 @@
+/*
 package com.changgou.order.task;
 
 import com.alibaba.fastjson.JSON;
@@ -31,10 +32,11 @@ public class QueryPointTask {
             //2.将任务发送到消息队列上
             for (Task task : taskList) {
                 rabbitTemplate.convertAndSend(RabbitMQConfig.EX_BUYING_ADDPOINTUSER,RabbitMQConfig.CG_BUYING_ADDPOINT_KEY, JSON.toJSONString(task));
-                System.out.println("订单服务向添加积分队列发送了一条消息");
+                //System.out.println("订单服务向添加积分队列发送了一条消息");
             }
         }
 
 
     }
 }
+*/

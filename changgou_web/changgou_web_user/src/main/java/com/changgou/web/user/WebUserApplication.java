@@ -7,8 +7,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
 @EnableEurekaClient
+@SpringBootApplication
 @EnableFeignClients(basePackages = {"com.changgou.user.feign","com.changgou.order.feign"})
 public class WebUserApplication {
     public static void main(String[] args) {
@@ -16,7 +16,9 @@ public class WebUserApplication {
     }
 
     @Bean
-    public FeignInterceptor feignInterceptor(){
+    public FeignInterceptor feignInterceptor() {
         return new FeignInterceptor();
     }
+
+
 }

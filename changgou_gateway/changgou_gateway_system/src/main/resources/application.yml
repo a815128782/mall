@@ -35,10 +35,10 @@ spring:
             - StripPrefix= 1
 
 #        用户
-        - id: user
-          uri: lb://user
+        - id: com.changgou.user
+          uri: lb://com.changgou.user
           predicates:
-            - Path=/user/**
+            - Path=/com.changgou.user/**
           filters:
             - StripPrefix= 1
 

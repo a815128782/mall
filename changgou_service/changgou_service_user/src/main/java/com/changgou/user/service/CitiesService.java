@@ -35,7 +35,7 @@ public interface CitiesService {
 
     /***
      * 删除
-     * @param id
+     * @param cityid
      */
     void delete(String cityid);
 

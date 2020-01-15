@@ -13,9 +13,6 @@ public enum UserCode implements ResultCode {
     USER_VALIDATECODE_ERROR(false,29003,"验证码错误"),
     ;
 
-
-
-
     //操作是否成功
     boolean success;
     //操作代码

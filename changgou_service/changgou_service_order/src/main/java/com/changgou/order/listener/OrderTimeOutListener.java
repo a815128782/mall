@@ -16,7 +16,7 @@ public class OrderTimeOutListener {
 
     @RabbitListener(queues = "queue.ordertimeout")
     public void receiveCloseOrderMessage(String message) {
-        System.out.println("接收到关闭订单的消息: "+message);
+        //System.out.println("接收到关闭订单的消息: "+message);
         try{
             //调用业务层完成关闭订单的操作
             orderService.closeOrder(message);
