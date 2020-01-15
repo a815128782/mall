@@ -1,0 +1,75 @@
+<header id="header1">
+    <div id="nav-bottom">
+        <!--顶部-->
+        <div class="nav-top">
+            <div class="top">
+                <div class="py-container">
+                    <div class="shortcut">
+                        <ul class="fl" th:unless="${username != null}">
+                            <li class="f-item">畅购欢迎您！</li>
+                            <li class="f-item">请
+                                <a
+                                        href=""
+                                        target="_self">登录</a>
+                                <span>
+									<a  th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+                            </li>
+                        </ul>
+                        <ul class="fl" th:unless="${username == null}">
+                            <li class="f-item">畅购欢迎您！</li>
+                            <li class="f-item" >
+                                <em th:text="${username}" style="color: #ff3835"></em>
+                                <span >
+									<a th:href="|/api/wuser/exit|" >退出</a>
+								</span>
+                            </li>
+                        </ul>
+                        <div class="fr typelist">
+                            <ul class="types">
+                                <li class="f-item">
+                                    <span>我的订单</span>
+                                </li>
+
+                                <li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+                                </li>
+                                <li class="f-item">
+									<span>
+										<a href="home.html" target="_blank">我的畅购</a>
+									</span>
+                                </li>
+                                <li class="f-item">
+                                    <span>畅购会员</span>
+                                </li>
+                                <li class="f-item">
+                                    <span>企业采购</span>
+                                </li>
+                                <li class="f-item">
+                                    <span>关注畅购</span>
+                                </li>
+                                <li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+                                </li>
+                                <li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+                                </li>
+                                <li class="f-item">
+                                    <span>网站导航</span></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</header>

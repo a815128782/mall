@@ -73,7 +73,7 @@ spring:
         - id: changgou_user_web_route
           uri: lb://user-web
           predicates:
-            - Path=/api/wuser/**
+            - Path=/api/wuser/**,/api/wuser/header.html
           filters:
             - StripPrefix=1
         #评论微服务

@@ -24,6 +24,7 @@ public interface UserFeign {
     @PostMapping("/user/collect/add")
     public Result add(@RequestParam("skuId") String skuId);
 
+
     /***
      * 新增数据
      * @param user
