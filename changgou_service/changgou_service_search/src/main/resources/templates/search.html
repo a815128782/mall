@@ -9,6 +9,7 @@
 
         <link rel="stylesheet" type="text/css" href="/css/all.css"/>
         <link rel="stylesheet" type="text/css" href="/css/pages-list.css"/>
+
     </head>
 
     <body>
@@ -55,7 +56,7 @@
                             </div>
                             <div class="yui3-u Rit searchArea">
                                 <div class="search">
-                                    <form th:action="@{/search/list}" class="sui-form form-inline">
+                                    <form th:action="@{/api/search/list}" class="sui-form form-inline">
                                         <div class="input-append">
                                             <input th:type="text" id="autocomplete" name="keyWords"
                                                    th:value="${searchMap.keyWords}" class="input-error input-xxlarge"/>
@@ -582,7 +583,7 @@
             </div>
         </div>
         <!--list-content-->
-        <div class="main">
+        <div class="main" id="app">
             <div class="py-container">
                 <!--bread-->
                 <div class="bread">
@@ -617,7 +618,7 @@
                     </form>
                 </div>
                 <!--selector-->
-                <div class="clearfix selector">
+                <div class="clearfix selector" >
                     <div class="type-wrap logo" th:unless="${#maps.containsKey(searchMap,'brand')}">
                         <div class="fl key brand">品牌</div>
                         <div class="value logos">
@@ -727,12 +728,14 @@
                         </div>
                     </div>
                     <!--商品列表-->
-                    <div class="goods-list">
+                    <div class="goods-list" >
                         <ul class="yui3-g">
-                            <li class="yui3-u-1-5" th:each="sku,skuStat:${result.rows}">
+                            <li class="yui3-u-1-5"  th:each="sku,skuStat:${result.rows}" >
                                 <div class="list-wrap">
-                                    <div class="p-img">
-                                        <a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" target="_blank"><img th:src="${sku.image}"/></a>
+                                    <div class="p-img" >
+                                        <a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" target="_blank" th:@click="|addFootMark('${sku.id}')|">
+                                            <img th:src="${sku.image}" />
+                                            </a>
                                     </div>
                                     <div class="price">
                                         <strong>
@@ -742,16 +745,17 @@
                                     </div>
                                     <div class="attr">
                                         <a target="_blank" th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" th:title="${sku.spec}"
-                                           th:utext="${sku.name}">Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s
-                                            (A1699)Apple苹果iPhone 6s (A1699)Apple苹果iPhone 6s (A1699)</a>
+                                           th:utext="${sku.name}"></a>
                                     </div>
                                     <div class="commit">
                                         <i class="command">已有<span>2000</span>人评价</i>
                                     </div>
                                     <div class="operate">
-                                        <a href="success-cart.html" target="_blank"
+                                        <a th:href="|/api/wcart/addCart/${sku.id}?num=1|" target="_blank"
                                            class="sui-btn btn-bordered btn-danger">加入购物车</a>
-                                        <a href="javascript:void(0);" class="sui-btn btn-bordered">收藏</a>
+                                        <a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|add('${sku.id}')|" >收藏</a>
+                                        <!--<a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|add('${row.spuId}')|">收藏</a>-->
+                                        <!--th:@click="|chooseAddr('${addr.contact}','${addr.phone}','${addr.address}')|"-->
                                     </div>
                                 </div>
                             </li>
@@ -759,8 +763,8 @@
                     </div>
                     <div class="fr page" style="margin-right: 300px">
                         <div class="sui-pagination pagination-large">
-                            <ul>
-                                <li th:class="${page.currentpage<=1}?'prev disabled':''">
+                            <ul>i
+                                <li th:class="${page.currentpage<=1}?'prev disabled':''">i
                                     <a th:href="@{${url}(pageNum=${page.upper})}" th:if="${page.currentpage>1}">«</a>
                                     <a href="javascript:void(0)" th:unless="${page.currentpage>1}">«</a>
                                 </li>
@@ -1134,11 +1138,40 @@
         </div>
 
 
+        <!--页面底部END-->
+        <script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
+        <script src="/js/vue.js"></script>
+        <script src="/js/axios.js"></script>
         <script type="text/javascript" src="/js/all.js"></script>
         <script>
             function jump() {
                 alert($("#pageNum").val());
             }
+        </script>
+        <script th:inline="javascript">
+            var app = new Vue({
+                el:"#app",
+                data:{
+                },
+                methods:{
+                    add:function (id) {
+                        /*alert(id);*/
+                        axios.get("/api/wcollect/add/"+id).then(function (response) {
+                            if(response.data.success){
+                                alert(response.data.message);
+                            }
+                        })
+                    },
+                    addFootMark:function (id) {
+                        alert(id);
+                        axios.get("/api/wcollect/addFootMark/"+id).then(function (response) {
+                            if(response.data.success){
+                               /* alert(response.data.message);*/
+                            }
+                        })
+                    }
+                }
+            })
         </script>
     </body>
 

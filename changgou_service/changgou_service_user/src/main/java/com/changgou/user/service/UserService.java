@@ -1,6 +1,7 @@
 package com.changgou.user.service;
 
 import com.changgou.common.entity.Result;
+import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Task;
 import com.changgou.user.pojo.Areas;
 import com.changgou.user.pojo.Center;
@@ -115,4 +116,5 @@ public interface UserService {
      * @param center
      * */
     Integer updateCenter(Center center);
+
 }

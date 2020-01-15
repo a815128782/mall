@@ -1,9 +1,23 @@
 package com.changgou.web.user.controller;
 
+import com.changgou.common.entity.Result;
+import com.changgou.order.feign.OrderFeign;
+import com.changgou.order.pojo.Order;
+import com.changgou.order.pojo.Vo;
+import com.netflix.discovery.converters.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+
 import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.user.UserCode;
+import com.changgou.common.util.CookieUtil;
 import com.changgou.common.util.SMSUtils;
 import com.changgou.common.util.ValidateCodeUtils;
 import com.changgou.order.feign.CartFeign;
@@ -16,6 +30,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,6 +41,24 @@ import java.util.concurrent.TimeUnit;
 @Controller
 @RequestMapping("/wuser")
 public class UserController {
+
+    @Autowired
+    private OrderFeign orderFeign;
+
+
+    @RequestMapping("/user")
+    public String userCenter(Model model){
+
+        List<Vo> voList = orderFeign.findOrderByUserName().getData();
+
+        model.addAttribute( "voList",voList);
+
+        return "center-index";
+    }
+
+
+
+
 
     public static final String VALIDATECODE="validateCode_";
 
@@ -35,8 +70,10 @@ public class UserController {
     RedisTemplate redisTemplate;
 
     @RequestMapping("/index")
-    public String toIndex(Model model) {
-        model.addAttribute("username","heima");
+    public String toIndex(Model model, HttpServletRequest request) {
+        Map<String, String> map = CookieUtil.readCookie(request, "username");
+        String username = map.get("username");
+        model.addAttribute("username",username);
         return "index";
     }
 
@@ -80,5 +117,12 @@ public class UserController {
     public Result getUsername(){
         String username = (String) cartFeign.getUsername().getData();
         return R.T("查询",username);
+    }
+
+    @GetMapping("/exit")
+    public String exit(HttpServletResponse response) {
+        CookieUtil.addCookie(response,"localhost","/","username","123",0,false);
+        CookieUtil.addCookie(response,"localhost","/","uid","123",0,false);
+        return "index";
     }
 }

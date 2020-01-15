@@ -8,6 +8,11 @@ import java.util.Map;
 
 public interface OrderService {
 
+    /*
+    *  根据用户名查询订单
+    * */
+    List<Order> findOrderByUserName(String username);
+
     /***
      * 查询所有
      * @return
@@ -94,4 +99,10 @@ public interface OrderService {
      * 自动收货
      */
     void autoTack();
+
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     */
+    void updateOrderCommentStatus(String orderId);
 }

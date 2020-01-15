@@ -16,7 +16,7 @@ public class DelTaskListener {
 
     @RabbitListener(queues = RabbitMQConfig.CG_BUYING_FINISHADDPOINT)
     public void receiveDelTaskMessage(String message){
-        System.out.println("订单服务接收到了删除任务操作的消息");
+        //System.out.println("订单服务接收到了删除任务操作的消息");
 
         Task task = JSON.parseObject(message, Task.class);
 

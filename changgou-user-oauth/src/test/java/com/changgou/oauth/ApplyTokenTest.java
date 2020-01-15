@@ -36,7 +36,7 @@ public class ApplyTokenTest {
     @Test
     public void applyToken() {
         //构建请求地址 http://localhost:9200/oauth/token
-        ServiceInstance serviceInstance = loadBalancerClient.choose("user-auth");
+        ServiceInstance serviceInstance = loadBalancerClient.choose("com.changgou.user-auth");
         URI uri = serviceInstance.getUri();
         String url = uri + "/oauth/token";
 
