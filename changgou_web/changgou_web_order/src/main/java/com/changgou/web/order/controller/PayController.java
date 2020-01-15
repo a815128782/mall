@@ -80,4 +80,11 @@ public class PayController {
         return "paysuccess";
     }
 
+    @RequestMapping("/toSuccess")
+    public String toSuccess(Integer payMoney,Model model) {
+        model.addAttribute("payMoney",payMoney);
+        return "paysuccess";
+    }
+
 }
+
