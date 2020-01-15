@@ -15,4 +15,5 @@ public interface AddressFeign {
 
     @GetMapping("/user/address/list")
     public Result<List<Address>> list();
+
 }

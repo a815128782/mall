@@ -5,6 +5,7 @@ import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
+import com.changgou.goods.pojo.Sku;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.config.TokenDecode;
 import com.changgou.user.config.TokenDecode;
@@ -27,19 +28,64 @@ public class UserController {
     private UserService userService;
     @Autowired
     TokenDecode tokenDecode;
-
-
     @Autowired
     private CollectService collectService;
 
-
-    @PostMapping("/collect/add")
-    public Result add(@RequestParam("skuId") String skuId){
+    /**
+     * 添加收藏
+     * @param id
+     * @return
+     */
+    @PostMapping("/collect/add/{id}")
+    public Result add(@PathVariable("id") String id){
         //动态获取登录人信息
         String username = tokenDecode.getUserInfo().get("username");
-        collectService.add(username,skuId);
+        collectService.add(username,id);
         return new Result(true, StatusCode.OK,"添加收藏成功");
     }
+
+    /**
+     * 添加足迹
+     * @param id
+     * @return
+     */
+    @PostMapping("/collect/addFootMark/{id}")
+    public Result addFootMark(@PathVariable("id") String id){
+        //动态获取登录人信息
+        String username = tokenDecode.getUserInfo().get("username");
+        collectService.addFootMark(username,id);
+        return new Result(true, StatusCode.OK,"");
+    }
+
+
+    /**
+     * 获取个人中心收藏列表
+     * @return
+     */
+    @GetMapping("/collect/list")
+    public List<Sku> list(){
+        String username = tokenDecode.getUserInfo().get("username");
+        List<Sku> list = collectService.list(username);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getId());
+        }
+        return list;
+    }
+
+    /**
+     * 获取个人中心足迹列表
+     * @return
+     */
+    @GetMapping("/collect/list2FootMark")
+    public List<Sku> list2FootMark(){
+        String username = tokenDecode.getUserInfo().get("username");
+        List<Sku> list = collectService.list2FootMark(username);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(list.get(i).getId());
+        }
+        return list;
+    }
+
 
     /**
      * 查询全部数据

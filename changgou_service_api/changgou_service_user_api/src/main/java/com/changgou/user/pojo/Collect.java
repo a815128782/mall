@@ -14,7 +14,7 @@ public class Collect {
     @Id
     private String username;
 
-    private String skuId;
+    private String sku_id;
 
     public Collect() {
     }
@@ -28,10 +28,10 @@ public class Collect {
     }
 
     public String getSkuId() {
-        return skuId;
+        return sku_id;
     }
 
-    public void setSkuId(String skuId) {
-        this.skuId = skuId;
+    public void setSkuId(String sku_id) {
+        this.sku_id = sku_id;
     }
 }

@@ -1151,14 +1151,13 @@
             var app = new Vue({
                 el:"#app",
                 data:{
-
                 },
                 methods:{
                     add:function (id) {
                         /*alert(id);*/
-                        axios.get("/api/wcollect/add?id="+id).then(function (response) {
+                        axios.get("/api/wcollect/add/"+id).then(function (response) {
                             if(response.data.success){
-                                alert(response.data.data);
+                                alert(response.data.message);
                             }
                         })
                     }

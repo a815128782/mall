@@ -24,7 +24,7 @@ spring:
         - id: changgou_user_route
           uri: lb://user
           predicates:
-            - Path=/api/com.changgou.user/**,/api/address/**,/api/areas/**,/api/cities/**,/api/provinces/**,/api/collect/**
+            - Path=/api/user/**,/api/address/**,/api/areas/**,/api/cities/**,/api/provinces/**,/api/collect/**
           filters:
             - StripPrefix=1
               #搜索微服务
@@ -55,13 +55,6 @@ spring:
             - Path=/api/wcart/**,/api/worder/**,/api/wxpay/**
           filters:
             - StripPrefix=1
-        #用户订单渲染微服务
-        - id: changgou_user_web_route
-          uri: lb://user-web
-          predicates:
-            - Path=/api/wcollect/**
-          filters:
-            - StripPrefix=1
         #秒杀渲染微服务
         - id: changgou_seckill_web_route
           uri: lb://seckill-web
@@ -73,7 +66,7 @@ spring:
         - id: changgou_user_web_route
           uri: lb://user-web
           predicates:
-            - Path=/api/wuser/**,/api/wuser/header.html
+            - Path=/api/wcollect/**,/api/wuser/**,/api/wuser/header.html
           filters:
             - StripPrefix=1
         #评论微服务

@@ -1,3 +1,4 @@
+/*
 package com.changgou.order.task;
 
 import com.alibaba.fastjson.JSON;
@@ -38,3 +39,4 @@ public class QueryPointTask {
 
     }
 }
+*/
