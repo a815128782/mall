@@ -60,6 +60,13 @@ public class UserController {
         return "center-index";
     }
 
+    @RequestMapping("/toPay")
+    public String toPay(@RequestParam("orderId")String orderId,@RequestParam("money")String money, Model model){
+        model.addAttribute("orderId",orderId);
+        model.addAttribute("money",money);
+        return "pay";
+    }
+
 
     public static final String VALIDATECODE="validateCode_";
 
