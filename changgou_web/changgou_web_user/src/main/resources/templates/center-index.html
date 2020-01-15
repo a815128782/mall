@@ -665,7 +665,8 @@
         },
         methods: {
             topay(orderId,money){
-                location.href="http://localhost:8001/api/wuser/toPay/?orderId="+orderId+"&money="+money;
+                // http://localhost:8001/api/worder/toPayPage?orderId=1217501157132472320&payMoney=12100
+                location.href="http://localhost:8001/api/worder/toPayPage/?orderId="+orderId+"&payMoney="+money;
                 // http://localhost:8001/api/wuser/toPay
             },
 
@@ -674,6 +675,7 @@
               /*  axios.get("http://localhost:8001/api/order/delete/?orderId=\" + orderId").then((res)-->{
 
                 })*/
+
                 axios.get("http://localhost:8001/api/order/delete/?orderId="+orderId)
                     .then(function (response) {
                         if(response.data.success){
