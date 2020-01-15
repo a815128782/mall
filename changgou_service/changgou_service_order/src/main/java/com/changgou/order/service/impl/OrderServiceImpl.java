@@ -12,6 +12,7 @@ import com.changgou.order.pojo.*;
 import com.changgou.order.service.CartService;
 import com.changgou.order.service.OrderService;
 import com.changgou.pay.feign.PayFeign;
+import com.changgou.user.pojo.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -51,6 +52,16 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     PayFeign payFeign;
+
+    //根据用户名查询订单
+    @Override
+    public List<Order> findOrderByUserName(String username) {
+        Example example = new Example(Order.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", username);
+        List<Order> orderList = orderMapper.selectByExample(example);
+        return orderList;
+    }
 
     /**
      * 查询全部列表

@@ -8,6 +8,11 @@ import java.util.Map;
 
 public interface OrderService {
 
+    /*
+    *  根据用户名查询订单
+    * */
+    List<Order> findOrderByUserName(String username);
+
     /***
      * 查询所有
      * @return

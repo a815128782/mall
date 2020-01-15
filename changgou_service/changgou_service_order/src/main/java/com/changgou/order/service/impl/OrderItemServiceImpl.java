@@ -1,6 +1,7 @@
 package com.changgou.order.service.impl;
 
 import com.changgou.order.dao.OrderItemMapper;
+import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.order.service.OrderItemService;
 import com.github.pagehelper.Page;
@@ -102,6 +103,14 @@ public class OrderItemServiceImpl implements OrderItemService {
         PageHelper.startPage(page,size);
         Example example = createExample(searchMap);
         return (Page<OrderItem>)orderItemMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<OrderItem> findOrderItemByOrderId(String orderId) {
+        Example example = new Example(OrderItem.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("orderId", orderId);
+        return orderItemMapper.selectByExample(example);
     }
 
     /**

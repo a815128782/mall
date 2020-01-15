@@ -55,6 +55,13 @@ spring:
             - Path=/api/wseckillgoods/**
           filters:
             - StripPrefix=1
+        #个人中心渲染微服务
+        - id: changgou_web_user_route
+          uri: lb://wuser-web
+          predicates:
+            - Path=/api/wuser/**
+          filters:
+            - StripPrefix=1
   redis:
     host: 192.168.200.128
 server:

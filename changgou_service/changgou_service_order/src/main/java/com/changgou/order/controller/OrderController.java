@@ -9,11 +9,18 @@ import com.changgou.common.model.response.order.OrderCode;
 import com.changgou.order.api.OrderApi;
 import com.changgou.order.config.TokenDecode;
 import com.changgou.order.pojo.Order;
+import com.changgou.order.pojo.OrderItem;
+import com.changgou.order.pojo.Vo;
+import com.changgou.order.service.OrderItemService;
 import com.changgou.order.service.OrderService;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +34,35 @@ public class OrderController implements OrderApi {
     private OrderService orderService;
     @Autowired
     TokenDecode tokenDecode;
+    @Autowired
+    private OrderItemService orderItemService;
+
+
+    /*
+     * 根据用户名查询订单
+     * */
+    @GetMapping("/findOrderByUserName")
+    public Result findOrderByUserName() {
+        //获取当前登录人名称
+//        String username = tokenDecode.getUserInfo().get("username");
+        String username = "heima";
+        List<Order> orderList = orderService.findOrderByUserName(username);
+
+
+        List<Vo> voList = new ArrayList<>();
+
+        for (Order order : orderList) {
+            Vo vo = new Vo();
+            String payStatus = order.getPayStatus();
+            vo.setPay_Status(payStatus);
+            String orderId = order.getId();
+            List<OrderItem> orderItemList = orderItemService.findOrderItemByOrderId(orderId);
+            vo.setOrderItemList(orderItemList);
+            voList.add(vo);
+        }
+
+        return new Result(true, StatusCode.OK, "订单查询成功",voList);
+    }
 
     /**
      * 查询全部数据
@@ -127,5 +163,6 @@ public class OrderController implements OrderApi {
         orderService.batchSend(orders);
         return R.T("发货成功");
     }
+
 
 }

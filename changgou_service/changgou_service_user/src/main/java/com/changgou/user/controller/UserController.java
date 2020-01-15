@@ -1,9 +1,12 @@
 package com.changgou.user.controller;
+
 import com.changgou.common.entity.PageResult;
 import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
+import com.changgou.order.pojo.Order;
+import com.changgou.user.config.TokenDecode;
 import com.changgou.user.pojo.User;
 import com.changgou.user.service.UserService;
 import com.github.pagehelper.Page;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
@@ -22,16 +26,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenDecode tokenDecode;
+
     /**
      * 查询全部数据
+     *
      * @return
      */
     @GetMapping
     @PreAuthorize("hasAnyAuthority('seckill_list')")
 //    @PreAuthorize("hasAuthority('seckill_list')")
-    public Result findAll(){
+    public Result findAll() {
         List<User> userList = userService.findAll();
-        return new Result(true, StatusCode.OK,"查询成功",userList) ;
+        return new Result(true, StatusCode.OK, "查询成功", userList);
     }
 
     /***
@@ -40,14 +48,14 @@ public class UserController {
      * @return
      */
     @GetMapping("/{username}")
-    public Result findById(@PathVariable String username){
+    public Result findById(@PathVariable String username) {
         User user = userService.findById(username);
-        return new Result(true,StatusCode.OK,"查询成功",user);
+        return new Result(true, StatusCode.OK, "查询成功", user);
     }
 
     @GetMapping("/load/{username}")
-    public User findUserInfo(@PathVariable("username")String username) {
-        if(username == null) {
+    public User findUserInfo(@PathVariable("username") String username) {
+        if (username == null) {
             ExceptionCast.cast(SystemCode.SYSTEM_LOGIN_USERNAME_ERROR);
         }
         User user = userService.findById(username);
@@ -61,9 +69,9 @@ public class UserController {
      * @return
      */
     @PostMapping
-    public Result add(@RequestBody User user){
+    public Result add(@RequestBody User user) {
         userService.add(user);
-        return new Result(true,StatusCode.OK,"添加成功");
+        return new Result(true, StatusCode.OK, "添加成功");
     }
 
 
@@ -73,11 +81,11 @@ public class UserController {
      * @param username
      * @return
      */
-    @PutMapping(value="/{username}")
-    public Result update(@RequestBody User user,@PathVariable String username){
+    @PutMapping(value = "/{username}")
+    public Result update(@RequestBody User user, @PathVariable String username) {
         user.setUsername(username);
         userService.update(user);
-        return new Result(true,StatusCode.OK,"修改成功");
+        return new Result(true, StatusCode.OK, "修改成功");
     }
 
 
@@ -86,10 +94,10 @@ public class UserController {
      * @param username
      * @return
      */
-    @DeleteMapping(value = "/{username}" )
-    public Result delete(@PathVariable String username){
+    @DeleteMapping(value = "/{username}")
+    public Result delete(@PathVariable String username) {
         userService.delete(username);
-        return new Result(true,StatusCode.OK,"删除成功");
+        return new Result(true, StatusCode.OK, "删除成功");
     }
 
     /***
@@ -97,10 +105,10 @@ public class UserController {
      * @param searchMap
      * @return
      */
-    @PostMapping(value = "/search" )
-    public Result findList(@RequestBody Map searchMap){
+    @PostMapping(value = "/search")
+    public Result findList(@RequestBody Map searchMap) {
         List<User> list = userService.findList(searchMap);
-        return new Result(true,StatusCode.OK,"查询成功",list);
+        return new Result(true, StatusCode.OK, "查询成功", list);
     }
 
 
@@ -111,11 +119,11 @@ public class UserController {
      * @param size
      * @return
      */
-    @PostMapping(value = "/search/{page}/{size}" )
-    public Result findPage(@RequestBody Map searchMap, @PathVariable  int page, @PathVariable  int size){
+    @PostMapping(value = "/search/{page}/{size}")
+    public Result findPage(@RequestBody Map searchMap, @PathVariable int page, @PathVariable int size) {
         Page<User> pageList = userService.findPage(searchMap, page, size);
-        PageResult pageResult=new PageResult(pageList.getTotal(),pageList.getResult());
-        return new Result(true,StatusCode.OK,"查询成功",pageResult);
+        PageResult pageResult = new PageResult(pageList.getTotal(), pageList.getResult());
+        return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }
 
     /*@GetMapping("/decr/userPoints")
@@ -123,5 +131,6 @@ public class UserController {
         userService.decrUserPoints(username,points);
         return R.T("积分添加");
     }*/
+
 
 }
