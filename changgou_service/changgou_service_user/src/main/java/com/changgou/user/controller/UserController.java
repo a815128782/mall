@@ -5,8 +5,12 @@ import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
+import com.changgou.user.config.TokenDecode;
+import com.changgou.user.pojo.Areas;
+import com.changgou.user.pojo.Center;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.config.TokenDecode;
+import com.changgou.user.pojo.Cities;
 import com.changgou.user.pojo.User;
 import com.changgou.user.service.UserService;
 import com.github.pagehelper.Page;
@@ -145,6 +149,32 @@ public class UserController {
         userService.decrUserPoints(username,points);
         return R.T("积分添加");
     }*/
+
+
+    @GetMapping("/center")
+    public Result findCenter(){
+        String username = tokenDecode.getUserInfo().get("username");
+        Center center = userService.findCenter(username);
+        return new Result(true,StatusCode.OK,"查询成功",center);
+    }
+
+    @GetMapping("/findCitiesList")
+    public Result findCitiesList(@RequestParam("province") String province){
+        List<Cities> citiesList = userService.findCitiesList(province);
+        return new Result(true,StatusCode.OK,"查询成功",citiesList);
+    }
+
+    @GetMapping("/findAreasList")
+    public Result findAreasList(@RequestParam("city") String city){
+        List<Areas> areasList = userService.findAreasList(city);
+        return new Result(true,StatusCode.OK,"查询成功",areasList);
+    }
+
+    @PutMapping("/updateCenter")
+    public Result updateCenter(@RequestBody Center center) {
+        Integer integer = userService.updateCenter(center);
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
 
     @GetMapping("/getUsername")
     public Result getUsername(){
