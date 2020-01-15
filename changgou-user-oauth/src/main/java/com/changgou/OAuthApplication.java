@@ -1,5 +1,6 @@
 package com.changgou;
 
+import com.changgou.oauth.util.TokenDecode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -24,5 +25,10 @@ public class OAuthApplication {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public TokenDecode tokenDecode(){
+        return new TokenDecode();
     }
 }
