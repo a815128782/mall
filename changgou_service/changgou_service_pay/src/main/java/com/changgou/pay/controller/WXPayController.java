@@ -3,6 +3,7 @@ package com.changgou.pay.controller;
 import com.alibaba.fastjson.JSON;
 import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
+import com.changgou.order.feign.OrderFeign;
 import com.changgou.pay.config.RabbitMQConfig;
 import com.changgou.pay.service.AlipayService;
 import com.changgou.pay.service.WXPayService;
@@ -34,6 +35,8 @@ public class WXPayController {
     WXPay wxPay;
     @Autowired
     RabbitTemplate rabbitTemplate;
+    @Autowired
+    private OrderFeign orderFeign;
 
     @GetMapping("/nativePay")
     public Result nativePay(@RequestParam("orderId") String orderId, @RequestParam("payMoney") String payMoney) {
@@ -117,7 +120,7 @@ public class WXPayController {
             //完成双向通信
             rabbitTemplate.convertAndSend("paynotify","",params.get("out_trade_no"));
 
-            // orderFeign.updateOrderStatus(params.get("out_trade_no")+"", params.get("trade_no"));//修改订单状态
+            orderFeign.updateOrderStatus(params.get("out_trade_no")+"", params.get("trade_no"));//修改订单状态
         }else {
             //输出错误原因
             System.out.println(params.get("TRADE_CLOSED"));

@@ -1,5 +1,6 @@
 package com.changgou.pay;
 
+import com.changgou.common.interceptor.FeignInterceptor;
 import com.github.wxpay.sdk.MyConfig;
 import com.github.wxpay.sdk.WXPay;
 import org.springframework.boot.SpringApplication;
@@ -26,5 +27,9 @@ public class PayApplication {
             e.printStackTrace();
             return null;
         }
+    }
+    @Bean
+    public FeignInterceptor feignInterceptor(){
+        return new FeignInterceptor();
     }
 }
