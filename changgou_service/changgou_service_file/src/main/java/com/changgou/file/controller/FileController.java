@@ -8,10 +8,14 @@ import com.changgou.common.model.response.file.FileCode;
 import com.changgou.file.pojo.FastDFSFile;
 import com.changgou.file.util.FastDFSClient;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.InputStream;
+import java.net.URI;
 
 /**
  * @author LiXiang
@@ -32,6 +36,9 @@ public class FileController {
             if (StringUtils.isEmpty(originalFilename)) {
                 ExceptionCast.cast(FileCode.FILE_UPLOAD_ERROR);
             }
+            String name = file.getName();
+            String contentType = file.getContentType();
+
             //获取文件的扩展名称
             String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
             //获取文件内容

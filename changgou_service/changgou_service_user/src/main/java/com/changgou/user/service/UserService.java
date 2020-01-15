@@ -26,8 +26,9 @@ public interface UserService {
     /***
      * 新增
      * @param user
+     * @param smsCode
      */
-    void add(User user);
+    void add(String smsCode,User user);
 
     /***
      * 修改

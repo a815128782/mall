@@ -42,9 +42,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
 
         <!--pinyin4j -->
+     <!--pinyin4j -->
         <dependency>
             <groupId>com.belerweb</groupId>
             <artifactId>pinyin4j</artifactId>
@@ -56,6 +67,5 @@
             <artifactId>guava</artifactId>
             <version>24.0-jre</version>
         </dependency>
-
     </dependencies>
 </project>

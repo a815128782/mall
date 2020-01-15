@@ -10,6 +10,7 @@ public enum UserCode implements ResultCode {
     //brand异常
     USER_LOGIN_ERROR(false,29001,"登录异常,请稍后尝试"),
     USER_LOGIN_ERROR2(false,29002,"用户名或密码错误"),
+    USER_VALIDATECODE_ERROR(false,29003,"验证码错误"),
     ;
 
 

@@ -21,4 +21,7 @@ public interface CartFeign {
 
     @GetMapping("/cart/list")
     public Map list();
+
+    @GetMapping("/cart/getUsername")
+    public Result getUsername();
 }

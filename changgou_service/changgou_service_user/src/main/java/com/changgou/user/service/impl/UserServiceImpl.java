@@ -2,6 +2,9 @@ package com.changgou.user.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.changgou.order.pojo.Order;
+import com.changgou.common.exception.ExceptionCast;
+import com.changgou.common.model.response.user.UserCode;
+import com.changgou.common.util.ValidateCodeUtils;
 import com.changgou.order.pojo.Task;
 import com.changgou.user.dao.PointLogMapper;
 import com.changgou.user.dao.UserMapper;
@@ -12,16 +15,22 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    public static final String VALIDATECODE="validateCode_";
 
     @Autowired
     private UserMapper userMapper;
@@ -52,14 +61,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    /**
-     * 增加
-     *
-     * @param user
-     */
     @Override
-    public void add(User user) {
-        userMapper.insert(user);
+    public void add(String smsCode,User user){
+        String validateCode =  redisTemplate.boundValueOps(VALIDATECODE + user.getPhone()).get()+"";
+        if(!smsCode.equals(validateCode)){
+            ExceptionCast.cast(UserCode.USER_VALIDATECODE_ERROR);
+        }
+        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
+        user.setCreated(new Date());
+        user.setUpdated(new Date());
+        user.setSourceType("1");
+        userMapper.insertSelective(user);
     }
 
 
@@ -249,6 +261,12 @@ public class UserServiceImpl implements UserService {
 
         }
         return example;
+    }
+
+    public static void main(String[] args) {
+        String gensalt = BCrypt.gensalt();
+        String password = BCrypt.hashpw("123456", gensalt);
+        System.out.println(password);
     }
 
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +28,15 @@ public interface OrderFeign {
     @GetMapping("/order/findOrderByUserName")
     public Result<List<Vo>> findOrderByUserName();
 
+    @PutMapping("/order/{id}/{transaction_id}")
+    void updateOrderStatus(@PathVariable("id") String out_trade_no,@PathVariable("transaction_id") String trade_no);
 
+
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     * @return
+     */
+    @PutMapping("/order/comment/{id}")
+    public Result updateOrderCommentStatus(@PathVariable("id") String orderId);
 }

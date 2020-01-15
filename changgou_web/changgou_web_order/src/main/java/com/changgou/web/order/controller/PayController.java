@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -52,9 +55,36 @@ public class PayController {
         return "wxpay";
     }
 
+    @GetMapping("/zfb")
+    public String zfbPay(String orderId,Model model){
+        Order order = orderFeign.findById(orderId).getData();
+        if(order == null) {
+//            model.addAttribute("msg","");
+            return "fail";
+        }
+        Result payResult=payFeign.createAlipayNative(orderId,String.valueOf(order.getPayMoney()));
+        if(payResult.getData() == null) {
+//            model.addAttribute("msg","");
+            return "fail";
+        }
+        Map payMap = (Map) payResult.getData();
+        model.addAllAttributes(payMap);
+        return "zfbpay";
+    }
+
+
+
     @RequestMapping("/toPaySuccess")
     public String toPaySuccess(Integer payMoney,Model model) {
         model.addAttribute("payMoney",payMoney);
         return "paysuccess";
     }
+
+    @RequestMapping("/toSuccess")
+    public String toSuccess(Integer payMoney,Model model) {
+        model.addAttribute("payMoney",payMoney);
+        return "paysuccess";
+    }
+
 }
+

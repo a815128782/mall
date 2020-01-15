@@ -1329,6 +1329,8 @@
 
 	</div>
 </div>
+
+    <script src="/js/axios.js"></script>
     <script th:inline="javascript">
         var item = new Vue({
             el: '#itemArray',
@@ -1413,6 +1415,7 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
+
             }
         })
     </script>

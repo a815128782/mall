@@ -27,6 +27,13 @@ spring:
             - Path=/api/user/**,/api/address/**,/api/areas/**,/api/cities/**,/api/provinces/**
           filters:
             - StripPrefix=1
+              #搜索微服务
+        - id: changgou_search_route
+          uri: lb://search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
           #认证微服务
         - id: changgou_oauth_user
           uri: lb://user-auth
@@ -55,11 +62,18 @@ spring:
             - Path=/api/wseckillgoods/**
           filters:
             - StripPrefix=1
-        #个人中心渲染微服务
-        - id: changgou_web_user_route
-          uri: lb://wuser-web
+          #用户渲染微服务
+        - id: changgou_user_web_route
+          uri: lb://user-web
           predicates:
-            - Path=/api/wuser/**
+            - Path=/api/wuser/**,/api/wuser/header.html
+          filters:
+            - StripPrefix=1
+        #评论微服务
+        - id: changgou_comment_route
+          uri: lb://comment
+          predicates:
+            - Path=/api/comment/**
           filters:
             - StripPrefix=1
   redis:

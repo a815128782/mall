@@ -1,11 +1,14 @@
 package com.changgou.user.controller;
 
 import com.changgou.common.entity.PageResult;
+import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
 import com.changgou.order.pojo.Order;
+import com.changgou.user.config.TokenDecode;
+import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.config.TokenDecode;
 import com.changgou.user.pojo.User;
 import com.changgou.user.service.UserService;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,9 +29,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
     @Autowired
-    private TokenDecode tokenDecode;
+    TokenDecode tokenDecode;
 
     /**
      * 查询全部数据
@@ -67,11 +70,26 @@ public class UserController {
      * 新增数据
      * @param user
      * @return
-     */
-    @PostMapping
-    public Result add(@RequestBody User user) {
-        userService.add(user);
-        return new Result(true, StatusCode.OK, "添加成功");
+   /* @PostMapping
+    public Result add(@RequestParam("smsCode")String smsCode,@RequestBody User user){
+        userService.add(smsCode,user);
+        return new Result(true,StatusCode.OK,"添加成功");
+    }*/
+
+    @PostMapping("/add")
+    public Result add(@RequestParam("smsCode") String smsCode,@RequestBody User user){
+
+//        user.setUsername(username);
+//        user.setPassword(password);
+//        user.setPhone(phone);
+        userService.add(smsCode,user);
+        return new Result(true,StatusCode.OK,"注册成功");
+    }
+
+    @PostMapping("/addUser2")
+    public Result addUser2(@RequestParam("smsCode") String smsCode){
+
+        return R.T("132");
     }
 
 
@@ -132,5 +150,14 @@ public class UserController {
         return R.T("积分添加");
     }*/
 
+    @GetMapping("/getUsername")
+    public Result getUsername(){
+        String username = tokenDecode.getUserInfo().get("username");
+        return R.T("查询",username);
+    }
 
 }
+
+
+
+

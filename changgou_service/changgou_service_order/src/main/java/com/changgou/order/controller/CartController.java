@@ -36,4 +36,10 @@ public class CartController {
         String username = tokenDecode.getUserInfo().get("username");
         return cartService.list(username);
     }
+
+    @GetMapping("/getUsername")
+    public Result getUsername() {
+        String username = tokenDecode.getUserInfo().get("username");
+        return R.T("查询",username);
+    }
 }

@@ -164,5 +164,20 @@ public class OrderController implements OrderApi {
         return R.T("发货成功");
     }
 
+    /**
+     * 完成评价后修改订单评价状态
+     * @param orderId
+     * @return
+     */
+    @PutMapping("/comment/{id}")
+    public Result updateOrderCommentStatus(@PathVariable("id") String orderId){
+        orderService.updateOrderCommentStatus(orderId);
+        return new Result(true,StatusCode.OK,"订单完成评价");
+    }
+
+    @PutMapping("/{id}/{transaction_id}")
+    void updateOrderStatus(@PathVariable("id") String out_trade_no,@PathVariable("transaction_id") String trade_no){
+        orderService.updatePayStatus(out_trade_no,trade_no);
+    }
 
 }
