@@ -1,11 +1,24 @@
 server:
   port: 10001
 spring:
+  rabbitmq:
+    host: 192.168.200.128
   application:
     name: comment
+  redis:
+    host: 192.168.200.128
+    port: 6379
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
   data:
     mongodb:
       uri: mongodb://admin:123456@192.168.200.128:27017/changgou
+  main:
+    allow-bean-definition-overriding: true   #当遇到同样名字的时候，是否允许覆盖注册
 eureka:
   client:
     service-url:

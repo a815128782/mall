@@ -10,6 +10,7 @@ package com.changgou.common.model.response;
  * 27000-- 网管系统错误代码
  * 28000-- 运营系统错误代码
  * 29000-- 用户系统异常代码
+ * 30000-- 评论系统异常
  */
 public interface ResultCode {
     //操作是否成功,true为成功，false操作失败

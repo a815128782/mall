@@ -23,9 +23,9 @@ public interface UserFeign {
     @GetMapping("/user/load/{username}")
     public User findUserInfo(@PathVariable("username")String username);
 
-    @GetMapping("/user/decr/userPoints")
-    public Result decrUserPoints(@RequestParam("username") String username, @RequestParam("points") Integer points);
 
+   /* @GetMapping("/user/decr/userPoints")
+    public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);*/
     @PostMapping("/user/collect/add/{id}")
     public Result add(@PathVariable("id") String id);
 
