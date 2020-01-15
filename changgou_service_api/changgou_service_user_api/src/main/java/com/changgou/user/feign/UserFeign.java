@@ -5,7 +5,6 @@ import com.changgou.user.pojo.Center;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.user.pojo.User;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author LiXiang
@@ -72,6 +70,9 @@ public interface UserFeign {
 
     @PutMapping("/user/updateCenter")
     public Result updateCenter(@RequestBody Center center);
+
+    @GetMapping("/user/findUser")
+    public Result<User> findUser();
 
 
     /*@GetMapping("/user/decr/userPoints")

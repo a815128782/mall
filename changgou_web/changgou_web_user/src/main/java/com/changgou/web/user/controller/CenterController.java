@@ -1,8 +1,12 @@
 package com.changgou.web.user.controller;
 
+import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
+import com.changgou.common.entity.StatusCode;
 import com.changgou.user.feign.UserFeign;
 import com.changgou.user.pojo.Center;
+import com.changgou.user.pojo.User;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -51,6 +55,42 @@ public class CenterController {
     public String toCenterInfo(Model model) {
         model.addAttribute("username","heima");
         return "center-setting-info";
+    }
+
+    @GetMapping("/getUsername")
+    @ResponseBody
+    public Result getUsername(Model model) {
+        return userFeign.findUser();
+    }
+
+    @GetMapping("/toSafe")
+    public String toSafe(Model model) {
+        User user = userFeign.findUser().getData();
+        model.addAttribute("username",user.getUsername());
+        return "center-setting-safe";
+    }
+
+    public static final String VALIDATECODE="validateCode_";
+
+    @GetMapping("/verification")
+    @ResponseBody
+    public Result verification(@RequestParam("code")Integer code,@RequestParam("phone")String phone){
+
+        if(StringUtils.isEmpty(code+"")){
+            return new Result(false, StatusCode.ERROR,"请输入验证码");
+        }
+        String result =  redisTemplate.boundValueOps(VALIDATECODE + phone).get()+"";
+        if(result.equals(code+"")){
+            return R.T("");
+        }
+        return new Result(false, StatusCode.ERROR,"验证码错误");
+    }
+
+    @RequestMapping("/toReset")
+    public String toReset(Model model){
+        User user = userFeign.findUser().getData();
+        model.addAttribute("username",user.getUsername());
+        return "center-setting-address-phone";
     }
 
 }

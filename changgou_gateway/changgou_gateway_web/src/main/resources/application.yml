@@ -31,7 +31,7 @@ spring:
         - id: changgou_search_route
           uri: lb://search
           predicates:
-            - Path=/api/search/**
+            - Path=/api/search/**,/api/register/**
           filters:
             - StripPrefix=1
         #认证微服务

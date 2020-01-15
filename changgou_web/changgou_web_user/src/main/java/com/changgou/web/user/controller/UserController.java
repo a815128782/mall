@@ -92,7 +92,7 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Result addU(@RequestParam("smsCode")String smsCode, @RequestBody User user) {
+    public Result add(@RequestParam("smsCode")String smsCode, @RequestBody User user) {
         if(StringUtils.isEmpty(smsCode)){
             ExceptionCast.cast(UserCode.USER_VALIDATECODE_ERROR);
         }
