@@ -123,12 +123,13 @@ public class OrderController implements OrderApi {
 
     /***
      * 根据ID删除品牌数据
-     * @param id
+     * @param
      * @return
      */
-    @DeleteMapping(value = "/{id}")
-    public Result delete(@PathVariable String id) {
-        orderService.delete(id);
+//    @DeleteMapping(value = "/{id}")
+    @RequestMapping("/delete")
+    public Result delete(@RequestParam("orderId")String orderId) {
+        orderService.delete(orderId);
         return new Result(true, StatusCode.OK, "删除成功");
     }
 

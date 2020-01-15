@@ -95,7 +95,7 @@
                     <div class="list-items">
                         <dl>
                             <dt><i>·</i> 订单中心</dt>
-                            <dd><a href="center-index.html" class="list-active">我的订单</a></dd>
+                            <dd><a href="http://localhost:8001/api/wuser/user" class="list-active">我的订单</a></dd>
                             <dd><a href="center-order-pay.html">待付款</a></dd>
                             <dd><a href="center-order-send.html">待发货</a></dd>
                             <dd><a href="center-order-receive.html">待收货</a></dd>
@@ -179,11 +179,13 @@
                                                 </ul>
                                             </td>
 
-                                            <td width="10%" class="center" th:if="${(vo.pay_Status)=='0'}">
+                                            <td width="10%" class="center" th:if="${(vo.pay_Status)=='0'}" >
                                                 <ul class="unstyled">
-                                                    <li><a href="javascript:void(0)" th:@click="|toPay(${orderItem.orderId},${orderItem.price})|"
+                                                    <li><a href="javascript:void(0)"  th:@click="|topay('${orderItem.orderId}','${orderItem.payMoney}')|"
                                                            class="sui-btn btn-info">立即付款</a></li>
-                                                    <li>取消订单</li>
+                                                    <!--<li><a href="javascript:void(0)" @click="topay(${orderItem.orderId},${orderItem.payMoney})"-->
+                                                           <!--class="sui-btn btn-info">立即付款</a></li>-->
+                                                    <li><a th:@click="|off('${orderItem.orderId}')|">取消订单</a></li>
                                                 </ul>
                                             </td>
 
@@ -574,13 +576,26 @@
 <script type="text/javascript" src="/js/pages/index.js"></script>
 <script type="text/javascript" src="/js/axios.js"></script>
 <script th:inline="javascript">
-    new Vue({
+   var app= new Vue({
         el: '#app',
         data: {},
         methods: {
             topay(orderId,money){
-                alert(1);
-                location.href="http://localhost:8001/api//?orderId="+orderId+"&money="+money;
+                location.href="http://localhost:8001/api/wuser/toPay/?orderId="+orderId+"&money="+money;
+                // http://localhost:8001/api/wuser/toPay
+            },
+
+            off(orderId){
+                //location.href="http://localhost:8001/api/order/delete/?orderId=" + orderId;
+              /*  axios.get("http://localhost:8001/api/order/delete/?orderId=\" + orderId").then((res)-->{
+
+                })*/
+                axios.get("http://localhost:8001/api/order/delete/?orderId="+orderId)
+                    .then(function (response) {
+                        if(response.data.success){
+                             location.reload();
+                        }
+                    })
             }
         }
     })
