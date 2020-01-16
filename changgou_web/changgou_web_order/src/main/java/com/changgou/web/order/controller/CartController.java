@@ -6,6 +6,7 @@ import com.changgou.common.entity.Result;
 import com.changgou.goods.feign.SkuFeign;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.order.feign.CartFeign;
+import com.changgou.user.feign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,8 @@ public class CartController {
     CartFeign cartFeign;
     @Autowired
     SkuFeign skuFeign;
+    @Autowired
+    UserFeign userFeign;
 
 
     //查询购物车
@@ -31,6 +34,8 @@ public class CartController {
     public String list(Model model) {
         Map map = cartFeign.list();
         model.addAttribute("items",map);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "cart";
     }
 
@@ -44,6 +49,8 @@ public class CartController {
         model.addAttribute("sku",sku);
         model.addAttribute("num",num);
         model.addAttribute("color",color);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "success-cart";
     }
 

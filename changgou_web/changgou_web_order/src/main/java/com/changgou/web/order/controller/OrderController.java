@@ -6,6 +6,7 @@ import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.user.feign.AddressFeign;
+import com.changgou.user.feign.UserFeign;
 import com.changgou.user.pojo.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,8 @@ public class OrderController {
     private AddressFeign addressFeign;
     @Autowired
     private CartFeign cartFeign;
+    @Autowired
+    UserFeign userFeign;
 
     /**
      * 封装订单数据
@@ -44,6 +47,8 @@ public class OrderController {
         model.addAttribute("carts",orderItemList);
         model.addAttribute("totalMoney",totalMoney);
         model.addAttribute("totalNum",totalNum);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         //默认收件人信息
         for (Address address : addressList) {
             if("1".equals(address.getIsDefault())) {
@@ -70,6 +75,8 @@ public class OrderController {
     public String toPayPage(@RequestParam("orderId") String orderId,@RequestParam("payMoney") String payMoney,Model model){
         model.addAttribute("orderId",orderId);
         model.addAttribute("payMoney",payMoney);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "pay";
     }
 

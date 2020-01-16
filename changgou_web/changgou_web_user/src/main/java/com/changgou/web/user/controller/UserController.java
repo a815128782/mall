@@ -140,4 +140,9 @@ public class UserController {
         return "index";
     }
 
+    @GetMapping("/toPage/{spuId}")
+    public String toPage(@PathVariable("spuId")String spuId){
+        return spuId;
+    }
+
 }

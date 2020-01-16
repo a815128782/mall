@@ -1,8 +1,10 @@
 package com.changgou.search.controller;
 
 import com.changgou.common.entity.Page;
+import com.changgou.common.util.CookieUtil;
 import com.changgou.search.pojo.SkuInfo;
 import com.changgou.search.service.SearchService;
+import com.changgou.user.feign.UserFeign;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,9 +27,15 @@ public class SearchController {
 
     @Autowired
     private SearchService searchService;
+    @Autowired
+    UserFeign userFeign;
 
     @GetMapping("/list")
-    public String list(@RequestParam Map<String,String> searchMap,Model model) {
+    public String list(@RequestParam Map<String,String> searchMap, Model model, HttpServletRequest request) {
+//        String username = (String) userFeign.getUsername().getData();
+        Map<String, String> map = CookieUtil.readCookie(request, "username");
+        String username = map.get("username");
+        model.addAttribute("username",username);
 //        int i = 1/0;
         if(searchMap == null ||searchMap.size() <= 0) {
             searchMap.put("keyWords","");

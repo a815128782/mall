@@ -4,6 +4,7 @@ import com.changgou.common.entity.Result;
 import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.pojo.Order;
 import com.changgou.pay.feign.PayFeign;
+import com.changgou.user.feign.UserFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class PayController {
     PayFeign payFeign;
     @Autowired
     OrderFeign orderFeign;
+    @Autowired
+    UserFeign userFeign;
 
     /**
      * 跳转到微信支付的二维码页面
@@ -51,6 +54,8 @@ public class PayController {
         }
         Map payMap = (Map) payResult.getData();
         model.addAllAttributes(payMap);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         //4.封装结果
         return "wxpay";
     }
@@ -58,17 +63,22 @@ public class PayController {
     @GetMapping("/zfb")
     public String zfbPay(String orderId,Model model){
         Order order = orderFeign.findById(orderId).getData();
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         if(order == null) {
 //            model.addAttribute("msg","");
+            model.addAttribute("username",username);
             return "fail";
         }
         Result payResult=payFeign.createAlipayNative(orderId,String.valueOf(order.getPayMoney()));
         if(payResult.getData() == null) {
 //            model.addAttribute("msg","");
+            model.addAttribute("username",username);
             return "fail";
         }
         Map payMap = (Map) payResult.getData();
         model.addAllAttributes(payMap);
+        model.addAttribute("username",username);
         return "zfbpay";
     }
 
@@ -77,13 +87,17 @@ public class PayController {
     @RequestMapping("/toPaySuccess")
     public String toPaySuccess(Integer payMoney,Model model) {
         model.addAttribute("payMoney",payMoney);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "paysuccess";
     }
 
     @RequestMapping("/toSuccess")
     public String toSuccess(Integer payMoney,Model model) {
         model.addAttribute("payMoney",payMoney);
-        return "paysuccess";
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
+        return "success";
     }
 
 }

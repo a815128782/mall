@@ -160,11 +160,11 @@
 						<ul class="yui3-g"  id="goods-list">
 							<li class="yui3-u-1-4" th:each="sku,skuStat:${list}">
 								<div class="list-wrap">
-									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+									<a th:href="|/api/wuser/toPage/${sku.spuId}|">
 										<div class="p-img"><img th:src="${sku.image}" alt=''></div>
 									</a>
 									<div class="price"><strong><em>¥</em> <i th:text="${sku.price}" ></i></strong></div>
-									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+									<a th:href="|/api/wuser/toPage/${sku.spuId}|">
 										<div class="attr"><em th:text="${sku.name}" ></em></div>
 										<div class="cu"><em><span>促</span>满一件可参加超值换购</em></div>
 									</a>
