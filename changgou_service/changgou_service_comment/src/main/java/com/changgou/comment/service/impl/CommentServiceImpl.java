@@ -130,7 +130,7 @@ public class CommentServiceImpl implements CommentService {
         if (pageSize < 1){
             pageSize = 10;
         }
-        List<Comment> commentList = mongoTemplate.find(query.skip(pageNumber).limit(pageSize), Comment.class);
+        List<Comment> commentList = mongoTemplate.find(query.skip(pageNumber-1).limit(pageSize), Comment.class);
         return new PageResult<Comment>(totalCount,commentList);
     }
 
