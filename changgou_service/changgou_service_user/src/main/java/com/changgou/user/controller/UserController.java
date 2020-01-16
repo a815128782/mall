@@ -264,6 +264,13 @@ public class UserController {
         return R.T("查询",username);
     }
 
+    @GetMapping("/findUser")
+    public Result<User> findUser(){
+        String username = tokenDecode.getUserInfo().get("username");
+        User user = userService.findById(username);
+        return R.T("查询",user);
+    }
+
 }
 
 

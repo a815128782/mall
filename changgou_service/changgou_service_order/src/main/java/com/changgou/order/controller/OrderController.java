@@ -44,10 +44,8 @@ public class OrderController implements OrderApi {
     @GetMapping("/findOrderByUserName")
     public Result findOrderByUserName() {
         //获取当前登录人名称
-//        String username = tokenDecode.getUserInfo().get("username");
-        String username = "heima";
+        String username = tokenDecode.getUserInfo().get("username");
         List<Order> orderList = orderService.findOrderByUserName(username);
-
 
         List<Vo> voList = new ArrayList<>();
 
@@ -123,12 +121,13 @@ public class OrderController implements OrderApi {
 
     /***
      * 根据ID删除品牌数据
-     * @param id
+     * @param
      * @return
      */
-    @DeleteMapping(value = "/{id}")
-    public Result delete(@PathVariable String id) {
-        orderService.delete(id);
+//    @DeleteMapping(value = "/{id}")
+    @RequestMapping("/delete")
+    public Result delete(@RequestParam("orderId")String orderId) {
+        orderService.delete(orderId);
         return new Result(true, StatusCode.OK, "删除成功");
     }
 

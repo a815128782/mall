@@ -48,16 +48,24 @@ public class UserController {
 
     @RequestMapping("/user")
     public String userCenter(Model model){
-
         List<Vo> voList = orderFeign.findOrderByUserName().getData();
-
         model.addAttribute( "voList",voList);
+        model.addAttribute("username","heima");
+        return "center-index";
+    }
+
+    @RequestMapping("/toCenterIndex")
+    public String toCenterIndex() {
 
         return "center-index";
     }
 
-
-
+    @RequestMapping("/toPay")
+    public String toPay(@RequestParam("orderId")String orderId,@RequestParam("money")String money, Model model){
+        model.addAttribute("orderId",orderId);
+        model.addAttribute("money",money);
+        return "pay";
+    }
 
 
     public static final String VALIDATECODE="validateCode_";
@@ -84,7 +92,7 @@ public class UserController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Result addU(@RequestParam("smsCode")String smsCode, @RequestBody User user) {
+    public Result add(@RequestParam("smsCode")String smsCode, @RequestBody User user) {
         if(StringUtils.isEmpty(smsCode)){
             ExceptionCast.cast(UserCode.USER_VALIDATECODE_ERROR);
         }
@@ -125,4 +133,5 @@ public class UserController {
         CookieUtil.addCookie(response,"localhost","/","uid","123",0,false);
         return "index";
     }
+
 }

@@ -1,45 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>设置-个人信息</title>
-     <link rel="icon" href="./img/favicon.ico">
+     <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="./css/all.css" />
-    <link rel="stylesheet" type="text/css" href="./css/pages-seckillOrder.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
+	<script type="text/javascript" src="/js/vue.js"></script>
+	<link rel="stylesheet" href="/css/index.css">
+	<script type="text/javascript" src="/js/index.js"></script>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/axios.js"></script>
 </head>
 
 <body>
     <!-- 头部栏位 -->
     <!--页面顶部-->
+	<div id="app">
 <div id="nav-bottom">
 	<!--顶部-->
 	<div class="nav-top">
 		<div class="top">
 			<div class="py-container">
 				<div class="shortcut">
-					<ul class="fl">
+					<ul class="fl" th:unless="${username != null}">
 						<li class="f-item">畅购欢迎您！</li>
-						<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>
+						<li class="f-item">请
+							<a
+									th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+									target="_self">登录</a>
+							<span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+						</li>
+					</ul>
+					<ul class="fl" th:unless="${username == null}">
+						<li class="f-item">畅购欢迎您！</li>
+						<li class="f-item">
+							<em th:text="${username}" style="color: #ff3835"></em>
+							<span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+						</li>
 					</ul>
 					<div class="fr typelist">
 						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
-							
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>			
-							<li class="f-item"><span>畅购会员</span></li>						
-							<li class="f-item"><span>企业采购</span></li>						
-							<li class="f-item"><span>关注畅购</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>				
-							<li class="f-item"><span>网站导航</li>
+							<li class="f-item">
+								<span>我的订单</span>
+							</li>
+
+							<li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+							</li>
+							<li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|">个人中心</a>
+									</span>
+							</li>
+							<li class="f-item">
+								<span>畅购会员</span>
+							</li>
+							<li class="f-item">
+								<span>企业采购</span>
+							</li>
+							<li class="f-item">
+								<span>关注畅购</span>
+							</li>
+							<li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+							</li>
+							<li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+							</li>
+							<li class="f-item">
+								<span>网站导航</span></li>
 						</ul>
 					</div>
-					
 				</div>
 			</div>
 		</div>
@@ -49,20 +95,20 @@
 			<div class="py-container">
 				<div class="yui3-g Logo">
 					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="畅购" href="index.html" target="_blank"></a>
+						<a class="logo-bd" title="畅购" th:href="@{/api/wuser/index}"></a>
 					</div>
 					<div class="yui3-u Rit searchArea">
 						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
+							<form th:action="@{/api/search/list}" class="sui-form form-inline">
 								<div class="input-append">
-									<input type="text" id="autocomplete"   class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
+									<input th:type="text" id="autocomplete" name="keyWords"
+										   class="input-error input-xxlarge"/>
+									<button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+									</button>
 								</div>
 							</form>
 						</div>
 					</div>
-					
 				</div>
 
 			</div>
@@ -78,11 +124,13 @@
                 <div class="yui3-u-1-6 list">
 
                     <div class="person-info">
-                        <div class="person-photo"><img src="./img/_/photo.png" alt=""></div>
-                        <div class="person-account">
-                            <span class="name">Michelle</span>
-                            <span class="safe">账户安全</span>
-                        </div>
+						<div class="person-photo"><img
+								src="http://192.168.200.128:8080/group1/M00/00/00/wKjIgF4fMhqAUqb_AAobTYlR3js265.jpg"
+								style="width: 48px;height: 48px" alt=""></div>
+						<div class="person-account">
+							<span class="name" th:text="${username}"></span>
+							<span class="safe">账户安全</span>
+						</div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="list-items">
@@ -123,29 +171,29 @@
                                     <div class="control-group">
                                         <label for="inputusername" class="control-label">用户名：</label>
                                         <div class="controls">
-                                            <input id="pwdid" class="fn-tinput" data-rule-remote="http://www.baidu.com" type="password" name="OldPassword" placeholder="输入昵称"
-                                                required data-msg-required="请输入昵称" minlength="6" data-msg-minlength="至少输入6个字符"
+                                            <input id="pwdid" class="fn-tinput" :value="user.username" data-rule-remote="http://www.baidu.com" type="text" name="OldPassword" placeholder="输入昵称"
+                                                required data-msg-required="请输入昵称" minlength="6" data-msg-minlength="至少输入6个字符" disabled
                                             />
-
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">密码：</label>
                                         <div class="controls">
-                                            <input class="fn-tinput" type="password" name="password" value="" placeholder="新密码" required id="password" data-rule-remote="php.php">
+                                            <input class="fn-tinput" v-model="password" type="password" name="password" value="" placeholder="新密码" required id="password" data-rule-remote="php.php">
                                         </div>
                                     </div>
                                     <div class="control-group">
                                         <label for="inputRepassword" class="control-label">重复密码：</label>
                                         <div class="controls">
-                                            <input class="fn-tinput" type="password" name="confirm_password" value="" placeholder="确认新密码" required equalTo="#password">
+                                            <input class="fn-tinput" type="password" v-model="confirmPassword" name="confirm_password" value="" placeholder="确认新密码" required equalTo="#password">
                                         </div>
                                     </div>
 
                                     <div class="control-group">
                                         <label class="control-label"></label>
                                         <div class="controls">
-                                            <button type="submit" class="sui-btn btn-primary">提交按钮</button>
+<!--                                            <button @click="submit" type="submit" class="sui-btn btn-primary">提交按钮</button>-->
+                                            <a @click="submit" href="javascript:void(0)" class="sui-btn btn-primary">提交按钮</a>
                                         </div>
                                     </div>
                                 </form>
@@ -172,7 +220,7 @@
 
                                 <!--表单-->
 
-                                <form class="sui-form form-horizontal sui-validate" data-toggle='validate' id="phone-form">
+                                <!--<form class="sui-form form-horizontal sui-validate" data-toggle='validate' id="phone-form">
 
                                     <div class="control-group">
                                         <label for="inputPassword" class="control-label">手机号：</label>
@@ -185,7 +233,7 @@
                                         <a class="sui-btn btn-primary" href="seckillsetting-safe.html">上一步</a>&nbsp;
                                         <a class="sui-btn btn-primary" type="submit" href="seckillsetting-address-complete.html">下一步</a>
                                     </div>
-                                </form>
+                                </form>-->
                             </div>
                         </div>
 
@@ -303,7 +351,7 @@
 					</div>
 					<div class="yui3-u-1-6">
 						<h4>帮助中心</h4>
-						<img src="./img/wx_cz.jpg">
+						<img src="/img/wx_cz.jpg">
 					</div>
 				</div>
 			</div>
@@ -327,11 +375,43 @@
 	</div>
 </div>
 <!--页面底部END-->
-   
-
-
-
+	</div>
 
 </body>
+	<script th:inline="javascript">
+		new Vue({
+			el: '#app',
+			data: {
+				user: '',
+				password:'',
+				confirmPassword:''
+			},
+			methods: {
+				getUsername() {
+					axios.get("/api/wcenter/getUsername").then((res) => {
+						this.user = res.data.data;
+					})
+				},
+				submit(){
+					if(!(this.password == this.confirmPassword)){
+						alert("两次输入的密码不一致")
+					}else if(this.password.length <6){
+						alert("密码长度过短，请重新设置");
+					} else{
+						axios.get("/api/wcenter/updateUser?username="+this.user.username+"&password="+this.password).then((res=>{
+							if(res.data.success){
+								//跳转修改密码成功的页面
+								location.href="http://localhost:8001/api/wcenter/....";
+							}
+						}))
+					}
+				}
+			},
+			created() {
+				this.getUsername();
+			}
+		})
+
+	</script>
 
 </html>
