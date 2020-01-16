@@ -134,27 +134,25 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="list-items">
-                        <dl>
+						<dl>
 							<dt><i>·</i> 订单中心</dt>
-							<dd ><a href="center-index.html" >我的订单</a></dd>
-							<dd><a href="center-order-pay.html" >待付款</a></dd>
-							<dd><a href="center-order-send.html"  >待发货</a></dd>
-							<dd><a href="center-order-receive.html" >待收货</a></dd>
-							<dd><a href="center-order-evaluate.html"  >待评价</a></dd>
+							<dd><a th:href="|/api/wuser/user|" >我的订单</a></dd>
+							<dd><a href="center-order-pay.html">待付款</a></dd>
+							<dd><a href="center-order-send.html">待发货</a></dd>
+							<dd><a href="center-order-receive.html">待收货</a></dd>
+							<dd><a href="center-order-evaluate.html">待评价</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 我的中心</dt>
-							<dd><a href="center-collect.html">我的收藏</a></dd>
-							<dd><a href="center-footmark.html" >我的足迹</a></dd>
+							<dd><a th:href="|/api/wcollect/list|" >我的收藏</a></dd>
+							<dd><a th:href="|/api/wcollect/list2FootMark|" >我的足迹</a></dd>
 						</dl>
-						<dl>
-							<dt><i>·</i> 物流消息</dt>
-						</dl>
+
 						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a href="center-setting-info.html">个人信息</a></dd>
-							<dd><a href="center-setting-address.html" class="list-active" >地址管理</a></dd>
-							<dd><a href="center-setting-safe.html" >安全管理</a></dd>
+							<dd><a th:href="|/api/wcenter/toCenterInfo|" >个人信息</a></dd>
+							<dd><a th:href="|/api/waddress/toCenterAddress|">地址管理</a></dd>
+							<dd><a th:href="|/api/wcenter/toSafe|" class="list-active">安全管理</a></dd>
 						</dl>
                     </div>
                 </div>
@@ -398,6 +396,7 @@
 					}else if(this.password.length <6){
 						alert("密码长度过短，请重新设置");
 					} else{
+
 						axios.get("/api/wcenter/updateUser?username="+this.user.username+"&password="+this.password).then((res=>{
 							if(res.data.success){
 							    alert("修改成功");

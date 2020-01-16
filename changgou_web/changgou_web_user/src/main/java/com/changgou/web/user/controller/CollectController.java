@@ -47,9 +47,10 @@ public class CollectController {
 
     @RequestMapping("/list")
     public String list(Model model){
-        List<Sku> list = userFeign.list();
+        List<Sku> list = userFeign.list().getData();
         model.addAttribute("list",list);
-        model.addAttribute("username","heima");
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-collect";
     }
 
@@ -60,9 +61,10 @@ public class CollectController {
      */
     @RequestMapping("/list2FootMark")
     public String list2FootMark(Model model){
-        List<Sku> list = userFeign.list2FootMark();
+        List<Sku> list = userFeign.list2FootMark().getData();
         model.addAttribute("list",list);
-        model.addAttribute("username","heima");
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-footmark";
     }
 
