@@ -230,6 +230,7 @@ public class Order implements Serializable {
 	public String getConsignStatus() {
 		return consignStatus;
 	}
+
 	public void setConsignStatus(String consignStatus) {
 		this.consignStatus = consignStatus;
 	}

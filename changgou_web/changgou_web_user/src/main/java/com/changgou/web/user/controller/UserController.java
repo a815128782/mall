@@ -78,6 +78,19 @@ public class UserController {
         return "pay";
     }
 
+    //根据用户名查询已发货订单
+    @RequestMapping("/receive")
+    public String toPay(Model model){
+        String username = (String) userFeign.getUsername().getData();
+//        String username = "heima";
+
+        model.addAttribute("username",username);
+        List<Vo> voList = orderFeign.findConsignByUsername(username).getData();
+        model.addAttribute("volist",voList);
+
+        return "center-order-receive";
+    }
+
 
     public static final String VALIDATECODE="validateCode_";
 

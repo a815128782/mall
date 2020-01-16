@@ -152,6 +152,46 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
+     * 查询评论数量
+     * @param skuId
+     * @return
+     */
+    @Override
+    public Integer count(String skuId) {
+        Integer totalComment = (Integer) redisTemplate.boundHashOps("sku_comment").get(skuId);
+        return totalComment;
+    }
+
+    /**
+     * 4.分别查询总评价数,中好差评数量
+     * @param skuId
+     * @return
+     */
+    @Override
+    public Map<String, Long> kindCount(String skuId) {
+        Map<String,Long> map = new HashMap<>();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("skuId").is(skuId));
+        Long totalCount =  mongoTemplate.count(query, Comment.class);
+        map.put("totalCount",totalCount);
+
+        query = new Query();
+        query.addCriteria(Criteria.where("skuId").is(skuId)).addCriteria(Criteria.where("commodityScore").is(5));
+        Long goodCount =  mongoTemplate.count(query, Comment.class);
+        map.put("goodCount",goodCount);
+
+        query = new Query();
+        query.addCriteria(Criteria.where("skuId").is(skuId)).addCriteria(Criteria.where("commodityScore").is(1));
+        Long badCount =  mongoTemplate.count(query, Comment.class);
+        map.put("badCount",badCount);
+
+        Long commonCount = totalCount - goodCount -badCount;
+        map.put("commonCount",commonCount);
+
+        return map;
+    }
+
+    /**
      * 2.根据skuId查询评价列表
      * @param skuId
      * @return

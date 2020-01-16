@@ -10,6 +10,14 @@ import java.util.Map;
 public interface OrderService {
 
 
+
+    /*
+    *  根据用户名查询已发货订单
+    * */
+    List<Order> findConsignByUsername(String username);
+
+
+
     /*
     *  根据用户名查询订单
     * */
@@ -110,6 +118,11 @@ public interface OrderService {
      * @param orderId
      */
     void updateOrderCommentStatus(String orderId);
+
+    /*
+    * 修改发货状态
+    * */
+    void updateConsignStatus(String orderId);
 
     void updateById(String id);
 
