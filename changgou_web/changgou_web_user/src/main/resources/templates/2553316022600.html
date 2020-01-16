@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>畅购</title>
-	 <link rel="icon" href="../static/img/favicon.ico">
+	 <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="../static/css/all.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-item.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-zoom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-item.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-zoom.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
@@ -25,55 +25,94 @@
 	<div class="nav-top" >
 		<div class="top">
 			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">畅购欢迎您！</li>
-						<!--<li class="f-item">请<a th:href="@{'http://login.changgou.com:9200/oauth/toLogin?ReturnUrl=http://item.changgou.com:9011/items/' + ${spu.id}" >登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>-->
-					</ul>
-					<div class="fr typelist">
-						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
+                <div class="shortcut">
+                    <ul class="fl" th:unless="${username != null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">请
+                            <a
+                                    th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                    target="_self">登录</a>
+                            <span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+                        </li>
+                    </ul>
+                    <ul class="fl" th:unless="${username == null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">
+                            <em th:text="${username}" style="color: #ff3835"></em>
+                            <span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+                        </li>
+                    </ul>
+                    <div class="fr typelist">
+                        <ul class="types">
+                            <li class="f-item">
+                                <span>我的订单</span>
+                            </li>
 
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
-							<li class="f-item"><span>畅购会员</span></li>
-							<li class="f-item"><span>企业采购</span></li>
-							<li class="f-item"><span>关注畅购</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-							<li class="f-item"><span>网站导航</li>
-						</ul>
-					</div>
-
-				</div>
+                            <li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>畅购会员</span>
+                            </li>
+                            <li class="f-item">
+                                <span>企业采购</span>
+                            </li>
+                            <li class="f-item">
+                                <span>关注畅购</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>网站导航</span></li>
+                        </ul>
+                    </div>
+                </div>
 			</div>
 		</div>
 
 		<!--头部-->
-		<div class="header">
-			<div class="py-container">
-				<div class="yui3-g Logo">
-					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="畅购" href="JD-index.html" target="_blank"></a>
-					</div>
-					<div class="yui3-u Rit searchArea">
-						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
-								<div class="input-append">
-									<input type="text" id="autocomplete" class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
-								</div>
-							</form>
-						</div>
-					</div>
+        <div class="header">
+            <div class="py-container">
+                <div class="yui3-g Logo">
+                    <div class="yui3-u Left logoArea">
+                        <a class="logo-bd" title="畅购" th:href="|/api/wuser/index|" ></a>
+                    </div>
+                    <div class="yui3-u Rit searchArea">
+                        <div class="search">
+                            <form th:action="@{/api/search/list}" class="sui-form form-inline">
+                                <div class="input-append">
+                                    <input th:type="text" id="autocomplete" name="keyWords"
+                                           class="input-error input-xxlarge"/>
+                                    <button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-				</div>
+                </div>
 
-
-
-			</div>
-		</div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -471,13 +510,13 @@
 			<div class="crumb-wrap">
 				<ul class="sui-breadcrumb">
 					<li>
-						<a href="#"  th:text="${category1.name}"></a>
+						<a href="#">其它生活电器</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category2.name}"></a>
+						<a href="#">扫地机器人</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category3.name}"></a>
+						<a href="#">干衣机</a>
 					</li>
 				</ul>
 			</div>
@@ -488,7 +527,7 @@
 					<div class="zoom">
 						<!--默认第一个预览-->
 						<div id="preview" class="spec-preview">
-							<span class="jqzoom"><img th:jqimg="${imageList[0]}" th:src="${imageList[0]}" /></span>
+							<span class="jqzoom"><img jqimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t20149/142/522415112/381673/7315fa0/5b102379N3e9ae37e.jpg!q70.jpg.webp" src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t20149/142/522415112/381673/7315fa0/5b102379N3e9ae37e.jpg!q70.jpg.webp" /></span>
 						</div>
 						<!--下方的缩略图-->
 						<div class="spec-scroll">
@@ -496,7 +535,7 @@
 							<!--左右按钮-->
 							<div class="items">
 								<ul>
-                                    <li th:each="img:${imageList}"><img th:src="${img}"  th:bimg="${img}" onmousemove="preview(this)" /></li>
+                                    <li><img src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t20149/142/522415112/381673/7315fa0/5b102379N3e9ae37e.jpg!q70.jpg.webp"  bimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t20149/142/522415112/381673/7315fa0/5b102379N3e9ae37e.jpg!q70.jpg.webp" onmousemove="preview(this)" /></li>
 								</ul>
 							</div>
 							<a class="next">&gt;</a>
@@ -508,7 +547,7 @@
 					<div class="sku-name">
 						<h4 >{{sku.name}}</h4>
 					</div>
-					<div class="news"><span th:text="${spu.caption}"></span></div>
+					<div class="news"><span>【小米8周年旗舰】骁龙845 处理器旗舰性能，双频GPS精准定位，AI变焦双摄！【下单赠豪礼】钢化膜+手机套+耳机+吃鸡神器！❤❤ 小米8透明探索版、小米8屏幕指纹板 现货发售  ❤❤【尊享权益购】顺</span></div>
 					<div class="summary">
 						<div class="summary-wrap" >
 							<div class="fl title">
@@ -557,17 +596,80 @@
 					<div class="clearfix choose">
 						<div id="specification" class="summary-wrap clearfix">
                             <!--循环MAP-->
-							<dl th:each="spec,specStat:${specificationList}">
+							<dl>
 								<dt>
 									<div class="fl title">
-									    <i th:text="${spec.key}"></i>
+									    <i>颜色</i>
 								    </div>
 								</dt>
-                                <dd th:each="arrValue:${specStat.current.value}">
+                                <dd>
                                     <a href="javascript:;"
-                                       th:v-bind:class="|{selected:sel('${spec.key}','${arrValue}')}|"
-                                       th:@click="|selectSpecification('${spec.key}','${arrValue}')|" >
-                                        <i th:text="${arrValue}"></i>
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;白色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;白色&#39;)" >
+                                        <i>白色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;蓝色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;蓝色&#39;)" >
+                                        <i>蓝色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;黑色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;黑色&#39;)" >
+                                        <i>黑色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;金色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;金色&#39;)" >
+                                        <i>金色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+							</dl>
+							<dl>
+								<dt>
+									<div class="fl title">
+									    <i>版本</i>
+								    </div>
+								</dt>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;版本&#39;,&#39;6GB+128GB&#39;)}"
+                                       @click="selectSpecification(&#39;版本&#39;,&#39;6GB+128GB&#39;)" >
+                                        <i>6GB+128GB</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;版本&#39;,&#39;8GB+128GB&#39;)}"
+                                       @click="selectSpecification(&#39;版本&#39;,&#39;8GB+128GB&#39;)" >
+                                        <i>8GB+128GB</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;版本&#39;,&#39;6GB+256GB&#39;)}"
+                                       @click="selectSpecification(&#39;版本&#39;,&#39;6GB+256GB&#39;)" >
+                                        <i>6GB+256GB</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;版本&#39;,&#39;6GB+64GB&#39;)}"
+                                       @click="selectSpecification(&#39;版本&#39;,&#39;6GB+64GB&#39;)" >
+                                        <i>6GB+64GB</i>
                                         <span title="点击取消选择">&nbsp;</span>
                                     </a>
                                 </dd>
@@ -806,15 +908,9 @@
 						</ul>
 						<div class="clearfix"></div>
 						<div class="tab-content tab-wraped">
-							<div id="one" class="tab-pane active"  th:utext="${spu.introduction}">
-
-							</div>
-							<div id="two" class="tab-pane" th:utext="${spu.introduction}">
-
-							</div>
-							<div id="three" class="tab-pane" th:utext="${spu.saleService}">
-
-							</div>
+							<div id="one" class="tab-pane active"><img src='https://img11.360buyimg.com/popWaterMark/jfs/t1/5886/17/6949/512330/5ba45dfaE6576bdae/bd5fe9856f2a5389.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21790/291/568109165/389692/38ff6d74/5b111985Necd7d6b9.jpg'><br/><img src='https://img12.360buyimg.com/popWaterMark/jfs/t21958/264/546688580/123319/302089f/5b1119afN1f2d21cc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t19939/265/1024700004/143745/b1f343a6/5b111984N29ab536d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21835/319/560694600/321707/ccba21bc/5b111985Nd5ba8c32.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t22012/310/540168459/298690/77486f77/5b111985N5110f4f3.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20026/237/1032980615/346351/bb3ee094/5b111985N8cac720d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t19978/55/1000778008/290339/b9a69f9/5b111985N68dfe865.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20335/279/552109383/293642/8952e9db/5b111985N1762d51e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21709/285/549763090/370557/afddd630/5b111985N263b5082.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21550/278/577996585/253934/5b049b9d/5b111984N17201aad.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21265/35/577365156/175447/88569d74/5b111984Nfec4d74e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20497/159/580801528/325816/9f0e2b2a/5b111985N2829df0b.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20710/340/556983566/257621/20494335/5b111984Ne56c39a5.jpg'></div>
+							<div id="two" class="tab-pane"><img src='https://img11.360buyimg.com/popWaterMark/jfs/t1/5886/17/6949/512330/5ba45dfaE6576bdae/bd5fe9856f2a5389.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21790/291/568109165/389692/38ff6d74/5b111985Necd7d6b9.jpg'><br/><img src='https://img12.360buyimg.com/popWaterMark/jfs/t21958/264/546688580/123319/302089f/5b1119afN1f2d21cc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t19939/265/1024700004/143745/b1f343a6/5b111984N29ab536d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21835/319/560694600/321707/ccba21bc/5b111985Nd5ba8c32.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t22012/310/540168459/298690/77486f77/5b111985N5110f4f3.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20026/237/1032980615/346351/bb3ee094/5b111985N8cac720d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t19978/55/1000778008/290339/b9a69f9/5b111985N68dfe865.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20335/279/552109383/293642/8952e9db/5b111985N1762d51e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21709/285/549763090/370557/afddd630/5b111985N263b5082.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21550/278/577996585/253934/5b049b9d/5b111984N17201aad.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21265/35/577365156/175447/88569d74/5b111984Nfec4d74e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20497/159/580801528/325816/9f0e2b2a/5b111985N2829df0b.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20710/340/556983566/257621/20494335/5b111984Ne56c39a5.jpg'></div>
+							<div id="three" class="tab-pane"></div>
 							<div id="four" class="tab-pane">
 								<div class="comment">
 									<div class="com-tit">商品评价</div>
@@ -832,11 +928,11 @@
 										</ul>
 										<div class="content">
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -854,11 +950,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -876,11 +972,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -898,11 +994,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -920,11 +1016,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -1277,6 +1373,7 @@
 										<a href="#" class="img-wrap"> <img src="../../.../portal/img/like_03.png" height="100" width="100" /> </a>
 										<a class="add-cart-button" href="#" target="_blank">加入购物车</a>
 										<a href="#" target="_blank" class="price">￥498.00</a>
+										<a href="#" target="_blank" class="price">￥498.00</a>
 									</li>
 									<li class="jth-item">
 										<a href="#" class="img-wrap"> <img src="../../../portal/img/like_02.png" height="100" width="100" /></a>
@@ -1329,13 +1426,11 @@
 
 	</div>
 </div>
-
-    <script src="/js/axios.js"></script>
-    <script th:inline="javascript">
+    <script>
         var item = new Vue({
             el: '#itemArray',
             data: {
-                skuList : [[${skuList}]],   //SKU集合
+                skuList : [{"id":"25533160226","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+128GB","price":10000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '6GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745128","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":89000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745129","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":4100,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745130","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":17800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745131","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+128GB","price":38600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u7248\u672C': '6GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745132","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+128GB","price":28100,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u7248\uFF08\u5C4F\u5E55\u6307\u7EB9\u7248\uFF09', '\u7248\u672C': '6GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745133","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":48500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745134","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":89900,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745135","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":53500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745136","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":24300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745137","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":38300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u7248\uFF08\u5C4F\u5E55\u6307\u7EB9\u7248\uFF09', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"28779745138","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":8500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u767D\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133982","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":60200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133983","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":42000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u63A2\u7D22\u7248', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133984","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":1200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u767D\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133985","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 8GB+128GB","price":83300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u7248\u672C': '8GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133986","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":76400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133987","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+128GB","price":64400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '6GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133988","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":32200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u767D\u8272', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"31894133989","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":52500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080552","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":28200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u63A2\u7D22\u7248', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080553","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":10500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080554","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":55000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u63A2\u7D22\u7248', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080555","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":96000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080556","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+128GB","price":92500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u63A2\u7D22\u7248', '\u7248\u672C': '6GB+128GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080557","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":67800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u63A2\u7D22\u7248', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080558","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":90800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080559","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":71500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080560","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":70800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080561","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":36200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u91D1\u8272', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080562","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+64GB","price":67500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u7248\uFF08\u5C4F\u5E55\u6307\u7EB9\u7248\uFF09', '\u7248\u672C': '6GB+64GB'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"33361080563","sn":"","name":"\u5C0F\u7C73\uFF08MI\uFF09 \u5C0F\u7C738 \u624B\u673A \u9ED1\u8272 \u5168\u7F51\u901A 6GB+256GB","price":60300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t20149\/142\/522415112\/381673\/7315fa0\/5b102379N3e9ae37e.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"2553316022600","categoryId":0,"categoryName":"\u624B\u673A","brandName":"\u5C0F\u7C73","spec":"{'\u989C\u8272': '\u900F\u660E\u7248\uFF08\u5C4F\u5E55\u6307\u7EB9\u7248\uFF09', '\u7248\u672C': '6GB+256GB'}","saleNum":0,"commentNum":0,"status":"1"}],   //SKU集合
                 sku:{},                     //当前选中的sku
                 spec:{},                   //选中的sku的规格
                 num:1
@@ -1392,7 +1487,8 @@
 
                 //加入购物车
                 addCart:function(){
-                    location.href = "http://web.changgou.com:9102/wo/wcart/add/" + this.sku.id + "/" + this.num;
+                    // http://localhost:8001/api/wcart/add?id=100000022652&num=5
+                    location.href = "http://localhost:8001/api/wcart/addCart/" + this.sku.id + "?num=" + this.num;
                 },
                 // +
                 addNum:function(){
@@ -1415,7 +1511,6 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
-
             }
         })
     </script>

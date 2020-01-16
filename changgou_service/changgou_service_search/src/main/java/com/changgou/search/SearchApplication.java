@@ -16,8 +16,8 @@ public class SearchApplication {
     }
 
 
-    /*@Bean
+    @Bean
     public FeignInterceptor feignInterceptor(){
         return new FeignInterceptor();
-    }*/
+    }
 }

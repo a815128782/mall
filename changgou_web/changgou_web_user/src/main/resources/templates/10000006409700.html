@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>畅购</title>
-	 <link rel="icon" href="../static/img/favicon.ico">
+	 <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="../static/css/all.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-item.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-zoom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-item.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-zoom.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
@@ -25,55 +25,94 @@
 	<div class="nav-top" >
 		<div class="top">
 			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">畅购欢迎您！</li>
-						<!--<li class="f-item">请<a th:href="@{'http://login.changgou.com:9200/oauth/toLogin?ReturnUrl=http://item.changgou.com:9011/items/' + ${spu.id}" >登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>-->
-					</ul>
-					<div class="fr typelist">
-						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
+                <div class="shortcut">
+                    <ul class="fl" th:unless="${username != null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">请
+                            <a
+                                    th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                    target="_self">登录</a>
+                            <span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+                        </li>
+                    </ul>
+                    <ul class="fl" th:unless="${username == null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">
+                            <em th:text="${username}" style="color: #ff3835"></em>
+                            <span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+                        </li>
+                    </ul>
+                    <div class="fr typelist">
+                        <ul class="types">
+                            <li class="f-item">
+                                <span>我的订单</span>
+                            </li>
 
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
-							<li class="f-item"><span>畅购会员</span></li>
-							<li class="f-item"><span>企业采购</span></li>
-							<li class="f-item"><span>关注畅购</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-							<li class="f-item"><span>网站导航</li>
-						</ul>
-					</div>
-
-				</div>
+                            <li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>畅购会员</span>
+                            </li>
+                            <li class="f-item">
+                                <span>企业采购</span>
+                            </li>
+                            <li class="f-item">
+                                <span>关注畅购</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>网站导航</span></li>
+                        </ul>
+                    </div>
+                </div>
 			</div>
 		</div>
 
 		<!--头部-->
-		<div class="header">
-			<div class="py-container">
-				<div class="yui3-g Logo">
-					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="畅购" href="JD-index.html" target="_blank"></a>
-					</div>
-					<div class="yui3-u Rit searchArea">
-						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
-								<div class="input-append">
-									<input type="text" id="autocomplete" class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
-								</div>
-							</form>
-						</div>
-					</div>
+        <div class="header">
+            <div class="py-container">
+                <div class="yui3-g Logo">
+                    <div class="yui3-u Left logoArea">
+                        <a class="logo-bd" title="畅购" th:href="|/api/wuser/index|" ></a>
+                    </div>
+                    <div class="yui3-u Rit searchArea">
+                        <div class="search">
+                            <form th:action="@{/api/search/list}" class="sui-form form-inline">
+                                <div class="input-append">
+                                    <input th:type="text" id="autocomplete" name="keyWords"
+                                           class="input-error input-xxlarge"/>
+                                    <button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-				</div>
+                </div>
 
-
-
-			</div>
-		</div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -471,13 +510,13 @@
 			<div class="crumb-wrap">
 				<ul class="sui-breadcrumb">
 					<li>
-						<a href="#"  th:text="${category1.name}"></a>
+						<a href="#">维修保养</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category2.name}"></a>
+						<a href="#">润滑油</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category3.name}"></a>
+						<a href="#">导航仪</a>
 					</li>
 				</ul>
 			</div>
@@ -488,7 +527,7 @@
 					<div class="zoom">
 						<!--默认第一个预览-->
 						<div id="preview" class="spec-preview">
-							<span class="jqzoom"><img th:jqimg="${imageList[0]}" th:src="${imageList[0]}" /></span>
+							<span class="jqzoom"><img jqimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t23563/144/2485673269/339199/5b91f716/5b811a36N7a85c666.jpg!q70.jpg.webp" src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t23563/144/2485673269/339199/5b91f716/5b811a36N7a85c666.jpg!q70.jpg.webp" /></span>
 						</div>
 						<!--下方的缩略图-->
 						<div class="spec-scroll">
@@ -496,7 +535,7 @@
 							<!--左右按钮-->
 							<div class="items">
 								<ul>
-                                    <li th:each="img:${imageList}"><img th:src="${img}"  th:bimg="${img}" onmousemove="preview(this)" /></li>
+                                    <li><img src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t23563/144/2485673269/339199/5b91f716/5b811a36N7a85c666.jpg!q70.jpg.webp"  bimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t23563/144/2485673269/339199/5b91f716/5b811a36N7a85c666.jpg!q70.jpg.webp" onmousemove="preview(this)" /></li>
 								</ul>
 							</div>
 							<a class="next">&gt;</a>
@@ -508,7 +547,7 @@
 					<div class="sku-name">
 						<h4 >{{sku.name}}</h4>
 					</div>
-					<div class="news"><span th:text="${spu.caption}"></span></div>
+					<div class="news"><span></span></div>
 					<div class="summary">
 						<div class="summary-wrap" >
 							<div class="fl title">
@@ -557,17 +596,72 @@
 					<div class="clearfix choose">
 						<div id="specification" class="summary-wrap clearfix">
                             <!--循环MAP-->
-							<dl th:each="spec,specStat:${specificationList}">
+							<dl>
 								<dt>
 									<div class="fl title">
-									    <i th:text="${spec.key}"></i>
+									    <i>颜色</i>
 								    </div>
 								</dt>
-                                <dd th:each="arrValue:${specStat.current.value}">
+                                <dd>
                                     <a href="javascript:;"
-                                       th:v-bind:class="|{selected:sel('${spec.key}','${arrValue}')}|"
-                                       th:@click="|selectSpecification('${spec.key}','${arrValue}')|" >
-                                        <i th:text="${arrValue}"></i>
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;蓝色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;蓝色&#39;)" >
+                                        <i>蓝色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+							</dl>
+							<dl>
+								<dt>
+									<div class="fl title">
+									    <i>尺码</i>
+								    </div>
+								</dt>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;26&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;26&#39;)" >
+                                        <i>26</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;28&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;28&#39;)" >
+                                        <i>28</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;30&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;30&#39;)" >
+                                        <i>30</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;31&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;31&#39;)" >
+                                        <i>31</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;33&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;33&#39;)" >
+                                        <i>33</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;35&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;35&#39;)" >
+                                        <i>35</i>
                                         <span title="点击取消选择">&nbsp;</span>
                                     </a>
                                 </dd>
@@ -806,15 +900,9 @@
 						</ul>
 						<div class="clearfix"></div>
 						<div class="tab-content tab-wraped">
-							<div id="one" class="tab-pane active"  th:utext="${spu.introduction}">
-
-							</div>
-							<div id="two" class="tab-pane" th:utext="${spu.introduction}">
-
-							</div>
-							<div id="three" class="tab-pane" th:utext="${spu.saleService}">
-
-							</div>
+							<div id="one" class="tab-pane active"><img src='https://img30.360buyimg.com/popWaterMark/jfs/t22963/199/1302260221/181653/16dddd1f/5b5bdd4bN6ebae4be.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23440/183/1337051260/182907/4a2ae070/5b5bdd4bN125319fc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21733/67/2576047090/188126/db154060/5b5bdd4bNf6241aea.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24271/150/1336041348/179474/23ca93fe/5b5bdd4bNeba1e713.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21085/159/2508750308/188333/1c25678d/5b5bdd4bN4579e31a.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20740/100/2550091401/181179/a4f64d5d/5b5bdd4bN87f904a2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21664/108/2538664923/186572/7eb7a5be/5b5bdd4bN403bd92b.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20707/58/919646385/189040/359b7774/5b5bdd4bN0b49bc93.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23791/236/1350620189/179146/f3166403/5b5bdd4bN3448c900.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21571/90/2551834380/186597/807e949f/5b5bdd4bN186f81e6.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21682/133/2570731623/188584/f1a0951d/5b5bdd4bN913d92b1.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24382/200/1325075369/174797/c7326915/5b5bdd4bN9996b80e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23143/177/1336393329/188342/f583cae6/5b5bdd4bN20b684dc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23485/176/1367426020/190070/44be4431/5b5bdd4bNaab22aad.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24580/255/1341400548/181465/4eac7dea/5b5bdd4bNf288a9d2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21988/340/2575314985/173453/b3eaf79/5b5bdd4bN8d338e0c.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23965/229/1333397975/186263/cda65458/5b5bdd4bN65ec7676.jpg'></div>
+							<div id="two" class="tab-pane"><img src='https://img30.360buyimg.com/popWaterMark/jfs/t22963/199/1302260221/181653/16dddd1f/5b5bdd4bN6ebae4be.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23440/183/1337051260/182907/4a2ae070/5b5bdd4bN125319fc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21733/67/2576047090/188126/db154060/5b5bdd4bNf6241aea.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24271/150/1336041348/179474/23ca93fe/5b5bdd4bNeba1e713.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21085/159/2508750308/188333/1c25678d/5b5bdd4bN4579e31a.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20740/100/2550091401/181179/a4f64d5d/5b5bdd4bN87f904a2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21664/108/2538664923/186572/7eb7a5be/5b5bdd4bN403bd92b.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t20707/58/919646385/189040/359b7774/5b5bdd4bN0b49bc93.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23791/236/1350620189/179146/f3166403/5b5bdd4bN3448c900.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21571/90/2551834380/186597/807e949f/5b5bdd4bN186f81e6.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21682/133/2570731623/188584/f1a0951d/5b5bdd4bN913d92b1.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24382/200/1325075369/174797/c7326915/5b5bdd4bN9996b80e.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23143/177/1336393329/188342/f583cae6/5b5bdd4bN20b684dc.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23485/176/1367426020/190070/44be4431/5b5bdd4bNaab22aad.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t24580/255/1341400548/181465/4eac7dea/5b5bdd4bNf288a9d2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t21988/340/2575314985/173453/b3eaf79/5b5bdd4bN8d338e0c.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t23965/229/1333397975/186263/cda65458/5b5bdd4bN65ec7676.jpg'></div>
+							<div id="three" class="tab-pane"></div>
 							<div id="four" class="tab-pane">
 								<div class="comment">
 									<div class="com-tit">商品评价</div>
@@ -832,11 +920,11 @@
 										</ul>
 										<div class="content">
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -854,11 +942,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -876,11 +964,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -898,11 +986,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -920,11 +1008,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -1277,6 +1365,7 @@
 										<a href="#" class="img-wrap"> <img src="../../.../portal/img/like_03.png" height="100" width="100" /> </a>
 										<a class="add-cart-button" href="#" target="_blank">加入购物车</a>
 										<a href="#" target="_blank" class="price">￥498.00</a>
+										<a href="#" target="_blank" class="price">￥498.00</a>
 									</li>
 									<li class="jth-item">
 										<a href="#" class="img-wrap"> <img src="../../../portal/img/like_02.png" height="100" width="100" /></a>
@@ -1329,13 +1418,11 @@
 
 	</div>
 </div>
-
-    <script src="/js/axios.js"></script>
-    <script th:inline="javascript">
+    <script>
         var item = new Vue({
             el: '#itemArray',
             data: {
-                skuList : [[${skuList}]],   //SKU集合
+                skuList : [{"id":"100000064081","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H2627 \u84DD\u8272 30","price":76000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '26'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000064093","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H3127 \u84DD\u8272 30","price":57900,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '31'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000064097","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H3127 \u84DD\u8272 30","price":68300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '31'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000064103","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H3027 \u84DD\u8272 30","price":46400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '30'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000064107","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H3527 \u84DD\u8272 30","price":82800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '35'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000064111","sn":"","name":"\u5A05\u4E3D\u8FBE YERAD 2018\u79CB\u5B63\u65B0\u6B3E\u76F4\u7B52\u725B\u4ED4\u88E4\u5973\u97E9\u7248\u663E\u7626\u5927\u7801\u5973\u957F\u88E4H2627 \u84DD\u8272 30","price":3600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t23563\/144\/2485673269\/339199\/5b91f716\/5b811a36N7a85c666.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006409700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"\u5A05\u4E3D\u8FBE","spec":"{'\u989C\u8272': '\u84DD\u8272', '\u5C3A\u7801': '26'}","saleNum":0,"commentNum":0,"status":"1"}],   //SKU集合
                 sku:{},                     //当前选中的sku
                 spec:{},                   //选中的sku的规格
                 num:1
@@ -1392,7 +1479,8 @@
 
                 //加入购物车
                 addCart:function(){
-                    location.href = "http://web.changgou.com:9102/wo/wcart/add/" + this.sku.id + "/" + this.num;
+                    // http://localhost:8001/api/wcart/add?id=100000022652&num=5
+                    location.href = "http://localhost:8001/api/wcart/addCart/" + this.sku.id + "?num=" + this.num;
                 },
                 // +
                 addNum:function(){
@@ -1415,7 +1503,6 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
-
             }
         })
     </script>

@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>畅购</title>
-	 <link rel="icon" href="../static/img/favicon.ico">
+	 <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="../static/css/all.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-item.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-zoom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-item.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-zoom.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
@@ -25,55 +25,94 @@
 	<div class="nav-top" >
 		<div class="top">
 			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">畅购欢迎您！</li>
-						<!--<li class="f-item">请<a th:href="@{'http://login.changgou.com:9200/oauth/toLogin?ReturnUrl=http://item.changgou.com:9011/items/' + ${spu.id}" >登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>-->
-					</ul>
-					<div class="fr typelist">
-						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
+                <div class="shortcut">
+                    <ul class="fl" th:unless="${username != null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">请
+                            <a
+                                    th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                    target="_self">登录</a>
+                            <span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+                        </li>
+                    </ul>
+                    <ul class="fl" th:unless="${username == null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">
+                            <em th:text="${username}" style="color: #ff3835"></em>
+                            <span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+                        </li>
+                    </ul>
+                    <div class="fr typelist">
+                        <ul class="types">
+                            <li class="f-item">
+                                <span>我的订单</span>
+                            </li>
 
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
-							<li class="f-item"><span>畅购会员</span></li>
-							<li class="f-item"><span>企业采购</span></li>
-							<li class="f-item"><span>关注畅购</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-							<li class="f-item"><span>网站导航</li>
-						</ul>
-					</div>
-
-				</div>
+                            <li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>畅购会员</span>
+                            </li>
+                            <li class="f-item">
+                                <span>企业采购</span>
+                            </li>
+                            <li class="f-item">
+                                <span>关注畅购</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>网站导航</span></li>
+                        </ul>
+                    </div>
+                </div>
 			</div>
 		</div>
 
 		<!--头部-->
-		<div class="header">
-			<div class="py-container">
-				<div class="yui3-g Logo">
-					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="畅购" href="JD-index.html" target="_blank"></a>
-					</div>
-					<div class="yui3-u Rit searchArea">
-						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
-								<div class="input-append">
-									<input type="text" id="autocomplete" class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
-								</div>
-							</form>
-						</div>
-					</div>
+        <div class="header">
+            <div class="py-container">
+                <div class="yui3-g Logo">
+                    <div class="yui3-u Left logoArea">
+                        <a class="logo-bd" title="畅购" th:href="|/api/wuser/index|" ></a>
+                    </div>
+                    <div class="yui3-u Rit searchArea">
+                        <div class="search">
+                            <form th:action="@{/api/search/list}" class="sui-form form-inline">
+                                <div class="input-append">
+                                    <input th:type="text" id="autocomplete" name="keyWords"
+                                           class="input-error input-xxlarge"/>
+                                    <button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-				</div>
+                </div>
 
-
-
-			</div>
-		</div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -471,13 +510,13 @@
 			<div class="crumb-wrap">
 				<ul class="sui-breadcrumb">
 					<li>
-						<a href="#"  th:text="${category1.name}"></a>
+						<a href="#">维修保养</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category2.name}"></a>
+						<a href="#">拖拉玩具</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category3.name}"></a>
+						<a href="#">DIY玩具</a>
 					</li>
 				</ul>
 			</div>
@@ -488,7 +527,7 @@
 					<div class="zoom">
 						<!--默认第一个预览-->
 						<div id="preview" class="spec-preview">
-							<span class="jqzoom"><img th:jqimg="${imageList[0]}" th:src="${imageList[0]}" /></span>
+							<span class="jqzoom"><img jqimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t3049/283/5949094323/434633/3643bb5e/58943074Nef906237.jpg!q70.jpg.webp" src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t3049/283/5949094323/434633/3643bb5e/58943074Nef906237.jpg!q70.jpg.webp" /></span>
 						</div>
 						<!--下方的缩略图-->
 						<div class="spec-scroll">
@@ -496,7 +535,7 @@
 							<!--左右按钮-->
 							<div class="items">
 								<ul>
-                                    <li th:each="img:${imageList}"><img th:src="${img}"  th:bimg="${img}" onmousemove="preview(this)" /></li>
+                                    <li><img src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t3049/283/5949094323/434633/3643bb5e/58943074Nef906237.jpg!q70.jpg.webp"  bimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t3049/283/5949094323/434633/3643bb5e/58943074Nef906237.jpg!q70.jpg.webp" onmousemove="preview(this)" /></li>
 								</ul>
 							</div>
 							<a class="next">&gt;</a>
@@ -508,7 +547,7 @@
 					<div class="sku-name">
 						<h4 >{{sku.name}}</h4>
 					</div>
-					<div class="news"><span th:text="${spu.caption}"></span></div>
+					<div class="news"><span>欧可全新概念时尚老花镜，为资深年轻人提供时尚及高品质的贴心花镜款式。</span></div>
 					<div class="summary">
 						<div class="summary-wrap" >
 							<div class="fl title">
@@ -557,17 +596,144 @@
 					<div class="clearfix choose">
 						<div id="specification" class="summary-wrap clearfix">
                             <!--循环MAP-->
-							<dl th:each="spec,specStat:${specificationList}">
+							<dl>
 								<dt>
 									<div class="fl title">
-									    <i th:text="${spec.key}"></i>
+									    <i>颜色</i>
 								    </div>
 								</dt>
-                                <dd th:each="arrValue:${specStat.current.value}">
+                                <dd>
                                     <a href="javascript:;"
-                                       th:v-bind:class="|{selected:sel('${spec.key}','${arrValue}')}|"
-                                       th:@click="|selectSpecification('${spec.key}','${arrValue}')|" >
-                                        <i th:text="${arrValue}"></i>
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;白色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;白色&#39;)" >
+                                        <i>白色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;红色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;红色&#39;)" >
+                                        <i>红色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;黑色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;黑色&#39;)" >
+                                        <i>黑色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+							</dl>
+							<dl>
+								<dt>
+									<div class="fl title">
+									    <i>尺码</i>
+								    </div>
+								</dt>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;275度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;275度&#39;)" >
+                                        <i>275度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;250度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;250度&#39;)" >
+                                        <i>250度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;375度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;375度&#39;)" >
+                                        <i>375度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;350度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;350度&#39;)" >
+                                        <i>350度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;225度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;225度&#39;)" >
+                                        <i>225度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;325度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;325度&#39;)" >
+                                        <i>325度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;200度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;200度&#39;)" >
+                                        <i>200度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;100度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;100度&#39;)" >
+                                        <i>100度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;150度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;150度&#39;)" >
+                                        <i>150度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;125度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;125度&#39;)" >
+                                        <i>125度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;175度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;175度&#39;)" >
+                                        <i>175度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;400度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;400度&#39;)" >
+                                        <i>400度</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;300度&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;300度&#39;)" >
+                                        <i>300度</i>
                                         <span title="点击取消选择">&nbsp;</span>
                                     </a>
                                 </dd>
@@ -806,15 +972,9 @@
 						</ul>
 						<div class="clearfix"></div>
 						<div class="tab-content tab-wraped">
-							<div id="one" class="tab-pane active"  th:utext="${spu.introduction}">
-
-							</div>
-							<div id="two" class="tab-pane" th:utext="${spu.introduction}">
-
-							</div>
-							<div id="three" class="tab-pane" th:utext="${spu.saleService}">
-
-							</div>
+							<div id="one" class="tab-pane active"><img src='https://img30.360buyimg.com/popWareDetail/jfs/t3295/223/5818906112/129840/c8d4215f/5882c575Nd1b605c2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3895/247/1691807729/111940/1bb2ee37/589430f1N845da247.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3232/330/5921605359/455292/ff2e4d70/5894316aNffa4653d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3841/288/3422818561/458139/6ce7f656/58943146Ne9cff16a.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t30667/254/799497513/405371/5b85a362/5bfe522aN85d8cd09.jpg'><br/><img src='https://img20.360buyimg.com/imgzone/jfs/t27601/31/2289802614/278515/c32ca64a/5bfe5258Nb4c3fe7a.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3307/120/5850081627/292937/b61c912d/5893f915Nf401a1fa.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t4114/266/1713677905/338465/3a183735/58943149Nb9a30787.jpg'><br/><img src='https://img10.360buyimg.com/popWaterMark/jfs/t1/1064/27/13342/158719/5bd7be25E90c9da14/d4275f22108f00bb.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t2302/199/151898499/521752/4dba771e/55f13cebN9e47d4f2.jpg'><br/><img src='https://img12.360buyimg.com/popWaterMark/jfs/t1/700/17/12819/217866/5bd7be36Ee767ce13/741ec3532890fe22.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3232/330/5921605359/455292/ff2e4d70/5894316aNffa4653d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3997/308/1739068182/272987/f492ad0/5894314bN15e8868c.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3943/303/1706503432/413408/b134a22d/5894314aN6dae43dc.jpg'><br/><img src='https://img30.360buyimg.com/popWareDetail/jfs/t2407/192/18884115/136393/8a8b7cd3/55e67fc1Ned104f7a.jpg'></div>
+							<div id="two" class="tab-pane"><img src='https://img30.360buyimg.com/popWareDetail/jfs/t3295/223/5818906112/129840/c8d4215f/5882c575Nd1b605c2.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3895/247/1691807729/111940/1bb2ee37/589430f1N845da247.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3232/330/5921605359/455292/ff2e4d70/5894316aNffa4653d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3841/288/3422818561/458139/6ce7f656/58943146Ne9cff16a.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t30667/254/799497513/405371/5b85a362/5bfe522aN85d8cd09.jpg'><br/><img src='https://img20.360buyimg.com/imgzone/jfs/t27601/31/2289802614/278515/c32ca64a/5bfe5258Nb4c3fe7a.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3307/120/5850081627/292937/b61c912d/5893f915Nf401a1fa.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t4114/266/1713677905/338465/3a183735/58943149Nb9a30787.jpg'><br/><img src='https://img10.360buyimg.com/popWaterMark/jfs/t1/1064/27/13342/158719/5bd7be25E90c9da14/d4275f22108f00bb.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t2302/199/151898499/521752/4dba771e/55f13cebN9e47d4f2.jpg'><br/><img src='https://img12.360buyimg.com/popWaterMark/jfs/t1/700/17/12819/217866/5bd7be36Ee767ce13/741ec3532890fe22.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3232/330/5921605359/455292/ff2e4d70/5894316aNffa4653d.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3997/308/1739068182/272987/f492ad0/5894314bN15e8868c.jpg'><br/><img src='https://img30.360buyimg.com/popWaterMark/jfs/t3943/303/1706503432/413408/b134a22d/5894314aN6dae43dc.jpg'><br/><img src='https://img30.360buyimg.com/popWareDetail/jfs/t2407/192/18884115/136393/8a8b7cd3/55e67fc1Ned104f7a.jpg'></div>
+							<div id="three" class="tab-pane"></div>
 							<div id="four" class="tab-pane">
 								<div class="comment">
 									<div class="com-tit">商品评价</div>
@@ -832,11 +992,11 @@
 										</ul>
 										<div class="content">
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -854,11 +1014,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -876,11 +1036,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -898,11 +1058,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -920,11 +1080,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -1277,6 +1437,7 @@
 										<a href="#" class="img-wrap"> <img src="../../.../portal/img/like_03.png" height="100" width="100" /> </a>
 										<a class="add-cart-button" href="#" target="_blank">加入购物车</a>
 										<a href="#" target="_blank" class="price">￥498.00</a>
+										<a href="#" target="_blank" class="price">￥498.00</a>
 									</li>
 									<li class="jth-item">
 										<a href="#" class="img-wrap"> <img src="../../../portal/img/like_02.png" height="100" width="100" /></a>
@@ -1329,13 +1490,11 @@
 
 	</div>
 </div>
-
-    <script src="/js/axios.js"></script>
-    <script th:inline="javascript">
+    <script>
         var item = new Vue({
             el: '#itemArray',
             data: {
-                skuList : [[${skuList}]],   //SKU集合
+                skuList : [{"id":"10627543443","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1325\u5EA6","price":74000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '325\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"10627543444","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1275\u5EA6","price":49800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '275\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"10627543445","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1100\u5EA6","price":86700,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '100\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"10627543446","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1125\u5EA6","price":88700,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '125\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318764027","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1250\u5EA6","price":9600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '250\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318764028","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1225\u5EA6","price":44500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '225\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766929","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C","price":25900,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '\u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766930","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1375\u5EA6","price":21000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '375\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766931","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1125\u5EA6","price":36500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '125\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766932","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1100\u5EA6","price":47200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '100\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766933","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1325\u5EA6","price":5100,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '325\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766934","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1250\u5EA6","price":28800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '250\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766935","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1250\u5EA6","price":8900,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '250\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766936","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1275\u5EA6","price":41300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '275\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766937","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1400\u5EA6","price":22300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '400\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766938","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1225\u5EA6","price":1400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '225\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766939","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1175\u5EA6","price":58400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '175\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1318766940","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1200\u5EA6","price":54500,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '200\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1756543837","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C","price":86000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '\u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1756543838","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1300\u5EA6","price":58400,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '300\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1756543839","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C","price":38300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '\u5E73\u5149\u9632\u84DD\u5149-\u65E0\u5EA6\u6570\u7535\u8111\u624B\u673A\u62A4\u76EE\u955C'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"1756543840","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1250\u5EA6","price":37900,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '250\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407141","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1225\u5EA6","price":99600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '225\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407142","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1350\u5EA6","price":49000,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '350\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407143","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1375\u5EA6","price":49300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '375\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407144","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1300\u5EA6","price":20600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '300\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407145","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1175\u5EA6","price":37800,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '175\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"27626407146","sn":"","name":"OCSEE\u5982\u610F\u5E74\u8F7B\u8001\u82B1\u955C \u9632\u84DD\u5149\u82B1\u955C \u5973\u8212\u9002\u8001\u82B1\u955C\u7F8E\u5B66\u773C\u955C \u9ED1\u6846\u7EA2\u817F \u8001\u82B1225\u5EA6","price":47300,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t3049\/283\/5949094323\/434633\/3643bb5e\/58943074Nef906237.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"1062754344600","categoryId":0,"categoryName":"\u8001\u82B1\u955C","brandName":"\u6B27\u53EF\u773C\u955C","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': '225\u5EA6'}","saleNum":0,"commentNum":0,"status":"1"}],   //SKU集合
                 sku:{},                     //当前选中的sku
                 spec:{},                   //选中的sku的规格
                 num:1
@@ -1392,7 +1551,8 @@
 
                 //加入购物车
                 addCart:function(){
-                    location.href = "http://web.changgou.com:9102/wo/wcart/add/" + this.sku.id + "/" + this.num;
+                    // http://localhost:8001/api/wcart/add?id=100000022652&num=5
+                    location.href = "http://localhost:8001/api/wcart/addCart/" + this.sku.id + "?num=" + this.num;
                 },
                 // +
                 addNum:function(){
@@ -1415,7 +1575,6 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
-
             }
         })
     </script>

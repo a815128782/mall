@@ -6,11 +6,11 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>畅购</title>
-	 <link rel="icon" href="../static/img/favicon.ico">
+	 <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="../static/css/all.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-item.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/pages-zoom.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-item.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-zoom.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
@@ -25,55 +25,94 @@
 	<div class="nav-top" >
 		<div class="top">
 			<div class="py-container">
-				<div class="shortcut">
-					<ul class="fl">
-						<li class="f-item">畅购欢迎您！</li>
-						<!--<li class="f-item">请<a th:href="@{'http://login.changgou.com:9200/oauth/toLogin?ReturnUrl=http://item.changgou.com:9011/items/' + ${spu.id}" >登录</a>　<span><a href="register.html" target="_blank">免费注册</a></span></li>-->
-					</ul>
-					<div class="fr typelist">
-						<ul class="types">
-							<li class="f-item"><span>我的订单</span></li>
+                <div class="shortcut">
+                    <ul class="fl" th:unless="${username != null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">请
+                            <a
+                                    th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                    target="_self">登录</a>
+                            <span>
+									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
+								</span>
+                        </li>
+                    </ul>
+                    <ul class="fl" th:unless="${username == null}">
+                        <li class="f-item">畅购欢迎您！</li>
+                        <li class="f-item">
+                            <em th:text="${username}" style="color: #ff3835"></em>
+                            <span>
+									<a th:href="|/api/wuser/exit|">退出</a>
+								</span>
+                        </li>
+                    </ul>
+                    <div class="fr typelist">
+                        <ul class="types">
+                            <li class="f-item">
+                                <span>我的订单</span>
+                            </li>
 
-							<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
-							<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
-							<li class="f-item"><span>畅购会员</span></li>
-							<li class="f-item"><span>企业采购</span></li>
-							<li class="f-item"><span>关注畅购</span></li>
-							<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
-							<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-							<li class="f-item"><span>网站导航</li>
-						</ul>
-					</div>
-
-				</div>
+                            <li class="f-item">
+									<span>
+										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span th:unless="${username ==null}">
+										<a th:href="|/api/wuser/user|" >个人中心</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>畅购会员</span>
+                            </li>
+                            <li class="f-item">
+                                <span>企业采购</span>
+                            </li>
+                            <li class="f-item">
+                                <span>关注畅购</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="cooperation.html" target="_blank">合作招商</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+									<span>
+										<a href="shoplogin.html" target="_blank">商家后台</a>
+									</span>
+                            </li>
+                            <li class="f-item">
+                                <span>网站导航</span></li>
+                        </ul>
+                    </div>
+                </div>
 			</div>
 		</div>
 
 		<!--头部-->
-		<div class="header">
-			<div class="py-container">
-				<div class="yui3-g Logo">
-					<div class="yui3-u Left logoArea">
-						<a class="logo-bd" title="畅购" href="JD-index.html" target="_blank"></a>
-					</div>
-					<div class="yui3-u Rit searchArea">
-						<div class="search">
-							<form action="" class="sui-form form-inline">
-								<!--searchAutoComplete-->
-								<div class="input-append">
-									<input type="text" id="autocomplete" class="input-error input-xxlarge" />
-									<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
-								</div>
-							</form>
-						</div>
-					</div>
+        <div class="header">
+            <div class="py-container">
+                <div class="yui3-g Logo">
+                    <div class="yui3-u Left logoArea">
+                        <a class="logo-bd" title="畅购" th:href="|/api/wuser/index|" ></a>
+                    </div>
+                    <div class="yui3-u Rit searchArea">
+                        <div class="search">
+                            <form th:action="@{/api/search/list}" class="sui-form form-inline">
+                                <div class="input-append">
+                                    <input th:type="text" id="autocomplete" name="keyWords"
+                                           class="input-error input-xxlarge"/>
+                                    <button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
-				</div>
+                </div>
 
-
-
-			</div>
-		</div>
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -471,13 +510,13 @@
 			<div class="crumb-wrap">
 				<ul class="sui-breadcrumb">
 					<li>
-						<a href="#"  th:text="${category1.name}"></a>
+						<a href="#">维修保养</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category2.name}"></a>
+						<a href="#">润滑油</a>
 					</li>
 					<li>
-						<a href="#"  th:text="${category3.name}"></a>
+						<a href="#">导航仪</a>
 					</li>
 				</ul>
 			</div>
@@ -488,7 +527,7 @@
 					<div class="zoom">
 						<!--默认第一个预览-->
 						<div id="preview" class="spec-preview">
-							<span class="jqzoom"><img th:jqimg="${imageList[0]}" th:src="${imageList[0]}" /></span>
+							<span class="jqzoom"><img jqimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t24625/59/824253378/168050/c64db590/5b7e1263N3a830e17.jpg!q70.jpg.webp" src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t24625/59/824253378/168050/c64db590/5b7e1263N3a830e17.jpg!q70.jpg.webp" /></span>
 						</div>
 						<!--下方的缩略图-->
 						<div class="spec-scroll">
@@ -496,7 +535,7 @@
 							<!--左右按钮-->
 							<div class="items">
 								<ul>
-                                    <li th:each="img:${imageList}"><img th:src="${img}"  th:bimg="${img}" onmousemove="preview(this)" /></li>
+                                    <li><img src="https://m.360buyimg.com/mobilecms/s450x450_jfs/t24625/59/824253378/168050/c64db590/5b7e1263N3a830e17.jpg!q70.jpg.webp"  bimg="https://m.360buyimg.com/mobilecms/s450x450_jfs/t24625/59/824253378/168050/c64db590/5b7e1263N3a830e17.jpg!q70.jpg.webp" onmousemove="preview(this)" /></li>
 								</ul>
 							</div>
 							<a class="next">&gt;</a>
@@ -508,7 +547,7 @@
 					<div class="sku-name">
 						<h4 >{{sku.name}}</h4>
 					</div>
-					<div class="news"><span th:text="${spu.caption}"></span></div>
+					<div class="news"><span></span></div>
 					<div class="summary">
 						<div class="summary-wrap" >
 							<div class="fl title">
@@ -557,17 +596,48 @@
 					<div class="clearfix choose">
 						<div id="specification" class="summary-wrap clearfix">
                             <!--循环MAP-->
-							<dl th:each="spec,specStat:${specificationList}">
+							<dl>
 								<dt>
 									<div class="fl title">
-									    <i th:text="${spec.key}"></i>
+									    <i>颜色</i>
 								    </div>
 								</dt>
-                                <dd th:each="arrValue:${specStat.current.value}">
+                                <dd>
                                     <a href="javascript:;"
-                                       th:v-bind:class="|{selected:sel('${spec.key}','${arrValue}')}|"
-                                       th:@click="|selectSpecification('${spec.key}','${arrValue}')|" >
-                                        <i th:text="${arrValue}"></i>
+                                       v-bind:class="{selected:sel(&#39;颜色&#39;,&#39;黑色&#39;)}"
+                                       @click="selectSpecification(&#39;颜色&#39;,&#39;黑色&#39;)" >
+                                        <i>黑色</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+							</dl>
+							<dl>
+								<dt>
+									<div class="fl title">
+									    <i>尺码</i>
+								    </div>
+								</dt>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;S&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;S&#39;)" >
+                                        <i>S</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;M&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;M&#39;)" >
+                                        <i>M</i>
+                                        <span title="点击取消选择">&nbsp;</span>
+                                    </a>
+                                </dd>
+                                <dd>
+                                    <a href="javascript:;"
+                                       v-bind:class="{selected:sel(&#39;尺码&#39;,&#39;L&#39;)}"
+                                       @click="selectSpecification(&#39;尺码&#39;,&#39;L&#39;)" >
+                                        <i>L</i>
                                         <span title="点击取消选择">&nbsp;</span>
                                     </a>
                                 </dd>
@@ -806,15 +876,9 @@
 						</ul>
 						<div class="clearfix"></div>
 						<div class="tab-content tab-wraped">
-							<div id="one" class="tab-pane active"  th:utext="${spu.introduction}">
-
-							</div>
-							<div id="two" class="tab-pane" th:utext="${spu.introduction}">
-
-							</div>
-							<div id="three" class="tab-pane" th:utext="${spu.saleService}">
-
-							</div>
+							<div id="one" class="tab-pane active"><img src='https://img10.360buyimg.com/imgzone/jfs/t22522/246/2370625718/870703/3eccce8a/5b7cc8b0Neb5adb9b.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22663/89/2364289102/888192/e25a61e4/5b7cc8b0N6e1fe323.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22960/187/2365990909/405330/f0f27841/5b7cc8b0Nc9dfc9e5.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23281/224/2367473934/134777/9b9ce85c/5b7cc8b0N5edf1e41.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22957/185/2358526927/469893/7330376b/5b7cc8b1N4568f18f.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23233/217/2338973246/686776/5877b643/5b7cc8b1N4d4b8e14.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24388/121/2332789546/611725/989e0147/5b7cc8b1N3a9d860d.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24574/39/2386690791/260031/af136951/5b7cc8b1N89280225.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23923/240/2326603977/528287/657a1bf1/5b7cc8b2N27cd4c8a.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24994/320/778972435/178915/526e7ac8/5b7cc8b2N7f9c5c60.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22474/236/2356281025/347333/5fad3f87/5b7cc8b2N13c48aac.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24655/299/826139232/126809/281aec4/5b7cc8b2Ndc277177.jpg'></div>
+							<div id="two" class="tab-pane"><img src='https://img10.360buyimg.com/imgzone/jfs/t22522/246/2370625718/870703/3eccce8a/5b7cc8b0Neb5adb9b.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22663/89/2364289102/888192/e25a61e4/5b7cc8b0N6e1fe323.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22960/187/2365990909/405330/f0f27841/5b7cc8b0Nc9dfc9e5.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23281/224/2367473934/134777/9b9ce85c/5b7cc8b0N5edf1e41.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22957/185/2358526927/469893/7330376b/5b7cc8b1N4568f18f.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23233/217/2338973246/686776/5877b643/5b7cc8b1N4d4b8e14.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24388/121/2332789546/611725/989e0147/5b7cc8b1N3a9d860d.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24574/39/2386690791/260031/af136951/5b7cc8b1N89280225.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t23923/240/2326603977/528287/657a1bf1/5b7cc8b2N27cd4c8a.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24994/320/778972435/178915/526e7ac8/5b7cc8b2N7f9c5c60.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t22474/236/2356281025/347333/5fad3f87/5b7cc8b2N13c48aac.jpg'><br/><img src='https://img10.360buyimg.com/imgzone/jfs/t24655/299/826139232/126809/281aec4/5b7cc8b2Ndc277177.jpg'></div>
+							<div id="three" class="tab-pane"></div>
 							<div id="four" class="tab-pane">
 								<div class="comment">
 									<div class="com-tit">商品评价</div>
@@ -832,11 +896,11 @@
 										</ul>
 										<div class="content">
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -854,11 +918,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -876,11 +940,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -898,11 +962,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -920,11 +984,11 @@
 												</div>
 											</div>
 											<div class="com-item">
-												<div class="com.changgou.user-column">
+												<div class="user-column">
 													<div class="username"><img src="/img/_/photo.jpg"/>用户****1</div>
 													<div class="usernum">品享值258698</div>
 												</div>
-												<div class="com.changgou.user-info">
+												<div class="user-info">
 													<div class="stars star4"></div>
 													<p>手机还不错，可以的可以的</p>
 													<div class="guige">
@@ -1277,6 +1341,7 @@
 										<a href="#" class="img-wrap"> <img src="../../.../portal/img/like_03.png" height="100" width="100" /> </a>
 										<a class="add-cart-button" href="#" target="_blank">加入购物车</a>
 										<a href="#" target="_blank" class="price">￥498.00</a>
+										<a href="#" target="_blank" class="price">￥498.00</a>
 									</li>
 									<li class="jth-item">
 										<a href="#" class="img-wrap"> <img src="../../../portal/img/like_02.png" height="100" width="100" /></a>
@@ -1329,13 +1394,11 @@
 
 	</div>
 </div>
-
-    <script src="/js/axios.js"></script>
-    <script th:inline="javascript">
+    <script>
         var item = new Vue({
             el: '#itemArray',
             data: {
-                skuList : [[${skuList}]],   //SKU集合
+                skuList : [{"id":"100000062017","sn":"","name":"PASS\u80CC\u5E26\u88E4\u5973\u79CB2018\u65B0\u6B3E\u5BBD\u677E\u5B66\u751F\u9ED1\u8272\u725B\u4ED4\u590D\u53E4\u80CC\u5E26\u8FDE\u4F53\u88E4\u6F6E68318PA15061 \u9ED1\u8272 S","price":85600,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006201700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"Pass","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': 'S'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000062019","sn":"","name":"PAMM\u80CC\u5E26\u88E4\u5973\u79CB2018\u65B0\u6B3E\u5BBD\u677E\u5B66\u751F\u9ED1\u8272\u725B\u4ED4\u590D\u53E4\u80CC\u5E26\u8FDE\u4F53\u88E4\u6F6E68318PA15061 \u9ED1\u8272 M","price":62200,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006201700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"Pass","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': 'M'}","saleNum":0,"commentNum":0,"status":"1"},{"id":"100000062029","sn":"","name":"PASS\u80CC\u5E26\u88E4\u5973\u79CB2018\u65B0\u6B3E\u5BBD\u677E\u5B66\u751F\u9ED1\u8272\u725B\u4ED4\u590D\u53E4\u80CC\u5E26\u8FDE\u4F53\u88E4\u6F6E68318PA15061 \u9ED1\u8272 S","price":36100,"num":10000,"alertNum":100,"image":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","images":"https:\/\/m.360buyimg.com\/mobilecms\/s720x720_jfs\/t24625\/59\/824253378\/168050\/c64db590\/5b7e1263N3a830e17.jpg!q70.jpg.webp","weight":10,"createTime":"2019-05-01T08:00:00.000+08:00","updateTime":"2019-05-01T08:00:00.000+08:00","spuId":"10000006201700","categoryId":0,"categoryName":"\u725B\u4ED4\u88E4","brandName":"Pass","spec":"{'\u989C\u8272': '\u9ED1\u8272', '\u5C3A\u7801': 'S'}","saleNum":0,"commentNum":0,"status":"1"}],   //SKU集合
                 sku:{},                     //当前选中的sku
                 spec:{},                   //选中的sku的规格
                 num:1
@@ -1392,7 +1455,8 @@
 
                 //加入购物车
                 addCart:function(){
-                    location.href = "http://web.changgou.com:9102/wo/wcart/add/" + this.sku.id + "/" + this.num;
+                    // http://localhost:8001/api/wcart/add?id=100000022652&num=5
+                    location.href = "http://localhost:8001/api/wcart/addCart/" + this.sku.id + "?num=" + this.num;
                 },
                 // +
                 addNum:function(){
@@ -1415,7 +1479,6 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
-
             }
         })
     </script>

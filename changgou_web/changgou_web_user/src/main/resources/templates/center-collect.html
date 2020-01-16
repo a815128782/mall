@@ -134,8 +134,8 @@
 					<dl>
 						<dt><i>·</i> 订单中心</dt>
 						<dd ><a th:href="|/api/wuser/user|"  >我的订单</a></dd>
-						<dd><a href="center-order-pay.html" >待付款</a></dd>
-						<dd><a href="center-order-send.html"  >待发货</a></dd>
+						<dd><a th:href="|/api/wuser/pay|" >待付款</a></dd>
+						<dd><a th:href="|/api/wuser/sendt|">待发货</a></dd>
 						<dd><a href="center-order-receive.html" >待收货</a></dd>
 						<dd><a href="center-order-evaluate.html" >待评价</a></dd>
 					</dl>
@@ -160,11 +160,11 @@
 						<ul class="yui3-g"  id="goods-list">
 							<li class="yui3-u-1-4" th:each="sku,skuStat:${list}">
 								<div class="list-wrap">
-									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+									<a th:href="|/api/wuser/toPage/${sku.spuId}|">
 										<div class="p-img"><img th:src="${sku.image}" alt=''></div>
 									</a>
 									<div class="price"><strong><em>¥</em> <i th:text="${sku.price}" ></i></strong></div>
-									<a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'">
+									<a th:href="|/api/wuser/toPage/${sku.spuId}|">
 										<div class="attr"><em th:text="${sku.name}" ></em></div>
 										<div class="cu"><em><span>促</span>满一件可参加超值换购</em></div>
 									</a>
