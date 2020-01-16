@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.changgou.common.entity.R;
 import com.changgou.common.entity.Result;
 import com.changgou.order.feign.OrderFeign;
+import com.changgou.order.pojo.Order;
 import com.changgou.pay.config.RabbitMQConfig;
 import com.changgou.pay.service.AlipayService;
 import com.changgou.pay.service.WXPayService;
@@ -137,6 +138,9 @@ public class WXPayController {
         Map map = wxPayService.queryOrder(orderId);
         return R.T("查询订单",map);
     }
+
+
+    //根据订单id远程调用alipay查询支付宝回调来的支付宝的订单详情(未使用)
     @GetMapping("/aliquery/{orderId}")
     public Result aliqueryOrder(@PathVariable("orderId")String orderId,Model model) {
         Map map = alipayService.queryPayStatus(orderId);
