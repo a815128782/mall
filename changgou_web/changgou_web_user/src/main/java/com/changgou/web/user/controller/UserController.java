@@ -219,4 +219,9 @@ public class UserController {
         return spuId;
     }
 
+    @GetMapping("/justtest")
+    public String toComment(){
+        return "center-order-evaluate";
+    }
+
 }

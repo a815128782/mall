@@ -24,6 +24,17 @@ public class CommentController {
     @Autowired
     private CommentFeign commentFeign;
 
+    /**
+     * 1. 新增评价
+     * @param
+     * @return
+     */
+    @PostMapping("/add/{id}")
+    public Result add(@RequestBody Comment comment,@PathVariable("id")String orderId){
+        commentFeign.add(comment,orderId);
+        return new Result(true, StatusCode.OK,"添加成功");
+    }
+
     @GetMapping("/{id}")
     @ResponseBody
     public int count(@PathVariable("id") String skuId){

@@ -18,6 +18,9 @@ import java.util.Map;
 @FeignClient(name = "comment")
 public interface CommentFeign {
 
+    @PostMapping("/comment/{id}")
+    public Result add(@RequestBody Comment comment,@PathVariable("id")String orderId);
+
     @GetMapping("/comment/count/{id}")
     public Result<Integer> count(@PathVariable("id")String skuId);
 

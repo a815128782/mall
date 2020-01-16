@@ -65,13 +65,13 @@ public class CommentServiceImpl implements CommentService {
    // @GlobalTransactional(name = "Comment_save")
     public void save(Comment comment, String orderId) {
         // 1.获取用户信息
-       String username = tokenDecode.getUserInfo().get("username");
+//       String username = tokenDecode.getUserInfo().get("username");
         // 公共信息
-        comment.setUsername(username);
+        comment.setUsername("username");
         comment.setOrderId(orderId);
         comment.setCommentDate(new Date());
 
-        User user = userFeign.findUserInfo(username);
+        User user = userFeign.findUserInfo("heima");
         comment.setUserLevel(user.getUserLevel());
         comment.setHeadPic(user.getHeadPic());
         // 对于每一个orderItem都给相同的评论

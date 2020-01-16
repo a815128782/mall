@@ -23,7 +23,7 @@ public interface OrderItemFeign {
      * @param searchMap
      * @return
      */
-    @PostMapping(value = "/orderItem/search" )
+    @PostMapping("/orderItem/search" )
     public Result<List<OrderItem>> findList(@RequestBody Map searchMap);
 
     @GetMapping("/orderItem/{id}")

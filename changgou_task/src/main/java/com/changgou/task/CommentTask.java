@@ -17,7 +17,7 @@ public class CommentTask {
 
 //     */5 * * * * ?
     // "0 0 2 * * ?"  // 每天两点
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     public void autoUpdateSkuComment() {
         rabbitTemplate.convertAndSend("", RabbitMQConfig.COMMENT_TACK,"-");
     }

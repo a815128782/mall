@@ -32,7 +32,7 @@ public class CommentController {
 
     /**
      * 1. 新增评价
-     * @param comment
+     * @param
      * @return
      */
     @PostMapping("/{id}")
