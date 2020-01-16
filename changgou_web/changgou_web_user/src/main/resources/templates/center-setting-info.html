@@ -10,9 +10,6 @@
 
 	<link rel="stylesheet" type="text/css" href="/css/all.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
-	<script src="js/plugins/jquery/jquery.min.js"></script>
-	<script src="js/plugins/sui/sui.min.js"></script>
-	<script src="js/address.js"></script>
 
 	<script src="/js/vue.js"></script>
 	<script src="/js/axios.js"></script>
@@ -94,7 +91,7 @@
 								</li>
 								<li class="f-item">
 									<span th:unless="${username ==null}">
-										<a th:href="|/api/wuser/user|" >个人中心</a>
+										<a th:href="|/api/wuser/user|">个人中心</a>
 									</span>
 								</li>
 								<li class="f-item">
@@ -120,7 +117,6 @@
 									<span>网站导航</span></li>
 							</ul>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -144,7 +140,6 @@
 								</form>
 							</div>
 						</div>
-
 					</div>
 
 				</div>
@@ -160,9 +155,9 @@
 				<div class="yui3-u-1-6 list">
 
 					<div class="person-info">
-						<div class="person-photo"><img src="http://192.168.200.128:8080/group1/M00/00/00/wKjIgF4fMhqAUqb_AAobTYlR3js265.jpg" style="width: 48px;height: 48px" alt=""></div>
+						<div class="person-photo"><img src="/img/_/photo.png" alt=""></div>
 						<div class="person-account">
-							<span class="name" th:text="${username}"></span>
+							<span class="name">Michelle</span>
 							<span class="safe">账户安全</span>
 						</div>
 						<div class="clearfix"></div>
@@ -171,24 +166,21 @@
 						<dl>
 							<dt><i>·</i> 订单中心</dt>
 							<dd><a th:href="|/api/wuser/user|">我的订单</a></dd>
-							<dd><a th:href="|/api/wuser/pay|">待付款</a></dd>
+							<dd><a th:href="|/api/wuser/pay|" >待付款</a></dd>
 							<dd><a th:href="|/api/wuser/sendt|">待发货</a></dd>
-							<dd><a href="center-order-receive.html">待收货</a></dd>
+							<dd><a th:href="|/api/wuser/receive|">待收货</a></dd>
 							<dd><a href="center-order-evaluate.html">待评价</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 我的中心</dt>
-							<dd><a th:href="|/api/wcollect/list|" >我的收藏</a></dd>
-							<dd><a th:href="|/api/wcollect/list2FootMark|" >我的足迹</a></dd>
-						</dl>
-						<dl>
-							<dt><i>·</i> 物流消息</dt>
+							<dd><a th:href="|/api/wcollect/list|">我的收藏</a></dd>
+							<dd><a th:href="|/api/wcollect/list2FootMark|">我的足迹</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a th:href="|/api/wcenter/toCenterInfo|" class="list-active">个人信息</a></dd>
+							<dd><a th:href="|/api/wcenter/toCenterInfo|">个人信息</a></dd>
 							<dd><a th:href="|/api/waddress/toCenterAddress|">地址管理</a></dd>
-							<dd><a th:href="|/api/wcenter/toSafe|">安全管理</a></dd>
+							<dd><a th:href="@{/api/wcenter/toSafe}" class="list-active">安全管理</a></dd>
 						</dl>
 					</div>
 				</div>
@@ -337,8 +329,6 @@
 							</template>
 
 
-								</div>
-							</div>
 						</div>
 
 					</div>
@@ -479,9 +469,6 @@
 		</div>
 	</div>
 	<!--页面底部END-->
-
-
-
 </body>
 
 
@@ -539,7 +526,6 @@
             },
             updateCenter(){
                 axios.put("/api/wcenter/updateCenter",this.center).then((res)=> {
-						alert("修改完成");
                         loaction.href = "center-setting-info.html";
 
                 })
