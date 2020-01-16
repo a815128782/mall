@@ -273,7 +273,7 @@
                 let orderId = [[${out_trade_no}]]//订单号
                 alert(orderId);
                 if (d.body == orderId) {
-                    location.href="/api/wxpay/toSuccess?payMoney="+[[${total_fee}]] //参数支付金额
+                    location.href="/api/wxpay/toSuccess?payMoney="+[[${total_fee}]]+"&orderId="+[[${out_trade_no}]] //参数支付金额
                 }
             });
         };

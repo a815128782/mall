@@ -137,6 +137,12 @@ public class WXPayController {
         Map map = wxPayService.queryOrder(orderId);
         return R.T("查询订单",map);
     }
+    @GetMapping("/aliquery/{orderId}")
+    public Result aliqueryOrder(@PathVariable("orderId")String orderId,Model model) {
+        Map map = alipayService.queryPayStatus(orderId);
+        model.addAllAttributes(map);
+        return R.T("查询订单",map);
+    }
 
     @PutMapping("/close/{orderId}")
     public Result closeOrder(@PathVariable("orderId")String orderId) {

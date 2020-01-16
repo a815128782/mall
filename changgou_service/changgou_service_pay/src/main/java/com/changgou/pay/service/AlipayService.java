@@ -16,4 +16,6 @@ public interface AlipayService {
      * @return
      */
     public Map queryPayStatus(String out_trade_no);
+
+    void alipayRefund (String outTradeNo, String tradeNo, String refundAmount, String refundReason, String outRequestNo);
 }

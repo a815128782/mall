@@ -93,10 +93,9 @@ public class PayController {
     }
 
     @RequestMapping("/toSuccess")
-    public String toSuccess(Integer payMoney,Model model) {
+    public String toSuccess(Integer payMoney,String orderId,Model model) {
+        model.addAttribute("orderId",orderId);
         model.addAttribute("payMoney",payMoney);
-        String username = (String) userFeign.getUsername().getData();
-        model.addAttribute("username",username);
         return "success";
     }
 

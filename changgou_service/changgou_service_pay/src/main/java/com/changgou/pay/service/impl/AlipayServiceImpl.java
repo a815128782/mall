@@ -1,12 +1,17 @@
 package com.changgou.pay.service.impl;
 
+import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
+import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
+import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
 import com.alipay.demo.trade.model.builder.AlipayTradePrecreateRequestBuilder;
+import com.alipay.demo.trade.model.builder.AlipayTradeQueryRequestBuilder;
 import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
+import com.alipay.demo.trade.model.result.AlipayF2FQueryResult;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.changgou.pay.service.AlipayService;
@@ -79,7 +84,6 @@ public class AlipayServiceImpl implements AlipayService{
 //                    response.getOutTradeNo());
 //                log.info("filePath:" + filePath);
                 //                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
-
                 map.put("code_url", response.getQrCode());//生成支付二维码的链接
                 map.put("out_trade_no", out_trade_no);
                 map.put("total_fee", total_fee);
@@ -113,6 +117,49 @@ public class AlipayServiceImpl implements AlipayService{
 
     @Override
     public Map queryPayStatus(String out_trade_no) {
+        // (必填) 商户订单号，通过此商户订单号查询当面付的交易状态
+        String outTradeNo = out_trade_no;
+
+        // 创建查询请求builder，设置请求参数
+        AlipayTradeQueryRequestBuilder builder = new AlipayTradeQueryRequestBuilder()
+                .setOutTradeNo(outTradeNo);
+        Configs.init("zfbinfo.properties");
+
+        AlipayTradeService tradeService = new AlipayTradeServiceImpl.ClientBuilder().build();
+        AlipayF2FQueryResult result = tradeService.queryTradeResult(builder);
+        //判断支付状态
+        switch (result.getTradeStatus()) {
+            case SUCCESS:
+                log.info("查询返回该订单支付成功: )");
+
+                AlipayTradeQueryResponse response = result.getResponse();
+                dumpResponse(response);
+
+                log.info(response.getTradeStatus());
+                Map map=new HashMap();
+                map.put("tradeStatus", response.getTradeStatus());
+                map.put("totalAmount", response.getTotalAmount());
+                map.put("tradeNo", response.getTradeNo());
+                return map;
+            case FAILED:
+                log.error("查询返回该订单支付失败或被关闭!!!");
+                break;
+
+            case UNKNOWN:
+                log.error("系统异常，订单支付状态未知!!!");
+                break;
+
+            default:
+                log.error("不支持的交易状态，交易返回异常!!!");
+                break;
+        }
         return null;
+    }
+/**
+ * 支付宝订单退款
+ */
+    public void alipayRefund(String outTradeNo, String tradeNo, String refundAmount, String refundReason, String outRequestNo) {
+        log.info("支付宝退款开始---------");
+       return;
     }
 }

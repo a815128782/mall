@@ -1,8 +1,11 @@
 package com.changgou.web.user.controller;
 
 import com.changgou.common.entity.Result;
+import com.changgou.common.entity.StatusCode;
 import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.pojo.Vo;
+import com.changgou.pay.feign.PayFeign;
+import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +44,9 @@ public class UserController {
 
     @Autowired
     private OrderFeign orderFeign;
+
+    @Autowired
+    private PayFeign payFeign;
     @Autowired
     UserFeign userFeign;
     @Autowired
@@ -171,6 +177,14 @@ public class UserController {
         CookieUtil.addCookie(response,"localhost","/","username","123",0,false);
         CookieUtil.addCookie(response,"localhost","/","uid","123",0,false);
         return "index";
+    }
+
+    @GetMapping("/myOrder")
+    public String myOrder(Model model,String orderId){
+        Result result = payFeign.aliqueryOrder(orderId);
+        Map map = (Map) result.getData();
+        model.addAllAttributes(map);
+        return "myOrder";
     }
 
     @GetMapping("/toPage/{spuId}")
