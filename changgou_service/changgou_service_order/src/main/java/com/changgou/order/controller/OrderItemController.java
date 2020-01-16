@@ -3,6 +3,7 @@ package com.changgou.order.controller;
 import com.changgou.common.entity.PageResult;
 import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
+import com.changgou.order.config.TokenDecode;
 import com.changgou.order.pojo.OrderItem;
 import com.changgou.order.service.OrderItemService;
 import com.github.pagehelper.Page;
@@ -20,6 +21,10 @@ public class OrderItemController {
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    private TokenDecode tokenDecode;
+
 
     /**
      * 查询全部数据
@@ -41,6 +46,13 @@ public class OrderItemController {
         OrderItem orderItem = orderItemService.findById(id);
         return new Result(true, StatusCode.OK,"查询成功",orderItem);
     }
+
+//    根基username查询支付状态
+//    @GetMapping("/unpiod/{username}")
+//    public Result unpiod(@PathVariable String username){
+//        OrderItem orderItem = orderItemService.findPayByUsername(username);
+//        return new Result(true, StatusCode.OK,"查询成功",orderItem);
+//    }
 
 
     /***

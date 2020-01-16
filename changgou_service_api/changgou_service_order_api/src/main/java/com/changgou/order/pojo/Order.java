@@ -3,6 +3,7 @@ package com.changgou.order.pojo;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * order实体类
@@ -15,9 +16,6 @@ public class Order implements Serializable {
 	@Id
 	private String id;//订单id
 
-
-
-	
 	private Integer totalNum;//数量合计
 	private Integer totalMoney;//金额合计
 	private Integer preMoney;//优惠金额
@@ -44,8 +42,16 @@ public class Order implements Serializable {
 	private String payStatus;//支付状态
 	private String consignStatus;//发货状态
 	private String isDelete;//是否删除
+	private List<OrderItem> OrderItem;//订单详情
 
-	
+	public List<com.changgou.order.pojo.OrderItem> getOrderItem() {
+		return OrderItem;
+	}
+
+	public void setOrderItem(List<com.changgou.order.pojo.OrderItem> orderItem) {
+		OrderItem = orderItem;
+	}
+
 	public String getId() {
 		return id;
 	}

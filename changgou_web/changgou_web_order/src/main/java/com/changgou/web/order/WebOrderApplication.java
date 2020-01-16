@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean;
                                     "com.changgou.user.feign",
                                     "com.changgou.goods.feign",
                                     "com.changgou.pay.feign"})
-public class WebOrderApplication {
+public class  WebOrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebOrderApplication.class, args);
     }

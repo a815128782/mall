@@ -21,6 +21,8 @@ import com.changgou.common.util.CookieUtil;
 import com.changgou.common.util.SMSUtils;
 import com.changgou.common.util.ValidateCodeUtils;
 import com.changgou.order.feign.CartFeign;
+import com.changgou.order.feign.OrderFeign;
+import com.changgou.order.pojo.OrderList;
 import com.changgou.user.feign.UserFeign;
 import com.changgou.user.pojo.User;
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -44,7 +47,10 @@ public class UserController {
 
     @Autowired
     private OrderFeign orderFeign;
-
+    @Autowired
+    UserFeign userFeign;
+    @Autowired
+    CartFeign cartFeign;
 
     @RequestMapping("/user")
     public String userCenter(Model model){
@@ -74,12 +80,39 @@ public class UserController {
 
     public static final String VALIDATECODE="validateCode_";
 
-    @Autowired
-    UserFeign userFeign;
-    @Autowired
-    CartFeign cartFeign;
+
+
+
     @Autowired
     RedisTemplate redisTemplate;
+
+
+
+  /*  @RequestMapping("/user")
+    public String userCenter(Model model){
+
+        List<Vo> voList = orderFeign.findOrderByUserName().getData();
+
+        model.addAttribute( "voList",voList);
+
+        return "center-index";
+    }*/
+
+    @RequestMapping("/pay")
+    private String undaip(Model model){
+        List<OrderList> orderLists = orderFeign.myOrder().getData();
+        model.addAttribute("orderLists",orderLists);
+//        List<Vo> voList = orderFeign.findOrderByUserName().getData();
+//
+//        model.addAttribute( "voList",voList);
+        return "center-order-pay";
+    }
+    @RequestMapping("/sendt")
+    private String receive(Model model){
+        List<OrderList> orderLists = orderFeign.myOrder().getData();
+        model.addAttribute("orderLists",orderLists);
+        return "center-order-send";
+    }
 
     @RequestMapping("/index")
     public String toIndex(Model model, HttpServletRequest request) {
