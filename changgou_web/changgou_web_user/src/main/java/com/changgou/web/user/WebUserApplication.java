@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 @EnableEurekaClient
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"com.changgou.user.feign","com.changgou.order.feign"})
+
 public class WebUserApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebUserApplication.class, args);
@@ -18,6 +19,7 @@ public class WebUserApplication {
 
     @Bean
     public FeignInterceptor feignInterceptor() {
+
         return new FeignInterceptor();
     }
 

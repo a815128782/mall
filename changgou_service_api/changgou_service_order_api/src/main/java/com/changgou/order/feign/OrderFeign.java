@@ -2,6 +2,7 @@ package com.changgou.order.feign;
 
 import com.changgou.common.entity.Result;
 import com.changgou.order.pojo.Order;
+import com.changgou.order.pojo.OrderList;
 import com.changgou.order.pojo.Vo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.ui.Model;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -39,4 +42,8 @@ public interface OrderFeign {
      */
     @PutMapping("/order/comment/{id}")
     public Result updateOrderCommentStatus(@PathVariable("id") String orderId);
+
+    @GetMapping("/order/pay")
+    public Result<List<OrderList>> myOrder();
+
 }
