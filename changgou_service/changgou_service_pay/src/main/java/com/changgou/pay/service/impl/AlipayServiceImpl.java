@@ -1,10 +1,14 @@
 package com.changgou.pay.service.impl;
 
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeRefundModel;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.alipay.demo.trade.config.Configs;
 import com.alipay.demo.trade.model.ExtendParams;
 import com.alipay.demo.trade.model.GoodsDetail;
@@ -159,7 +163,39 @@ public class AlipayServiceImpl implements AlipayService{
  * 支付宝订单退款
  */
     public void alipayRefund(String outTradeNo, String tradeNo, String refundAmount, String refundReason, String outRequestNo) {
-        log.info("支付宝退款开始---------");
-       return;
+        /*log.info("支付宝退款开始---------");
+        AlipayClient alipayClient = this.getAliPayClient();
+        //订单编号,支付宝交易号不为空
+        if (outTradeNo != null && tradeNo != null) {
+            AlipayTradeRefundRequest aliPayRequest = new AlipayTradeRefundRequest();
+            AlipayTradeRefundModel model = new AlipayTradeRefundModel();
+            model.setOutTradeNo(outTradeNo);
+            model.setTradeNo(tradeNo);
+            model.setRefundAmount(refundAmount);
+            model.setRefundReason(refundReason);
+            model.setOutRequestNo(outRequestNo);
+            aliPayRequest.setBizModel(model);
+            try {
+                AlipayTradeRefundResponse aliPayResponse = alipayClient.execute(aliPayRequest);
+                log.debug("aliPayResponse:{}", aliPayResponse);
+                if (!"10000".equals(aliPayResponse.getCode())) {
+                    log.info("支付宝退款失败，支付宝交易号：{+"+tradeNo+"+}");
+                    throw new RuntimeException("退款失败");
+                }
+            } catch (AlipayApiException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
+
+    /**
+     * 获取支付宝Client
+     *
+     * @return
+     */
+    /*private AlipayClient getAliPayClient() {
+        return new DefaultAlipayClient(
+                AliPayProperties.GATEWAY_URL, AliPayProperties.APP_ID, AliPayProperties.PRIVATE_KEY, AliPayProperties.FORMAT,
+                AliPayProperties.CHARSET, AliPayProperties.PUBLIC_KEY, AliPayProperties.SIGN_TYPE);
+    }*/
 }
