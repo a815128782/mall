@@ -58,65 +58,26 @@
 			<div class="top">
 				<div class="py-container">
 					<div class="shortcut">
-						<ul class="fl" th:unless="${username != null}">
+						<ul class="fl">
 							<li class="f-item">畅购欢迎您！</li>
-							<li class="f-item">请
-								<a
-										th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
-										target="_self">登录</a>
-								<span>
-									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
-								</span>
-							</li>
-						</ul>
-						<ul class="fl" th:unless="${username == null}">
-							<li class="f-item">畅购欢迎您！</li>
-							<li class="f-item">
-								<em th:text="${username}" style="color: #ff3835"></em>
-								<span>
-									<a th:href="|/api/wuser/exit|">退出</a>
-								</span>
-							</li>
+							<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a
+										href="register.html" target="_blank">免费注册</a></span></li>
 						</ul>
 						<div class="fr typelist">
 							<ul class="types">
-								<li class="f-item">
-									<span>我的订单</span>
-								</li>
+								<li class="f-item"><span>我的订单</span></li>
 
-								<li class="f-item">
-									<span>
-										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span th:unless="${username ==null}">
-										<a th:href="|/api/wuser/user|">个人中心</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>畅购会员</span>
-								</li>
-								<li class="f-item">
-									<span>企业采购</span>
-								</li>
-								<li class="f-item">
-									<span>关注畅购</span>
-								</li>
-								<li class="f-item">
-									<span>
-										<a href="cooperation.html" target="_blank">合作招商</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>
-										<a href="shoplogin.html" target="_blank">商家后台</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>网站导航</span></li>
+								<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
+								<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
+								<li class="f-item"><span>畅购会员</span></li>
+								<li class="f-item"><span>企业采购</span></li>
+								<li class="f-item"><span>关注畅购</span></li>
+								<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
+								<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
+								<li class="f-item"><span>网站导航</li>
 							</ul>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -126,20 +87,20 @@
 				<div class="py-container">
 					<div class="yui3-g Logo">
 						<div class="yui3-u Left logoArea">
-							<a class="logo-bd" title="畅购" th:href="@{/api/wuser/index}"></a>
+							<a class="logo-bd" title="畅购" href="index.html" target="_blank"></a>
 						</div>
 						<div class="yui3-u Rit searchArea">
 							<div class="search">
-								<form th:action="@{/api/search/list}" class="sui-form form-inline">
+								<form action="" class="sui-form form-inline">
+									<!--searchAutoComplete-->
 									<div class="input-append">
-										<input th:type="text" id="autocomplete" name="keyWords"
-											   class="input-error input-xxlarge"/>
-										<button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
-										</button>
+										<input type="text" id="autocomplete" class="input-error input-xxlarge" />
+										<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
 									</div>
 								</form>
 							</div>
 						</div>
+
 					</div>
 
 				</div>
@@ -150,14 +111,20 @@
 	<!--header-->
 	<div id="account">
 		<div class="py-container">
-			<div class="yui3-g home">
+			<div class="yui3-g home" id="app">
 				<!--左侧列表-->
-				<div class="yui3-u-1-6 list">
+				<div class="yui3-u-1-6 list" >
 
 					<div class="person-info">
-						<div class="person-photo"><img src="/img/_/photo.png" alt=""></div>
+						<div class="person-photo">
+							<template>
+										<div class="demo-basic--circle" >
+												<el-avatar :size="medium" :src="imageUrl"></el-avatar>
+										</div>
+							</template>
+						</div>
 						<div class="person-account">
-							<span class="name">Michelle</span>
+							<span class="name" >{{center.nick_name}}</span>
 							<span class="safe">账户安全</span>
 						</div>
 						<div class="clearfix"></div>
@@ -165,27 +132,31 @@
 					<div class="list-items">
 						<dl>
 							<dt><i>·</i> 订单中心</dt>
-							<dd><a th:href="|/api/wuser/user|">我的订单</a></dd>
-							<dd><a th:href="|/api/wuser/pay|" >待付款</a></dd>
-							<dd><a th:href="|/api/wuser/sendt|">待发货</a></dd>
-							<dd><a th:href="|/api/wuser/receive|">待收货</a></dd>
+							<dd><a href="center-index.html">我的订单</a></dd>
+							<dd><a href="center-order-pay.html">待付款</a></dd>
+							<dd><a href="center-order-send.html">待发货</a></dd>
+							<dd><a href="center-order-receive.html">待收货</a></dd>
 							<dd><a href="center-order-evaluate.html">待评价</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 我的中心</dt>
-							<dd><a th:href="|/api/wcollect/list|">我的收藏</a></dd>
-							<dd><a th:href="|/api/wcollect/list2FootMark|">我的足迹</a></dd>
+							<dd><a href="center-collect.html">我的收藏</a></dd>
+							<dd><a href="center-footmark.html">我的足迹</a></dd>
+
+						</dl>
+						<dl>
+							<dt><i>·</i> 物流消息</dt>
 						</dl>
 						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a th:href="|/api/wcenter/toCenterInfo|">个人信息</a></dd>
-							<dd><a th:href="|/api/waddress/toCenterAddress|">地址管理</a></dd>
-							<dd><a th:href="@{/api/wcenter/toSafe}" class="list-active">安全管理</a></dd>
+							<dd><a href="/api/wcenter/findCenter" class="list-active">个人信息</a></dd>
+							<dd><a href="center-setting-address.html">地址管理</a></dd>
+							<dd><a href="center-setting-safe.html">安全管理</a></dd>
 						</dl>
 					</div>
 				</div>
 				<!--右侧主内容-->
-				<div class="yui3-u-5-6" id="app" v-model="center">
+				<div class="yui3-u-5-6" v-model="center">
 					<div class="body userInfo">
 						<!--<ul class="sui-nav nav-tabs nav-large nav-primary ">
 							<li class="active"><a href="#one" data-toggle="tab">基本资料</a></li>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,9 +43,13 @@ public class CommentController {
         return new Result(true, StatusCode.OK,"查询成功",data);
     }
 
-    @PostMapping("/page/{pageNumber}/{pageSize}")
+    @RequestMapping("/page/{pageNumber}/{pageSize}/{skuId}/{condition}")
     @ResponseBody
-    public Result list(@RequestBody Map<String,String> searchMap, @PathVariable("pageNumber")Integer pageNumber, @PathVariable("pageSize")Integer pageSize){
+    public Result list(@PathVariable("pageNumber")Integer pageNumber, @PathVariable("pageSize")Integer pageSize,
+                       @PathVariable("skuId")String skuId,@PathVariable("condition")String condition){
+        Map<String,String> searchMap = new HashMap<>();
+        searchMap.put("skuId",skuId);
+        searchMap.put("condition",condition);
         PageResult<Comment> pageResult = commentFeign.list(searchMap, pageNumber, pageSize).getData();
         List<Comment> commentList = pageResult.getRows();
         return new Result(true,StatusCode.OK,"查询成功",commentList);

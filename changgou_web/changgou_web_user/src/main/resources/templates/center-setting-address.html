@@ -30,65 +30,26 @@
 			<div class="top">
 				<div class="py-container">
 					<div class="shortcut">
-						<ul class="fl" th:unless="${username != null}">
+						<ul class="fl">
 							<li class="f-item">畅购欢迎您！</li>
-							<li class="f-item">请
-								<a
-										th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
-										target="_self">登录</a>
-								<span>
-									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
-								</span>
-							</li>
-						</ul>
-						<ul class="fl" th:unless="${username == null}">
-							<li class="f-item">畅购欢迎您！</li>
-							<li class="f-item">
-								<em th:text="${username}" style="color: #ff3835"></em>
-								<span>
-									<a th:href="|/api/wuser/exit|">退出</a>
-								</span>
-							</li>
+							<li class="f-item">请<a href="login.html" target="_blank">登录</a>　<span><a
+										href="register.html" target="_blank">免费注册</a></span></li>
 						</ul>
 						<div class="fr typelist">
 							<ul class="types">
-								<li class="f-item">
-									<span>我的订单</span>
-								</li>
+								<li class="f-item"><span>我的订单</span></li>
 
-								<li class="f-item">
-									<span>
-										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span th:unless="${username ==null}">
-										<a th:href="|/api/wuser/user|" >个人中心</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>畅购会员</span>
-								</li>
-								<li class="f-item">
-									<span>企业采购</span>
-								</li>
-								<li class="f-item">
-									<span>关注畅购</span>
-								</li>
-								<li class="f-item">
-									<span>
-										<a href="cooperation.html" target="_blank">合作招商</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>
-										<a href="shoplogin.html" target="_blank">商家后台</a>
-									</span>
-								</li>
-								<li class="f-item">
-									<span>网站导航</span></li>
+								<li class="f-item"><span><a href="cart.html" target="_blank">我的购物车</a></span></li>
+								<li class="f-item"><span><a href="home.html" target="_blank">我的畅购</a></span></li>
+								<li class="f-item"><span>畅购会员</span></li>
+								<li class="f-item"><span>企业采购</span></li>
+								<li class="f-item"><span>关注畅购</span></li>
+								<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
+								<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
+                                <li class="f-item"><span>网站导航</span></li>
 							</ul>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -98,16 +59,15 @@
 				<div class="py-container">
 					<div class="yui3-g Logo">
 						<div class="yui3-u Left logoArea">
-							<a class="logo-bd" title="畅购" th:href="|/api/wuser/index|" ></a>
+							<a class="logo-bd" title="畅购" href="index.html" target="_blank"></a>
 						</div>
 						<div class="yui3-u Rit searchArea">
 							<div class="search">
-								<form th:action="@{/api/search/list}" class="sui-form form-inline">
+								<form action="" class="sui-form form-inline">
+									<!--searchAutoComplete-->
 									<div class="input-append">
-										<input th:type="text" id="autocomplete" name="keyWords"
-											   class="input-error input-xxlarge"/>
-										<button class="sui-btn btn-xlarge btn-danger" th:type="submit">搜索
-										</button>
+										<input type="text" id="autocomplete" class="input-error input-xxlarge" />
+										<button class="sui-btn btn-xlarge btn-danger" type="button">搜索</button>
 									</div>
 								</form>
 							</div>
@@ -128,9 +88,9 @@
 				<div class="yui3-u-1-6 list">
 
 					<div class="person-info">
-						<div class="person-photo"><img src="http://192.168.200.128:8080/group1/M00/00/00/wKjIgF4fMhqAUqb_AAobTYlR3js265.jpg" style="width: 48px;height: 48px" alt=""></div>
+						<div class="person-photo"><img src="/img/_/photo.png" alt=""></div>
 						<div class="person-account">
-							<span class="name" th:text="${username}"></span>
+							<span class="name">Michelle</span>
 							<span class="safe">账户安全</span>
 						</div>
 						<div class="clearfix"></div>
@@ -138,22 +98,25 @@
 					<div class="list-items">
 						<dl>
 							<dt><i>·</i> 订单中心</dt>
-							<dd><a th:href="|/api/wuser/user|">我的订单</a></dd>
-							<dd><a th:href="|/api/wuser/pay|" >待付款</a></dd>
-							<dd><a th:href="|/api/wuser/sendt|">待发货</a></dd>
-							<dd><a th:href="|/api/wuser/receive|">待收货</a></dd>
+							<dd><a href="center-index.html">我的订单</a></dd>
+							<dd><a href="center-order-pay.html">待付款</a></dd>
+							<dd><a href="center-order-send.html">待发货</a></dd>
+							<dd><a href="center-order-receive.html">待收货</a></dd>
 							<dd><a href="center-order-evaluate.html">待评价</a></dd>
 						</dl>
 						<dl>
 							<dt><i>·</i> 我的中心</dt>
-							<dd><a th:href="|/api/wcollect/list|">我的收藏</a></dd>
-							<dd><a th:href="|/api/wcollect/list2FootMark|">我的足迹</a></dd>
+							<dd><a href="center-collect.html">我的收藏</a></dd>
+							<dd><a href="center-footmark.html">我的足迹</a></dd>
+						</dl>
+						<dl>
+							<dt><i>·</i> 物流消息</dt>
 						</dl>
 						<dl>
 							<dt><i>·</i> 设置</dt>
-							<dd><a th:href="|/api/wcenter/toCenterInfo|">个人信息</a></dd>
-							<dd><a th:href="|/api/waddress/toCenterAddress|" class="list-active">地址管理</a></dd>
-							<dd><a th:href="@{/api/wcenter/toSafe}" >安全管理</a></dd>
+							<dd><a href="center-setting-info.html">个人信息</a></dd>
+							<dd><a href="center-setting-address.html" class="list-active">地址管理</a></dd>
+							<dd><a href="center-setting-safe.html">安全管理</a></dd>
 						</dl>
 					</div>
 				</div>
@@ -224,7 +187,7 @@
                                                             <el-select v-model="address.province"
 																	   style="margin-left: 5px;"
 																	   placeholder="请选择"
-																	   @change="findCitiesList(address.province)">
+																	   @change="findCitiesList1(address.province)">
                                                                 <el-option
                                                                         v-for="province in provincesList"
                                                                         :key="province.provinceid"
@@ -238,7 +201,7 @@
                                                                     collapse-tags
                                                                     style="margin-left: 5px;"
                                                                     placeholder="请选择"
-                                                                    @change="findAreasList(address.city)">
+                                                                    @change="findAreasList1(address.city)">
                                                                 <el-option
                                                                         v-for="city in citiesList"
                                                                         :key="city.cityid"
@@ -302,7 +265,8 @@
 									<el-tabs type="card">
 										<el-tab-pane label="基本信息" >
 											<el-form ref="dataAddForm" :model="address"
-													 label-position="right" label-width="100px">
+													 label-position="right" label-width="100px"
+													 :rules="rules">
 												<el-row>
 													<el-col :span="12">
 														<el-form-item label="联系人" >
@@ -364,8 +328,8 @@
 												</el-row>
 												<el-row>
 													<el-col :span="12">
-														<el-form-item label="电话">
-															<el-input v-model="address.phone"/>
+														<el-form-item label="电话" prop="phone">
+															<el-input @blur="qwer" v-model="address.phone"/>
 														</el-form-item>
 													</el-col>
 												</el-row>
@@ -542,7 +506,7 @@
         			phone: null,//电话
         			address: null,//详细地址
         			contact: null,//联系人
-        			isDefault: "1",//是否是默认 1默认 0否
+        			isDefault: "0",//是否是默认 1默认 0否
         			alias: null,//别名
                     totalAddress: null,//总地址
                 },
@@ -570,12 +534,8 @@
                     axios.get("/api/wcenter/findProvincesList").then((res)=> {
                         if (res.data.success) {
                             this.provincesList = res.data.data;
-                            if (this.address.province==null){
                                 this.address.province=res.data.data[0].province;
                                 this.findCitiesList(res.data.data[0].province);
-                            }else {
-                                this.findCitiesList(this.address.province);
-                            }
                             }
                     })
                 },
@@ -583,14 +543,8 @@
                     axios.get("/api/wcenter/findCitiesList?province="+province).then((res)=> {
                         if (res.data.success) {
                             this.citiesList = res.data.data;
-                            if (this.address.city==null){
                                 this.address.city=res.data.data[0].city;
                                 this.findAreasList(res.data.data[0].city);
-							}else {
-                                this.findAreasList(this.address.city);
-							}
-
-
                         }
                     })
                 },
@@ -598,10 +552,24 @@
                     axios.get("/api/wcenter/findAreasList?city="+city).then((res)=> {
                         if (res.data.success) {
                             this.areasList = res.data.data;
-                            if (this.address.area==null){
-                                this.address.area=res.data.data[0].area;
-							}
-
+							this.address.area=res.data.data[0].area;
+                        }
+                    })
+                },
+                findCitiesList1(province){
+                    axios.get("/api/wcenter/findCitiesList?province="+province).then((res)=> {
+                        if (res.data.success) {
+                            this.citiesList = res.data.data;
+                            this.address.city=res.data.data[0].city;
+                            this.findAreasList1(res.data.data[0].city);
+                        }
+                    })
+                },
+                findAreasList1(city){
+                    axios.get("/api/wcenter/findAreasList?city="+city).then((res)=> {
+                        if (res.data.success) {
+                            this.areasList = res.data.data;
+                            this.address.area=res.data.data[0].area;
 
                         }
                     })
@@ -615,14 +583,18 @@
                 resetForm() {
                     this.address = {};
                 },
-                handleEdit(){
-                    axios.put("/api/waddress/update",this.address).then((res)=> {
-                        if (res.data.success) {
-                            alert("修改成功");
-                            this.dialogFormVisible4Edit=false;
-                            this.findAll();
-                        }
-                    })
+                handleEdit(){var testStr = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
+                    if(!(testStr.test(this.address.phone))){
+                        alert("请输入正确的手机号")
+                    }else {
+                        axios.put("/api/waddress/update", this.address).then((res) => {
+                            if (res.data.success) {
+                                alert("修改成功");
+                                this.dialogFormVisible4Edit = false;
+                                this.findAll();
+                            }
+                        })
+                    }
                 },
                 handleDelete(row){
                     axios.delete("/api/waddress/delete?id="+row.id).then((res)=> {
@@ -641,13 +613,35 @@
                         }
                     })
 				},
+				qwer(){
+
+                  var testStr = /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/;
+                  if(!(testStr.test(this.address.phone))){
+                      alert("请输入正确的手机号")
+				  }
+				},
                 handleUpdate(row){
                     this.dialogFormVisible4Edit = true;
                     axios.get("/api/waddress/findById?id="+row.id).then((res)=> {
                         if (res.data.success) {
                             this.address = res.data.data;
-                            this.findProvincesList();
-                        }
+                            axios.get("/api/wcenter/findProvincesList").then((res)=> {
+                                if (res.data.success) {
+                                    this.provincesList = res.data.data;
+                                }
+                            });
+                            axios.get("/api/wcenter/findCitiesList?province="+this.address.province).then((res)=> {
+                                if (res.data.success) {
+                                    this.citiesList = res.data.data;
+                                }
+                            })
+                            axios.get("/api/wcenter/findAreasList?city="+this.address.city).then((res)=> {
+                                if (res.data.success) {
+                                    this.areasList = res.data.data;
+                                }
+                            })
+
+                    }
                     })
 				},
                 handIsDefault(row){
@@ -657,7 +651,23 @@
                         }
                     })
 				}
-            }
+            },
+            // data(){
+             //    var validatephone = (rule, value, callback) => {
+             //        if (value .size()==11) {
+            //
+             //        } else {
+             //            callback(new Error('请输入正确电话'));
+			// 		}
+             //    };
+             //    return {
+             //        rules: {
+             //            pass: [
+             //                { validator: validatephone, trigger: 'blur' }
+             //            ]
+             //        }
+             //    };
+			// }
         })
 	</script>
 
