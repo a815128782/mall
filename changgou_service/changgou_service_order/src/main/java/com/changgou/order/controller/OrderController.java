@@ -68,6 +68,37 @@ public class OrderController implements OrderApi {
     }
 
     /*
+    *  根据用户Id修改发货状态
+    *
+    * */
+    @RequestMapping("/consign")
+    public Result UpdateConsignByOrderId(@RequestParam("orderId")String orderId){
+         orderService.updateConsignStatus(orderId);
+         return  new Result(true,StatusCode.OK,"修改发货状态成功");
+    }
+
+
+    /*
+    *  根据用户名查询已发货订单
+    * */
+    @RequestMapping("/findConsignByUsername")
+    public Result findConsignByUsername(@RequestParam("username")String username) {
+        List<Order> orderList = orderService.findConsignByUsername(username);
+        List<Vo> voList = new ArrayList<>();
+        for (Order order : orderList) {
+            Vo vo = new Vo();
+            String consignStatus = order.getConsignStatus();
+            vo.setConsign_status(consignStatus);
+            String orderId = order.getId();
+            List<OrderItem> orderItemList = orderItemService.findOrderItemByOrderId(orderId);
+            vo.setOrderItemList(orderItemList);
+            voList.add(vo);
+        }
+        return new Result(true,StatusCode.OK,"查询已发货订单成功",voList);
+    }
+
+
+    /*
      * 根据用户名查询订单
      * */
     @GetMapping("/findOrderByUserName")

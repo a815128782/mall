@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import java.util.List;
+
 
 /**
  * @author LiXiang
@@ -26,7 +26,7 @@ public interface OrderFeign {
     public Result add(@RequestBody Order order);
 
     @GetMapping("/order/{id}")
-    public Result<Order> findById(@PathVariable String id);
+    public Result<Order> findById(@PathVariable("id") String id);
 
     @GetMapping("/order/findOrderByUserName")
     public Result<List<Vo>> findOrderByUserName();
@@ -46,4 +46,10 @@ public interface OrderFeign {
     @GetMapping("/order/pay")
     public Result<List<OrderList>> myOrder();
 
+
+    /*
+     *  根据用户名查询已发货订单
+     * */
+    @RequestMapping("/order/findConsignByUsername")
+    public Result<List<Vo>> findConsignByUsername(@RequestParam("username")String username);
 }

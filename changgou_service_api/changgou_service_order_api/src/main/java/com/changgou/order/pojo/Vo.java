@@ -7,6 +7,15 @@ import java.util.List;
 public class Vo implements Serializable{
     private  List<OrderItem> orderItemList;
     private  String  pay_Status;
+    private  String  consign_status;
+
+    public String getConsign_status() {
+        return consign_status;
+    }
+
+    public void setConsign_status(String consign_status) {
+        this.consign_status = consign_status;
+    }
 
     public List<OrderItem> getOrderItemList() {
         return orderItemList;
