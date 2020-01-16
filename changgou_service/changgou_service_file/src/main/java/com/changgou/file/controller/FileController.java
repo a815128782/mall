@@ -7,6 +7,7 @@ import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.file.FileCode;
 import com.changgou.file.pojo.FastDFSFile;
 import com.changgou.file.util.FastDFSClient;
+import com.changgou.file.util.ThumnailsImageUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,9 @@ public class FileController {
             //获取文件的扩展名称
             String extName = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
             //获取文件内容
-            byte[] content = file.getBytes();
+            byte[] _content = file.getBytes();
+            byte[] content = ThumnailsImageUtil.scale(_content);
+
             //创建文件上传的封装实体类
             FastDFSFile fastDFSFile = new FastDFSFile(originalFilename, content, extName);
             //基于工具类进行文件上传，并接收返回参数
