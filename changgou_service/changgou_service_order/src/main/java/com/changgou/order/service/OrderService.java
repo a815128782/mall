@@ -1,12 +1,14 @@
 package com.changgou.order.service;
 
 import com.changgou.order.pojo.Order;
+import com.changgou.order.pojo.OrderList;
 import com.github.pagehelper.Page;
 
 import java.util.List;
 import java.util.Map;
 
 public interface OrderService {
+
 
     /*
     *  根据用户名查询订单
@@ -100,9 +102,16 @@ public interface OrderService {
      */
     void autoTack();
 
+
+    List<Order> findOrderByUsername(String username);
+
     /**
      * 完成评价后修改订单评价状态
      * @param orderId
      */
     void updateOrderCommentStatus(String orderId);
+
+    void updateById(String id);
+
+    void updateConginById(String id);
 }

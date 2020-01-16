@@ -10,6 +10,9 @@ import com.changgou.order.api.OrderApi;
 import com.changgou.order.config.TokenDecode;
 import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.OrderItem;
+import com.changgou.order.pojo.OrderList;
+import com.changgou.order.service.OrderItemService;
+import com.changgou.order.pojo.OrderItem;
 import com.changgou.order.pojo.Vo;
 import com.changgou.order.service.OrderItemService;
 import com.changgou.order.service.OrderService;
@@ -33,10 +36,36 @@ public class OrderController implements OrderApi {
     @Autowired
     private OrderService orderService;
     @Autowired
-    TokenDecode tokenDecode;
-    @Autowired
     private OrderItemService orderItemService;
+    @Autowired
+    TokenDecode tokenDecode;
 
+
+    /*
+        修改订单支付状态
+    * */
+
+    @GetMapping("/updatepay/{id}")
+    public Result update(@PathVariable("id") String id){
+        orderService.updateById(id);
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
+    /*
+    * 根据id删除订单
+    * */
+    @GetMapping("/deletepay/{id}")
+    public Result deletePay(@PathVariable("id")String id){
+        orderService.delete(id);
+        return new Result(true,StatusCode.OK,"删除成功");
+    }
+    /*
+    * 修改发货状态
+    * */
+    @GetMapping("/updatesend/{id}")
+    public Result updateSend(@PathVariable("id") String id){
+        orderService.updateConginById(id);
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
 
     /*
      * 根据用户名查询订单
@@ -60,6 +89,29 @@ public class OrderController implements OrderApi {
         }
 
         return new Result(true, StatusCode.OK, "订单查询成功",voList);
+    }
+
+    //根据用户查询订单
+    @GetMapping("/pay")
+    public Result myOrder(){
+        String username = tokenDecode.getUserInfo().get("username");
+//        String username="heima";
+        List list = new ArrayList();
+        List<Order> order = orderService.findOrderByUsername(username);
+        for (Order orders : order) {
+            OrderList orderList =new OrderList();
+            String id = orders.getId();
+            List<OrderItem> orderItemList = orderItemService.findByOrderId(id);
+            String payStatus = orders.getPayStatus();
+            orderList.setPay_status(payStatus);
+            orderList.setOrderItem(orderItemList);
+            String consignStatus = orders.getConsignStatus();
+            orderList.setConsign_status(consignStatus);
+//            orderList.setOrder(order);
+            list.add(orderList);
+        }
+
+        return new Result(true,StatusCode.OK,"查询成功",list);
     }
 
     /**

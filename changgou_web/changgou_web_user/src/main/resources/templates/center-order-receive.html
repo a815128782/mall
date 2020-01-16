@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
     <title>待收货</title>
-     <link rel="icon" href="./img/favicon.ico">
+     <link rel="icon" href="/img/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="./css/all.css" />
-    <link rel="stylesheet" type="text/css" href="./css/pages-seckillOrder.css" />
+    <link rel="stylesheet" type="text/css" href="/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
 </head>
 
 <body>
@@ -78,7 +78,7 @@
                 <div class="yui3-u-1-6 list">
 
                     <div class="person-info">
-                        <div class="person-photo"><img src="./img/_/photo.png" alt=""></div>
+                        <div class="person-photo"><img src="/img/_/photo.png" alt=""></div>
                         <div class="person-account">
                             <span class="name">Michelle</span>
                             <span class="safe">账户安全</span>
@@ -130,8 +130,8 @@
                             </table>
                         </div>
                         <div class="order-detail">
-                            <div class="orders">
-                                
+                            <div class="orders" th:each="orderList,orderStat:${orderLists}">
+
                                 <!--order1-->
                                 <div class="choose-title">
                                     <label data-toggle="checkbox" class="checkbox-pretty ">
@@ -143,7 +143,7 @@
                                     <tbody>
                                         <tr>
                                             <td width="35%">
-                                                <div class="typographic"><img src="./img/goods.png" />
+                                                <div class="typographic"><img src="/img/goods.png" />
                                                     <a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a>
                                                
                                                 </div>
@@ -177,7 +177,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                
+
                             </div>
 
                             <div class="clearfix"></div>
@@ -193,7 +193,7 @@
                                 <li class="yui3-u-1-4">
                                     <div class="list-wrap">
                                         <div class="p-img">
-                                            <img src="./img/_/itemlike01.png" />
+                                            <img src="/img/_/itemlike01.png" />
                                         </div>
                                         <div class="attr">
                                             <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -212,7 +212,7 @@
                                 <li class="yui3-u-1-4">
                                     <div class="list-wrap">
                                         <div class="p-img">
-                                            <img src="./img/_/itemlike02.png" />
+                                            <img src="/img/_/itemlike02.png" />
                                         </div>
                                         <div class="attr">
                                             <em>Apple苹果iPhone 6s/6s Plus 16G 64G 128G</em>
@@ -231,7 +231,7 @@
                                 <li class="yui3-u-1-4">
                                     <div class="list-wrap">
                                         <div class="p-img">
-                                            <img src="./img/_/itemlike03.png" />
+                                            <img src="/img/_/itemlike03.png" />
                                         </div>
                                         <div class="attr">
                                             <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -250,7 +250,7 @@
                                 <li class="yui3-u-1-4">
                                     <div class="list-wrap">
                                         <div class="p-img">
-                                            <img src="./img/_/itemlike04.png" />
+                                            <img src="/img/_/itemlike04.png" />
                                         </div>
                                         <div class="attr">
                                             <em>DELL戴尔Ins 15MR-7528SS 15英寸 银色 笔记本</em>
@@ -383,7 +383,7 @@
 					</div>
 					<div class="yui3-u-1-6">
 						<h4>帮助中心</h4>
-						<img src="./img/wx_cz.jpg">
+						<img src="/img/wx_cz.jpg">
 					</div>
 				</div>
 			</div>

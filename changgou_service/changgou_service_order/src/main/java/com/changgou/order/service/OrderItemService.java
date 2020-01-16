@@ -2,6 +2,7 @@ package com.changgou.order.service;
 
 import com.changgou.order.pojo.OrderItem;
 import com.github.pagehelper.Page;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ public interface OrderItemService {
      * @return
      */
     List<OrderItem> findAll();
+//根据订单id查询具体商品订单
+    List<OrderItem> findByOrderId(String id);
 
     /**
      * 根据ID查询
@@ -69,6 +72,5 @@ public interface OrderItemService {
      *  根据订单Id查询订单项
      * */
     List<OrderItem> findOrderItemByOrderId(String OrderId);
-
 
 }

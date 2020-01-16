@@ -7,6 +7,7 @@ import com.changgou.common.model.response.order.OrderCode;
 import com.changgou.common.util.IdWorker;
 import com.changgou.goods.feign.SkuFeign;
 import com.changgou.order.config.RabbitMQConfig;
+import com.changgou.order.config.TokenDecode;
 import com.changgou.order.dao.*;
 import com.changgou.order.pojo.*;
 import com.changgou.order.service.CartService;
@@ -23,10 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -61,6 +59,18 @@ public class OrderServiceImpl implements OrderService {
         criteria.andEqualTo("username", username);
         List<Order> orderList = orderMapper.selectByExample(example);
         return orderList;
+    }
+
+
+//根据用户名查询寻订单
+    @Override
+    public List<Order> findOrderByUsername(String username) {
+        Example example=new Example(Order.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("username", username);
+        List<Order> orders = orderMapper.selectByExample(example);
+//        }
+        return orders;
     }
 
     /**
@@ -383,6 +393,17 @@ public class OrderServiceImpl implements OrderService {
         order.setId(orderId);
         order.setBuyerRate("1");
         orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    @Override
+    @Transactional
+    public void updateById(String id) {
+       orderMapper.updatepyById(id);
+    }
+
+    @Override
+    public void updateConginById(String id) {
+        orderMapper.updateCsById(id);
     }
 
 
