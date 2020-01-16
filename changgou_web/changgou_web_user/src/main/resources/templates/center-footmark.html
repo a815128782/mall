@@ -177,7 +177,6 @@
 							</ul>
 						</div>
 
-
 						<!--猜你喜欢-->
 						<div class="like-title">
 							<div class="mt">
@@ -499,7 +498,25 @@
         data: {
 
         },
-        methods: {
+        methods:{
+            addFootMark:function (id) {
+                /*alert(id);*/
+                axios.get("/api/wcollect/addFootMark/"+id).then(function (response) {
+                    if(response.data.success){
+                        /* alert(response.data.message);*/
+                    }
+                })
+            },
+			deleteFootMark:function (id) {
+                alert(id);
+				axios.get("/api/wollect/deleteFoormark/"+id).then(function (res) {
+					if(res.data.success) {
+						alert("足迹已删除");
+                    }
+                }).finally(
+                    location.href="http://localhost:8001/api/wcollect/list2FootMark"
+				)
+            }
         }
     })
 

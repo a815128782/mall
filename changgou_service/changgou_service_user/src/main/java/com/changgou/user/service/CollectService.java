@@ -30,4 +30,6 @@ public interface CollectService {
     List<Footmark> findSkuById(String id);
 
     void deleteFootMark(String id);
+
+    void deleteCollect(String id);
 }

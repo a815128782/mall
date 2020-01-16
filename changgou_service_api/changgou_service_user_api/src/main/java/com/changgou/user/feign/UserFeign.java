@@ -36,6 +36,9 @@ public interface UserFeign {
     @PostMapping("/user/collect/add/{id}")
     public Result add(@PathVariable("id") String id);
 
+    @GetMapping("/user/collect/deleteCollect/{id}")
+    public Result deleteCollect(@PathVariable("id") String id);
+
     @PostMapping("/user/collect/addFootMark/{id}")
     public Result addFootMark(@PathVariable("id") String id);
 
@@ -45,6 +48,8 @@ public interface UserFeign {
     @GetMapping("/user/collect/list2FootMark")
     public Result<List<Sku>> list2FootMark();
 
+    @GetMapping("/user/collect/deleteFootMark")
+    Result deleteFootMark(@PathVariable("id") String id);
 
 
     /***

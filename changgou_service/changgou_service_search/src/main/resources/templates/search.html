@@ -772,7 +772,7 @@
                                     <div class="p-img" >
                                         <a th:href="'http://192.168.200.128/'+${sku.spuId}+'.html'" target="_blank" th:@click="|addFootMark('${sku.id}')|">
                                             <img th:src="${sku.image}" />
-                                            </a>
+                                        </a>
                                     </div>
                                     <div class="price">
                                         <strong>
@@ -1200,7 +1200,7 @@
                         })
                     },
                     addFootMark:function (id) {
-                        alert(id);
+                        /*alert(id);*/
                         axios.get("/api/wcollect/addFootMark/"+id).then(function (response) {
                             if(response.data.success){
                                /* alert(response.data.message);*/
