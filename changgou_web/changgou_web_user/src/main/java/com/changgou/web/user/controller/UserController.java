@@ -1,9 +1,9 @@
 package com.changgou.web.user.controller;
 
 import com.changgou.common.entity.Result;
+import com.changgou.common.entity.StatusCode;
 import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.feign.OrderItemFeign;
-import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Vo;
 import com.changgou.pay.feign.PayFeign;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,7 +194,7 @@ public class UserController {
     @GetMapping("/findOrderItemById")
     public Result findOrderById(String orderId){
         Result result = orderItemFeign.findById(orderId);
-        return new Result(true,StatusCode.OK,"查询商品订单详情成功",result);
+        return new Result(true, StatusCode.OK,"查询商品订单详情成功",result);
     }
 
     @GetMapping("/myOrder/{orderId}")
