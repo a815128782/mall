@@ -48,7 +48,7 @@ public interface UserFeign {
     @GetMapping("/user/collect/list2FootMark")
     public Result<List<Sku>> list2FootMark();
 
-    @GetMapping("/user/collect/deleteFootMark")
+    @GetMapping("/user/collect/deleteFootMark/{id}")
     Result deleteFootMark(@PathVariable("id") String id);
 
 

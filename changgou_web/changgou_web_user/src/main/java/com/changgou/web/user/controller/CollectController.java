@@ -77,7 +77,7 @@ public class CollectController {
     }
 
     //删除足迹
-    @GetMapping("/deleleFootMark/{id}")
+    @GetMapping("/deleteFootMark/{id}")
     public Result deleteFootMark(@PathVariable("id") String id) {
         Result result = userFeign.deleteFootMark(id);
         return result;

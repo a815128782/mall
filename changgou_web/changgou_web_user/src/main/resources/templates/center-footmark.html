@@ -171,6 +171,7 @@
 										</a>
 										<div class="operate">
 											<a th:href="|http://localhost:8001/api/wcart/addCart/${sku.id}?num=1|" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
+											<a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|deleteFootMark('${sku.id}')|" >删除足迹</a>
 										</div>
 									</div>
 								</li >
@@ -507,14 +508,11 @@
                     }
                 })
             },
-			deleteFootMark:function (id) {
-                alert(id);
-				axios.get("/api/wollect/deleteFoormark/"+id).then(function (res) {
-					if(res.data.success) {
-						alert("足迹已删除");
-                    }
+            deleteFootMark:function (id) {
+				axios.get("/api/wcollect/deleteFootMark/"+id).then(function (res) {
                 }).finally(
-                    location.href="http://localhost:8001/api/wcollect/list2FootMark"
+                    alert("足迹已删除"),
+                    location.reload()
 				)
             }
         }
