@@ -50,13 +50,15 @@ public class UserController {
     public String userCenter(Model model){
         List<Vo> voList = orderFeign.findOrderByUserName().getData();
         model.addAttribute( "voList",voList);
-        model.addAttribute("username","heima");
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-index";
     }
 
     @RequestMapping("/toCenterIndex")
-    public String toCenterIndex() {
-
+    public String toCenterIndex(Model model) {
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-index";
     }
 
@@ -64,6 +66,8 @@ public class UserController {
     public String toPay(@RequestParam("orderId")String orderId,@RequestParam("money")String money, Model model){
         model.addAttribute("orderId",orderId);
         model.addAttribute("money",money);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "pay";
     }
 
@@ -86,7 +90,9 @@ public class UserController {
     }
 
     @RequestMapping("/register")
-    public String toRegistry(){
+    public String toRegistry(Model model){
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "register";
     }
 

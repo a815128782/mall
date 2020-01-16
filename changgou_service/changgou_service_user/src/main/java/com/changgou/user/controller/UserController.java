@@ -83,13 +83,13 @@ public class UserController {
      * @return
      */
     @GetMapping("/collect/list")
-    public List<Sku> list(){
+    public Result<List<Sku>> list(){
         String username = tokenDecode.getUserInfo().get("username");
         List<Sku> list = collectService.list(username);
-        for (int i = 0; i < list.size(); i++) {
+        /*for (int i = 0; i < list.size(); i++) {
             System.out.println(list.get(i).getId());
-        }
-        return list;
+        }*/
+        return R.T("查询",list);
     }
 
     /**
@@ -97,13 +97,13 @@ public class UserController {
      * @return
      */
     @GetMapping("/collect/list2FootMark")
-    public List<Sku> list2FootMark(){
+    public Result<List<Sku>> list2FootMark(){
         String username = tokenDecode.getUserInfo().get("username");
         List<Sku> skuList = collectService.list2FootMark(username);
-        for (int i = 0; i < skuList.size(); i++) {
+        /*for (int i = 0; i < skuList.size(); i++) {
             System.out.println(skuList.get(i).getId());
-        }
-        return skuList;
+        }*/
+        return R.T("查询",skuList);
     }
 
 

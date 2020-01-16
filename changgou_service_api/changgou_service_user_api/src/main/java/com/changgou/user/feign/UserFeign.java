@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,10 +40,11 @@ public interface UserFeign {
     public Result addFootMark(@PathVariable("id") String id);
 
     @GetMapping("/user/collect/list")
-    public List<Sku> list();
+    public Result<List<Sku>> list();
 
     @GetMapping("/user/collect/list2FootMark")
-    public List<Sku> list2FootMark();
+    public Result<List<Sku>> list2FootMark();
+
 
 
     /***

@@ -60,7 +60,8 @@ public class CenterController {
 
     @GetMapping("/toCenterInfo")
     public String toCenterInfo(Model model) {
-        model.addAttribute("username","heima");
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-setting-info";
     }
 
@@ -87,7 +88,7 @@ public class CenterController {
             return new Result(false, StatusCode.ERROR,"请输入验证码");
         }
         String result =  redisTemplate.boundValueOps(VALIDATECODE + phone).get()+"";
-        if(result.equals(code+"")){
+        if(result.equals(code+"") &&code != null){
             return R.T("");
         }
         return new Result(false, StatusCode.ERROR,"验证码错误");
