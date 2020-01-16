@@ -26,6 +26,8 @@ public interface PayFeign {
     @GetMapping("/wxpay/query/{orderId}")
     public Result queryOrder(@PathVariable("orderId")String orderId);
 
+    @GetMapping("/wxpay/aliquery/{orderId}")
+    public Result aliqueryOrder(@PathVariable("orderId")String orderId);
 
     /**
      * 基于微信关闭订单
