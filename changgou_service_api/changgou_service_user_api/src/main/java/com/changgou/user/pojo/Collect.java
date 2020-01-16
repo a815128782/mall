@@ -12,11 +12,18 @@ import java.io.Serializable;
 public class Collect {
 
     @Id
+    private Long id;
+
     private String username;
 
     private String sku_id;
 
-    public Collect() {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getUsername() {

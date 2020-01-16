@@ -1,5 +1,6 @@
 package com.changgou;
 
+import com.changgou.common.util.IdWorker;
 import com.changgou.user.config.TokenDecode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,5 +21,10 @@ public class UserApplication {
     @Bean
     public TokenDecode tokenDecode() {
         return new TokenDecode();
+    }
+
+    @Bean
+    public IdWorker idWorker(){
+        return new IdWorker();
     }
 }

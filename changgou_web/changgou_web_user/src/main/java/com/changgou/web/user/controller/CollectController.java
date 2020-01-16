@@ -7,9 +7,7 @@ import org.omg.CORBA.StringHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +28,16 @@ public class CollectController {
     public Result add(@PathVariable("id") String id){
         Result result = userFeign.add(id);
         return result;
+    }
+
+    @GetMapping("/deleteCollect/{id}")
+    public String deleteCollect(@PathVariable("id") String id,Model model) {
+        Result result = userFeign.deleteCollect(id);
+        List<Sku> list = userFeign.list().getData();
+        model.addAttribute("list",list);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
+        return "center-collect";
     }
 
     /**
@@ -68,5 +76,11 @@ public class CollectController {
         return "center-footmark";
     }
 
+    //删除足迹
+    @GetMapping("/deleleFootMark/{id}")
+    public Result deleteFootMark(@PathVariable("id") String id) {
+        Result result = userFeign.deleteFootMark(id);
+        return result;
+    }
 
 }

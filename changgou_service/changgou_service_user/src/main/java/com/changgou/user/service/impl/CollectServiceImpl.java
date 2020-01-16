@@ -1,7 +1,9 @@
 package com.changgou.user.service.impl;
 
+import com.changgou.common.util.IdWorker;
 import com.changgou.goods.feign.SkuFeign;
 import com.changgou.goods.feign.SpuFeign;
+import com.changgou.goods.pojo.Log;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.goods.pojo.Spu;
 import com.changgou.user.dao.CollectMapper;
@@ -34,15 +36,20 @@ public class CollectServiceImpl implements CollectService {
     private SkuFeign skuFeign;
     @Autowired
     private SpuFeign spuFeign;
+    @Autowired
+    private IdWorker idWorker;
 
     //添加收藏
     @Override
     public void add(String username, String skuId) {
 
         Collect collect = new Collect();
+        /*long id = idWorker.nextId();
+        System.out.println("这个收藏类的id是"+id);
+        collect.setId(id);*/
         collect.setSkuId(skuId);
         collect.setUsername(username);
-        collectMapper.insertSelective(collect);
+        collectMapper.insert(collect);
     }
 
     /**
@@ -70,18 +77,12 @@ public class CollectServiceImpl implements CollectService {
         List list= new ArrayList();
         Collect collect = new Collect();
         collect.setUsername(username);
-
         //查找
-        Example example = new Example(Collect.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("username",username);
-        List<Collect> collectList = collectMapper.selectByExample(example);
-
+        List<Collect> collectList = collectMapper.findCollectList(username);
         for (Collect c : collectList) {
             Sku sku = skuFeign.findById(c.getSkuId()).getData();
             list.add(sku);
         }
-
         return list;
     }
 
@@ -143,13 +144,26 @@ public class CollectServiceImpl implements CollectService {
 
     /**
      * 根据id删除足迹
+     *
      * @param id
      */
     @Override
     public void deleteFootMark(String id) {
         Example example = new Example(Footmark.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("sku_id",id);
+        criteria.andEqualTo("sku_id", id);
         footMarkMapper.deleteByExample(example);
+    }
+
+    /**
+     * 删除收藏
+     * @param id
+     */
+    @Override
+    public void deleteCollect(String id) {
+        Example example = new Example(Collect.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("sku_id", id);
+        collectMapper.deleteByExample(example);
     }
 }

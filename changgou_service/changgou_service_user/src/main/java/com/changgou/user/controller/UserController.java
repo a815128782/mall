@@ -60,6 +60,12 @@ public class UserController {
         return new Result(true, StatusCode.OK,"添加收藏成功");
     }
 
+    @GetMapping("/collect/deleteCollect/{id}")
+    public Result deleteCollect(@PathVariable("id") String id) {
+        collectService.deleteCollect(id);
+        return new Result(true,StatusCode.OK,"该收藏已取消");
+    }
+
     /**
      * 添加足迹
      * @param id
@@ -77,6 +83,16 @@ public class UserController {
         return new Result(true, StatusCode.OK,"");
     }
 
+    /**
+     * 删除足迹
+     * @param id
+     * @return
+     */
+    @GetMapping("/collect/deleteFootMark/{id}")
+    public Result deleteFootMark(@PathVariable("id") String id) {
+        collectService.deleteFootMark(id);
+        return new Result(true,StatusCode.OK,"足迹已删除");
+    }
 
     /**
      * 获取个人中心收藏列表
