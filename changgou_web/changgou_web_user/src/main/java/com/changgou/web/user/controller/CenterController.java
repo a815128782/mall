@@ -9,6 +9,7 @@ import com.changgou.user.pojo.User;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -98,6 +99,20 @@ public class CenterController {
         User user = userFeign.findUser().getData();
         model.addAttribute("username",user.getUsername());
         return "center-setting-address-phone";
+    }
+    @GetMapping("/updateUser")
+    @ResponseBody
+    public Result updateUser(@RequestParam("username")String username,@RequestParam("password")String password){
+        String password1 = BCrypt.hashpw(password, BCrypt.gensalt());
+        Result result = userFeign.updateUser(username,password1);
+        return result;
+    }
+
+    @GetMapping("/toComplete")
+    public String toComplete(Model model) {
+        User user = userFeign.findUser().getData();
+        model.addAttribute("username",user.getUsername());
+        return "center-setting-address-complete";
     }
 
 }

@@ -78,6 +78,11 @@ public interface UserFeign {
     public Result<User> findUser();
 
 
+
+    @GetMapping("/user/updateUser")
+    public Result updateUser(@RequestParam("username")String username, @RequestParam("password")String password);
+
+
     /*@GetMapping("/user/decr/userPoints")
     public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);*/
 }

@@ -329,6 +329,14 @@ public class UserServiceImpl implements UserService {
         return provincesList;
     }
 
+    @Override
+    public Integer updateUser(String username, String password) {
+        User user = findById(username);
+        user.setPassword(password);
+        int i = userMapper.updateByPrimaryKey(user);
+        return i;
+    }
+
 
     /**
      * 条件+分页查询

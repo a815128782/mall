@@ -12,6 +12,10 @@
         <link rel="stylesheet" type="text/css" href="/css/pages-login.css" />
         <script src="/js/vue.js"></script>
         <script src="/js/axios.js"></script>
+        <!-- 引入样式 -->
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <!-- 引入组件库 -->
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     </head>
 
     <body>
@@ -38,7 +42,7 @@
                                     <li class="f-item"><span>关注畅购</span></li>
                                     <li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
                                     <li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-                                    <li class="f-item"><span>网站导航</li>
+                                    <li class="f-item"><span>网站导航</span></li>
                                 </ul>
                             </div>
 
@@ -78,7 +82,7 @@
             <div class="loginArea">
                 <div class="py-container login">
                     <div class="loginform">
-                        <ul class="sui-nav nav-tabs tab-wraped">
+                        <!--<ul class="sui-nav nav-tabs tab-wraped">
                             <li id="tabOtherLogin" onclick="switchOtherLogin()">
                                 <a href="javascript:void(0)" data-toggle="tab" >
                                     <h3>扫描登录</h3>
@@ -89,12 +93,17 @@
                                     <h3>账户登录</h3>
                                 </a>
                             </li>
-                        </ul>
+                        </ul>-->
                         <div class="tab-content tab-wraped">
+                            <template>
+                            <el-tabs v-model="activeName" @tab-click="handleClick">
+                                <el-tab-pane label="扫描登录" name="first">
                             <div id="index" class="tab-pane ">
                                 <p>二维码登录，暂为官网二维码</p>
                                 <img src="/img/wx_cz.jpg" />
                             </div>
+                                </el-tab-pane>
+                                <el-tab-pane label="账户登录" name="second">
                             <div id="profile" class="tab-pane active">
                                 <form class="sui-form">
                                     <div class="input-prepend"><span class="add-on loginname"></span>
@@ -128,6 +137,9 @@
                                     <span class="register"><a href="register.html" target="_blank">立即注册</a></span>
                                 </div>
                             </div>
+                                </el-tab-pane>
+                            </el-tabs>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -171,7 +183,8 @@
                     username:"",
                     password:"",
                     msg:"",
-                    from:[[${from}]]
+                    from:[[${from}]],
+                    activeName: 'second',
                 },
                 methods:{
                     login:function () {
@@ -186,7 +199,10 @@
                                 app.msg=response.data.message;
                             }
                         })
-                    }
+                    },
+                    handleClick(tab, event) {
+                        console.log(tab, event);
+                    },
                 }
             })
         </script>

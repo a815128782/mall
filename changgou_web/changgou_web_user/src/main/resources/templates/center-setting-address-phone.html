@@ -162,8 +162,8 @@
                 <div class="yui3-u-5-6">
                     <div class="body userSafe">
                         <ul class="sui-nav nav-tabs nav-large nav-primary ">
-                            <li><a href="#one" data-toggle="tab">密码设置</a></li>
-                            <li class="active"><a href="#two" data-toggle="tab">绑定手机</a></li>
+                            <li><a href="#one" data-toggle="tab">验证手机</a></li>
+                            <li class="active"><a href="#two" data-toggle="tab">密码设置</a></li>
                         </ul>
                         <div class="tab-content ">
                             <div id="one" class="tab-pane">
@@ -400,8 +400,9 @@
 					} else{
 						axios.get("/api/wcenter/updateUser?username="+this.user.username+"&password="+this.password).then((res=>{
 							if(res.data.success){
+							    alert("修改成功");
 								//跳转修改密码成功的页面
-								location.href="http://localhost:8001/api/wcenter/....";
+								location.href="http://localhost:8001/api/wcenter/toComplete";
 							}
 						}))
 					}

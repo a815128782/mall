@@ -124,4 +124,6 @@ public interface UserService {
      * @return
      * */
     List<Provinces> findProvincesList();
+
+    Integer updateUser(String username, String password);
 }

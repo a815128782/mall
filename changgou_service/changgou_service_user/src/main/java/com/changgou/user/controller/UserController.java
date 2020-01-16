@@ -271,6 +271,12 @@ public class UserController {
         return R.T("查询",user);
     }
 
+    @GetMapping("/updateUser")
+    public Result updateUser(@RequestParam("username")String username, @RequestParam("password")String password){
+        Integer integer = userService.updateUser(username, password);
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
+
 }
 
 
