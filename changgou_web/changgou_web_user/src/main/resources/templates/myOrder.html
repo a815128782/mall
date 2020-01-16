@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<meta charset="UTF-8">
@@ -10,6 +10,7 @@
 	
     <link rel="stylesheet" type="text/css" href="./css/all.css" />
     <link rel="stylesheet" type="text/css" href="./css/pages-myOrder.css" />
+		<script src="./js/vue.js"></script>
 </head>
 
 	<body>
@@ -185,7 +186,7 @@
 												</table>
 											</div>
 									<div id="all" class="tab-pane active">
-										<div class="orders">
+										<div class="orders" id="app">
 
 											
 											<table class="sui-table table-bordered">
@@ -232,7 +233,6 @@
 																<a href="#" class="block-text">包邮 正品玛姬儿压缩面膜无纺布纸膜100粒 送泡瓶面膜刷喷瓶 新款</a><span>x1</span>
 																<ul class="unstyled">
 																	<li>申请售后</li>
-
 																</ul>
 															</div>
 														</td>
@@ -534,8 +534,25 @@
 	</div>
 </div>
 <!--页面底部END-->
-		
+<script>
+	var vue=new vue({
+		el:"#app",
+		data:{
+		    orderId:[[${orderId}]],
 
+		},
+        methods:{
+
+		},
+		created(){
+		    axios.get("/wuser/findOrderItemById?orderId="+this.orderId).then((res)=>{
+		        if(res.success){
+
+				}
+			})
+		}
+	})
+</script>
 	
 
 </body>

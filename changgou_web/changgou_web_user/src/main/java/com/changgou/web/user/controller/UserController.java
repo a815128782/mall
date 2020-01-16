@@ -3,6 +3,8 @@ package com.changgou.web.user.controller;
 import com.changgou.common.entity.Result;
 import com.changgou.common.entity.StatusCode;
 import com.changgou.order.feign.OrderFeign;
+import com.changgou.order.feign.OrderItemFeign;
+import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Vo;
 import com.changgou.pay.feign.PayFeign;
 import com.netflix.discovery.converters.Auto;
@@ -45,6 +47,8 @@ public class UserController {
     @Autowired
     private OrderFeign orderFeign;
 
+    @Autowired
+    private OrderItemFeign orderItemFeign;
     @Autowired
     private PayFeign payFeign;
     @Autowired
@@ -192,12 +196,24 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/myOrder")
-    public String myOrder(Model model,String orderId){
+    //根据orderId查询订单详情
+    @GetMapping("/findOrderItemById")
+    public Result findOrderById(String orderId){
+        Result result = orderItemFeign.findById(orderId);
+        return new Result(true,StatusCode.OK,"查询商品订单详情成功",result);
+    }
+
+    @GetMapping("/myOrder/{orderId}")
+    public String myOrder(Model model,@PathVariable("orderId") String orderId){
+        model.addAttribute("orderId",orderId);
+        return "myOrder";
+    }
+    //支付宝回调的订单详情(未实现)
+    @GetMapping("/oneOrder")
+    public Result myOrder(String orderId){
         Result result = payFeign.aliqueryOrder(orderId);
         Map map = (Map) result.getData();
-        model.addAllAttributes(map);
-        return "myOrder";
+        return new Result(true,StatusCode.OK,"查询支付宝回调信息成功",map);
     }
 
     @GetMapping("/toPage/{spuId}")

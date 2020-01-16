@@ -25,4 +25,7 @@ public interface OrderItemFeign {
      */
     @PostMapping(value = "/orderItem/search" )
     public Result<List<OrderItem>> findList(@RequestBody Map searchMap);
+
+    @GetMapping("/orderItem/{id}")
+    public Result findById(@PathVariable String id);
 }
