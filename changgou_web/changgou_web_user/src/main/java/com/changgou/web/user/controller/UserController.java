@@ -1,19 +1,15 @@
 package com.changgou.web.user.controller;
 
 import com.changgou.common.entity.Result;
-import com.changgou.common.entity.StatusCode;
 import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.pojo.Vo;
 import com.changgou.pay.feign.PayFeign;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.List;
-
 import com.changgou.common.entity.R;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.user.UserCode;
@@ -21,7 +17,6 @@ import com.changgou.common.util.CookieUtil;
 import com.changgou.common.util.SMSUtils;
 import com.changgou.common.util.ValidateCodeUtils;
 import com.changgou.order.feign.CartFeign;
-import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.pojo.OrderList;
 import com.changgou.user.feign.UserFeign;
 import com.changgou.user.pojo.User;
@@ -29,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
