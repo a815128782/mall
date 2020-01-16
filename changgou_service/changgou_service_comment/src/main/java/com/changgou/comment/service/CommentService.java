@@ -41,4 +41,18 @@ public interface CommentService {
      * @return
      */
     void AutoCount();
+
+    /**
+     * 查询评价数量
+     * @param skuId
+     * @return
+     */
+    Integer count(String skuId);
+
+    /**
+     * 4.分别查询总评价数,中好差评数量
+     * @param skuId
+     * @return
+     */
+    Map<String,Long> kindCount(String skuId);
 }

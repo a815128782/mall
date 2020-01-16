@@ -26,7 +26,7 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/oauth/login","/oauth/logout","/oauth/getUsername",
                                     "/search/list","/oauth/login","/oauth/logout","/user/add",
                 "/oauth/toLogin","/login.html","/css/**","/data/**","/fonts/**"
-                ,"/img/**","/js/**","http://jizhi.utools.club/wxpay/alipayCallBack","/wxpay/alipayCallBack");
+                ,"/img/**","/js/**","http://jizhi.utools.club/wxpay/alipayCallBack","/wxpay/alipayCallBack","/comment/**");
     }
 
     /***

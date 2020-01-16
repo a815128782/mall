@@ -1,6 +1,7 @@
 package com.changgou.comment;
 
 import com.changgou.comment.config.TokenDecode;
+import com.changgou.common.interceptor.FeignInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -22,5 +23,10 @@ public class CommentApplication {
     @Bean
     public TokenDecode tokenDecode() {
         return new TokenDecode();
+    }
+
+    @Bean
+    public FeignInterceptor feignInterceptor() {
+        return new FeignInterceptor();
     }
 }

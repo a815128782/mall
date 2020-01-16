@@ -14,10 +14,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
+
 </head>
 
 <body>
-
+<div id="app">
 
 <!--页面顶部-->
 <div id="nav-bottom">
@@ -803,7 +804,12 @@
 									<span>手机社区</span>
 								</a>
 							</li>
+
+
+
 						</ul>
+
+
 						<div class="clearfix"></div>
 						<div class="tab-content tab-wraped">
 							<div id="one" class="tab-pane active"  th:utext="${spu.introduction}">
@@ -1329,11 +1335,11 @@
 
 	</div>
 </div>
-
+</div>
     <script src="/js/axios.js"></script>
     <script th:inline="javascript">
         var item = new Vue({
-            el: '#itemArray',
+            el: '#app',
             data: {
                 skuList : [[${skuList}]],   //SKU集合
                 sku:{},                     //当前选中的sku
@@ -1408,6 +1414,10 @@
                         this.num--;
                     }
 
+                },
+                change(index,value){
+                    alert(index);
+                    alert(value);
                 }
             },
             created:function () {
@@ -1415,6 +1425,8 @@
                 this.sku=JSON.parse(JSON.stringify(this.skuList[0]));
                 //第1个SKU的规格,深克隆
                 this.spec=JSON.parse(this.skuList[0].spec);
+
+                // 展示当前商品已评论数
 
             }
         })

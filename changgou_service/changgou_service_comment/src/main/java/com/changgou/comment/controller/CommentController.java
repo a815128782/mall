@@ -21,6 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/comment")
+@CrossOrigin
 public class CommentController {
 
     @Autowired
@@ -63,5 +64,26 @@ public class CommentController {
        return new Result(true,StatusCode.OK,"商品总评价数更新成功");
     }
 
+    /**
+     * 4.分别查询总评价数,中好差评数量
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/kind/{id}")
+    public Result kindCount(@PathVariable("id") String skuId){
+        Map<String,Long> map = commentService.kindCount(skuId);
+        return new Result(true,StatusCode.OK,"查询成功",map);
+    }
+
+    /**]
+     * 查询评价数量
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/count/{id}")
+    public Result count(@PathVariable("id")String skuId){
+        Integer count = commentService.count(skuId);
+        return new Result(true,StatusCode.OK,"查询成功",count);
+    }
 
 }
