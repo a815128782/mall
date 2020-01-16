@@ -205,13 +205,10 @@ public class UserController {
     //支付宝回调的订单详情(未实现)
     @GetMapping("/oneOrder")
     public Result myOrder(String orderId){
-    /*@GetMapping("/myOrder")
-    public String myOrder(Model model,String orderId){
+
         Result result = payFeign.aliqueryOrder(orderId);
         Map map = (Map) result.getData();
-        model.addAllAttributes(map);
-        return "myOrder";
-    }*/
+
         return new Result(true,StatusCode.OK,"查询支付宝回调信息成功",map);
     }
 
