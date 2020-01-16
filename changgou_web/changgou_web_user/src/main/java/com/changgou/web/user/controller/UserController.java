@@ -2,9 +2,7 @@ package com.changgou.web.user.controller;
 
 import com.changgou.common.entity.Result;
 import com.changgou.order.feign.OrderFeign;
-import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Vo;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 import com.changgou.common.entity.R;
-import com.changgou.common.entity.Result;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.user.UserCode;
 import com.changgou.common.util.CookieUtil;
@@ -26,10 +23,7 @@ import com.changgou.order.pojo.OrderList;
 import com.changgou.user.feign.UserFeign;
 import com.changgou.user.pojo.User;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,6 +45,7 @@ public class UserController {
     UserFeign userFeign;
     @Autowired
     CartFeign cartFeign;
+
 
     @RequestMapping("/user")
     public String userCenter(Model model){
@@ -105,12 +100,16 @@ public class UserController {
 //        List<Vo> voList = orderFeign.findOrderByUserName().getData();
 //
 //        model.addAttribute( "voList",voList);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-order-pay";
     }
     @RequestMapping("/sendt")
     private String receive(Model model){
         List<OrderList> orderLists = orderFeign.myOrder().getData();
         model.addAttribute("orderLists",orderLists);
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-order-send";
     }
 
@@ -118,6 +117,7 @@ public class UserController {
     public String toIndex(Model model, HttpServletRequest request) {
         Map<String, String> map = CookieUtil.readCookie(request, "username");
         String username = map.get("username");
+
         model.addAttribute("username",username);
         return "index";
     }
@@ -174,7 +174,9 @@ public class UserController {
     }
 
     @GetMapping("/toPage/{spuId}")
-    public String toPage(@PathVariable("spuId")String spuId){
+    public String toPage(@PathVariable("spuId")String spuId,Model model){
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return spuId;
     }
 
