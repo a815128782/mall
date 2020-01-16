@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
 	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
 	<title>设置-个人信息</title>
-	<link rel="icon" href="./img/favicon.ico">
+	<link rel="icon" href="/img/favicon.ico">
 
-	<link rel="stylesheet" type="text/css" href="./css/all.css" />
-	<link rel="stylesheet" type="text/css" href="./css/pages-seckillOrder.css" />
-	<script src="./js/plugins/jquery/jquery.min.js"></script>
-	<script src="./js/plugins/sui/sui.min.js"></script>
-	<script src="./js/address.js"></script>
+	<link rel="stylesheet" type="text/css" href="/css/all.css" />
+	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
+	<script src="/js/plugins/jquery/jquery.min.js"></script>
+	<script src="/js/plugins/sui/sui.min.js"></script>
+	<script src="/js/address.js"></script>
+	<script src="/js/vue.js"></script>
+	<script src="/js/axios.js"></script>
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+	<!-- 引入组件库 -->
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 
 <body>
@@ -40,7 +46,7 @@
 								<li class="f-item"><span>关注畅购</span></li>
 								<li class="f-item"><span><a href="cooperation.html" target="_blank">合作招商</a></span></li>
 								<li class="f-item"><span><a href="shoplogin.html" target="_blank">商家后台</a></span></li>
-								<li class="f-item"><span>网站导航</li>
+                                <li class="f-item"><span>网站导航</span></li>
 							</ul>
 						</div>
 
@@ -82,7 +88,7 @@
 				<div class="yui3-u-1-6 list">
 
 					<div class="person-info">
-						<div class="person-photo"><img src="./img/_/photo.png" alt=""></div>
+						<div class="person-photo"><img src="/img/_/photo.png" alt=""></div>
 						<div class="person-account">
 							<span class="name">Michelle</span>
 							<span class="safe">账户安全</span>
@@ -115,231 +121,235 @@
 					</div>
 				</div>
 				<!--右侧主内容-->
-				<div class="yui3-u-5-6">
+				<div class="yui3-u-5-6" id="app" :model="address">
 					<div class="body userAddress">
 						<div class="address-title">
 							<span class="title">地址管理</span>
-							<a data-toggle="modal" data-target=".addAddressInfo" data-keyboard="false"
-								class="sui-btn  btn-info add-new">添加新地址</a>
+							<el-button type="primary" class="butT" @click="handleCreate()">添加新地址</el-button>
 							<span class="clearfix"></span>
 						</div>
-						<div class="address-detail">
-							<table class="sui-table table-bordered">
-								<thead>
-									<tr>
-										<th>姓名</th>
-										<th>地址</th>
-										<th>联系电话</th>
-										<th>操作</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>刘田田</td>
-										<td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-										<td>1774***********4</td>
-										<td>
-											<a href="#" data-toggle="modal" data-target=".editAddressInfo"
-												data-keyboard="false">编辑</a>
-											<a href="#">删除</a>
-											默认地址
-											<div tabindex="-1" role="dialog" data-hasfoot="false"
-												class="editAddress sui-modal hide fade left">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" data-dismiss="modal"
-																aria-hidden="true" class="sui-close">×</button>
-															<h4 id="myModalLabel" class="modal-title">评价此商品
-															</h4>
-														</div>
-														<div class="modal-body">
-															书写评论：
-															<textarea name="" id="" cols="30" rows="10""></textarea>
-														</div>
-														<div class=" modal-footer">
-															<button type="button" data-ok="modal"
-																class="sui-btn btn-primary btn-large">提交评价</button>
-															<button type="button" data-dismiss="modal"
-																class="sui-btn btn-default btn-large">取消评价</button>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div tabindex="-1" role="dialog" data-hasfoot="false"
-												class="deleteAddress sui-modal hide fade left">
-												<div class="modal-dialog">
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" data-dismiss="modal"
-																aria-hidden="true" class="sui-close">×</button>
-															<h4 id="myModalLabel" class="modal-title">评价此商品
-															</h4>
-														</div>
-														<div class="modal-body">
-															书写评论：
-															<textarea name="" id="" cols="30" rows="10""></textarea>
-														</div>
-														<div class=" modal-footer">
-															<button type="button" data-ok="modal"
-																class="sui-btn btn-primary btn-large">提交评价</button>
-															<button type="button" data-dismiss="modal"
-																class="sui-btn btn-default btn-large">取消评价</button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>沈沉</td>
-										<td>北京 北京市 海淀区 上地街道东北旺西路8号中关村软件园9号楼</td>
-										<td>1774***********4</td>
-										<td>
-											<a href="#" data-toggle="modal" data-target=".editAddressInfo"
-												data-keyboard="false">编辑</a>
-											<a href="#">删除</a>
-											<a href="#">设为默认</a>
-										</td>
-									</tr>
+						<template>
+							<el-table
+									:data="addressList"
+									style="width: 200%"
+									current-row-key="id">
+								<el-table-column
+										prop="contact"
+										label="姓名"
+										width="180">
+								</el-table-column>
+								<el-table-column
+										prop="totalAddress"
+										label="地址"
+										width="180">
+								</el-table-column>
+								<el-table-column
+									prop="phone"
+									label="联系电话"
+									width="180">
+								</el-table-column>
+                                <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button
+                                            size="mini"
+                                            @click="handleUpdate(scope.row)">编辑</el-button>
+                                    <el-button
+                                            size="mini"
+                                            type="danger"
+                                            @click="handleDelete(scope.row)">删除</el-button>
+									<el-link @click='handIsDefault(scope.row)'>
+											<span>{{ scope.row.isDefault == '0'? '设置默认地址' : '默认地址'}}</span>
+									</el-link>
+								</template>
+                                </el-table-column>
+							</el-table>
+						</template>
 
-								</tbody>
-							</table>
-						</div>
-
-						<!--新增地址弹出层-->
-						<div tabindex="-1" role="dialog" data-hasfoot="false" class="sui-modal hide fade addAddressInfo"
-							style="width:580px;">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" data-dismiss="modal" aria-hidden="true"
-											class="sui-close">×</button>
-										<h4 id="myModalLabel" class="modal-title">新增地址</h4>
-									</div>
-									<div class="modal-body">
-										<form action="" class="sui-form form-horizontal">
-											<div class="control-group">
-												<label class="control-label">收货人：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">所在地区：</label>
-												<div class="controls address">
-													<div data-toggle="distpicker">
-														<div class="form-group area">
-															<select class="form-control province1"></select>
-														</div>
-														<div class="form-group area">
-															<select class="form-control city1"></select>
-														</div>
-														<div class="form-group area">
-															<select class="form-control district1"></select>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">详细地址：</label>
-												<div class="controls">
-													<input type="text" class="input-large">
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">联系电话：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
-											
-											<div class="control-group">
-												<label class="control-label">地址别名：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
-
-										</form>
-
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" data-ok="modal"
-											class="sui-btn btn-primary btn-large">确定</button>
-										<button type="button" data-dismiss="modal"
-											class="sui-btn btn-default btn-large">取消</button>
-									</div>
-								</div>
-							</div>
-						</div>
 						<!--修改地址弹出层-->
-						<div tabindex="-1" role="dialog" data-hasfoot="false"
-							class="sui-modal hide fade editAddressInfo" style="width:580px;">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" data-dismiss="modal" aria-hidden="true"
-											class="sui-close">×</button>
-										<h4 id="myModalLabel" class="modal-title">新增地址</h4>
-									</div>
-									<div class="modal-body">
-										<form action="" class="sui-form form-horizontal">
-											<div class="control-group">
-												<label class="control-label">收货人：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
-											<div class="control-group address">
-												<label class="control-label">所在地区：</label>
-												<div class="controls">
-													<div data-toggle="distpicker">
-														<div class="form-group area">
-															<select class="form-control province1"></select>
-														</div>
-														<div class="form-group area">
-															<select class="form-control city1"></select>
-														</div>
-														<div class="form-group area">
-															<select class="form-control district1"></select>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">详细地址：</label>
-												<div class="controls">
-													<input type="text" class="input-large">
-												</div>
-											</div>
-											<div class="control-group">
-												<label class="control-label">联系电话：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
-						
-											<div class="control-group">
-												<label class="control-label">地址别名：</label>
-												<div class="controls">
-													<input type="text" class="input-medium">
-												</div>
-											</div>
+						<div class="add-form">
+							<el-dialog title="修改地址" :visible.sync="dialogFormVisible4Edit">
+								<template>
+									<el-tabs type="card">
+										<el-tab-pane label="基本信息" >
+											<el-form ref="dataAddForm" :model="address"
+													 label-position="right" label-width="100px">
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="联系人" >
+															<el-input v-model="address.contact"/>
+														</el-form-item>
+													</el-col>
+                                                </el-row>
+                                                <el-row>
+                                                    <div class="control-group address">
+                                                        <label for="inputPassword" class="control-label">所在地：</label>
+                                                        <template>
+                                                            <el-select v-model="address.province"
+																	   style="margin-left: 5px;"
+																	   placeholder="请选择"
+																	   @change="findCitiesList(address.province)">
+                                                                <el-option
+                                                                        v-for="province in provincesList"
+                                                                        :key="province.provinceid"
+                                                                        :label="province.province"
+                                                                        :value="province.province">
+                                                                </el-option>
+                                                            </el-select>
 
-										</form>
+                                                            <el-select
+                                                                    v-model="address.city"
+                                                                    collapse-tags
+                                                                    style="margin-left: 5px;"
+                                                                    placeholder="请选择"
+                                                                    @change="findAreasList(address.city)">
+                                                                <el-option
+                                                                        v-for="city in citiesList"
+                                                                        :key="city.cityid"
+                                                                        :label="city.city"
+                                                                        :value="city.city">
+                                                                </el-option>
+                                                            </el-select>
 
+                                                            <el-select
+                                                                    v-model="address.area"
+                                                                    collapse-tags
+                                                                    style="margin-left: 5px;"
+                                                                    placeholder="请选择">
+                                                                <el-option
+                                                                        v-for="area in areasList"
+                                                                        :key="area.areaid"
+                                                                        :label="area.area"
+                                                                        :value="area.area">
+                                                                </el-option>
+                                                            </el-select>
+                                                        </template>
+                                                    </div>
+												</el-row>
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="详细地址">
+															<el-input v-model="address.address"/>
+														</el-form-item>
+													</el-col>
+                                                </el-row>
+                                                <el-row>
+													<el-col :span="12">
+														<el-form-item label="电话">
+															<el-input v-model="address.phone"/>
+														</el-form-item>
+													</el-col>
+												</el-row>
+                                                <el-row>
+                                                    <el-col :span="12">
+                                                        <el-form-item label="别名">
+                                                            <el-input v-model="address.alias"/>
+                                                        </el-form-item>
+                                                    </el-col>
+                                                </el-row>
 
-									</div>
-									<div class="modal-footer">
-										<button type="button" data-ok="modal"
-											class="sui-btn btn-primary btn-large">确定</button>
-										<button type="button" data-dismiss="modal"
-											class="sui-btn btn-default btn-large">取消</button>
-									</div>
+											</el-form>
+										</el-tab-pane>
+
+									</el-tabs>
+								</template>
+								<div slot="footer" class="dialog-footer">
+									<el-button @click="dialogFormVisible4Edit = false">取消</el-button>
+									<el-button type="primary" @click="handleEdit()">确定</el-button>
 								</div>
-							</div>
+							</el-dialog>
+						</div>
+
+						<div class="add-form">
+							<el-dialog title="新增地址" :visible.sync="dialogFormVisible">
+								<template>
+									<el-tabs type="card">
+										<el-tab-pane label="基本信息" >
+											<el-form ref="dataAddForm" :model="address"
+													 label-position="right" label-width="100px">
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="联系人" >
+															<el-input v-model="address.contact"/>
+														</el-form-item>
+													</el-col>
+												</el-row>
+												<el-row>
+													<div class="control-group address">
+														<label for="inputPassword" class="control-label">所在地：</label>
+														<template>
+															<el-select v-model="address.province"
+																	   style="margin-left: 5px;"
+																	   placeholder="请选择"
+																	   @change="findCitiesList(address.province)">
+																<el-option
+																		v-for="province in provincesList"
+																		:key="province.provinceid"
+																		:label="province.province"
+																		:value="province.province">
+																</el-option>
+															</el-select>
+
+															<el-select
+																	v-model="address.city"
+																	collapse-tags
+																	style="margin-left: 5px;"
+																	placeholder="请选择"
+																	@change="findAreasList(address.city)">
+																<el-option
+																		v-for="city in citiesList"
+																		:key="city.cityid"
+																		:label="city.city"
+																		:value="city.city">
+																</el-option>
+															</el-select>
+
+															<el-select
+																	v-model="address.area"
+																	collapse-tags
+																	style="margin-left: 5px;"
+																	placeholder="请选择">
+																<el-option
+																		v-for="area in areasList"
+																		:key="area.areaid"
+																		:label="area.area"
+																		:value="area.area">
+																</el-option>
+															</el-select>
+														</template>
+													</div>
+												</el-row>
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="详细地址">
+															<el-input v-model="address.address"/>
+														</el-form-item>
+													</el-col>
+												</el-row>
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="电话">
+															<el-input v-model="address.phone"/>
+														</el-form-item>
+													</el-col>
+												</el-row>
+												<el-row>
+													<el-col :span="12">
+														<el-form-item label="别名">
+															<el-input v-model="address.alias"/>
+														</el-form-item>
+													</el-col>
+												</el-row>
+
+											</el-form>
+										</el-tab-pane>
+
+									</el-tabs>
+								</template>
+								<div slot="footer" class="dialog-footer">
+									<el-button @click="dialogFormVisible = false">取消</el-button>
+									<el-button type="primary" @click="handleAdd()">确定</el-button>
+								</div>
+							</el-dialog>
 						</div>
 					</div>
 				</div>
@@ -455,7 +465,7 @@
 						</div>
 						<div class="yui3-u-1-6">
 							<h4>帮助中心</h4>
-							<img src="./img/wx_cz.jpg">
+							<img src="/img/wx_cz.jpg">
 						</div>
 					</div>
 				</div>
@@ -483,7 +493,136 @@
 
 
 
+	<script th:inline="javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                address : {
+                   	username: null,
+        			province: null,
+        			city: null,
+        			area: null,//县/区
+        			phone: null,//电话
+        			address: null,//详细地址
+        			contact: null,//联系人
+        			isDefault: "1",//是否是默认 1默认 0否
+        			alias: null,//别名
+                    totalAddress: null,//总地址
+                },
+                citiesList: [],
+                provincesList: [],
+                areasList: [],
+                addressList :[],
+                dialogFormVisible4Edit:false,
+                dialogFormVisible: false,//控制添加窗口显示/隐藏
+            },
+            created() {
+                this.findAll();
+                this.dialogFormVisible = false;
+                this.dialogFormVisible4Edit = false;
+            },
+            methods: {
+                findAll(){
+                    axios.get("/api/waddress/findAddressByUsername").then((res)=> {
+                        if (res.data.success) {
+                            this.addressList = res.data.data;
+                        }
+                    })
+                },
+                findProvincesList(){
+                    axios.get("/api/wcenter/findProvincesList").then((res)=> {
+                        if (res.data.success) {
+                            this.provincesList = res.data.data;
+                            if (this.address.province==null){
+                                this.address.province=res.data.data[0].province;
+                                this.findCitiesList(res.data.data[0].province);
+                            }else {
+                                this.findCitiesList(this.address.province);
+                            }
+                            }
+                    })
+                },
+                findCitiesList(province){
+                    axios.get("/api/wcenter/findCitiesList?province="+province).then((res)=> {
+                        if (res.data.success) {
+                            this.citiesList = res.data.data;
+                            if (this.address.city==null){
+                                this.address.city=res.data.data[0].city;
+                                this.findAreasList(res.data.data[0].city);
+							}else {
+                                this.findAreasList(this.address.city);
+							}
 
+
+                        }
+                    })
+                },
+                findAreasList(city){
+                    axios.get("/api/wcenter/findAreasList?city="+city).then((res)=> {
+                        if (res.data.success) {
+                            this.areasList = res.data.data;
+                            if (this.address.area==null){
+                                this.address.area=res.data.data[0].area;
+							}
+
+
+                        }
+                    })
+                },
+                handleCreate() {
+                    this.resetForm();
+                    this.dialogFormVisible = true;
+					this.findProvincesList();
+                },
+				// 重置表单
+                resetForm() {
+                    this.address = {};
+                },
+                handleEdit(){
+                    axios.put("/api/waddress/update",this.address).then((res)=> {
+                        if (res.data.success) {
+                            alert("修改成功");
+                            this.dialogFormVisible4Edit=false;
+                            this.findAll();
+                        }
+                    })
+                },
+                handleDelete(row){
+                    axios.delete("/api/waddress/delete?id="+row.id).then((res)=> {
+                        if (res.data.success) {
+                            alert("删除成功");
+                            this.findAll();
+                        }
+                    })
+        		},
+                handleAdd(){
+                    axios.post("/api/waddress/add",this.address).then((res)=> {
+                        if (res.data.success) {
+                            alert("添加成功");
+                            this.dialogFormVisible=false;
+                            this.findAll();
+                        }
+                    })
+				},
+                handleUpdate(row){
+                    this.dialogFormVisible4Edit = true;
+                    axios.get("/api/waddress/findById?id="+row.id).then((res)=> {
+                        if (res.data.success) {
+                            this.address = res.data.data;
+                            this.findProvincesList();
+                        }
+                    })
+				},
+                handIsDefault(row){
+                    axios.put("/api/waddress/updateIsDefault?id="+row.id).then((res)=> {
+                        if (res.data.success) {
+                            this.findAll();
+                        }
+                    })
+				}
+            }
+        })
+	</script>
 
 </body>
 

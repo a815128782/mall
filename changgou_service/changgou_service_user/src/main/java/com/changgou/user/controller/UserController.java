@@ -7,15 +7,11 @@ import com.changgou.common.entity.StatusCode;
 import com.changgou.common.exception.ExceptionCast;
 import com.changgou.common.model.response.system.SystemCode;
 import com.changgou.user.config.TokenDecode;
-import com.changgou.user.pojo.Areas;
-import com.changgou.user.pojo.Center;
+import com.changgou.user.pojo.*;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.goods.pojo.Spu;
 import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.OrderItem;
-import com.changgou.user.pojo.Cities;
-import com.changgou.user.pojo.Collect;
-import com.changgou.user.pojo.Footmark;
 import com.changgou.goods.pojo.Sku;
 import com.changgou.goods.pojo.Spu;
 import com.changgou.order.pojo.Order;
@@ -25,7 +21,6 @@ import com.changgou.user.config.TokenDecode;
 import com.changgou.user.config.TokenDecode;
 import com.changgou.user.pojo.Collect;
 import com.changgou.user.pojo.Footmark;
-import com.changgou.user.pojo.User;
 import com.changgou.user.service.CollectService;
 import com.changgou.user.service.UserService;
 import com.github.pagehelper.Page;
@@ -237,6 +232,12 @@ public class UserController {
         String username = tokenDecode.getUserInfo().get("username");
         Center center = userService.findCenter(username);
         return new Result(true,StatusCode.OK,"查询成功",center);
+    }
+
+    @GetMapping("/findProvincesList")
+    public Result findProvincesList(){
+        List<Provinces> provincesList =userService.findProvincesList();
+        return new Result(true,StatusCode.OK,"查询成功",provincesList);
     }
 
     @GetMapping("/findCitiesList")

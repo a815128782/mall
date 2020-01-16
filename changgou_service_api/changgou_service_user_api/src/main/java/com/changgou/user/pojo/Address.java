@@ -18,16 +18,48 @@ public class Address implements Serializable {
 
 	
 	private String username;//用户名
-	private String provinceid;//省
-	private String cityid;//市
-	private String areaid;//县/区
+	private String province;//省
+	private String city;//市
+	private String area;//县/区
 	private String phone;//电话
 	private String address;//详细地址
 	private String contact;//联系人
 	private String isDefault;//是否是默认 1默认 0否
 	private String alias;//别名
+	private String totalAddress;//详细地址
 
-	
+	public String getTotalAddress() {
+		return totalAddress;
+	}
+
+	public void setTotalAddress(String totalAddress) {
+		this.totalAddress = totalAddress;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -40,27 +72,6 @@ public class Address implements Serializable {
 	}
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getProvinceid() {
-		return provinceid;
-	}
-	public void setProvinceid(String provinceid) {
-		this.provinceid = provinceid;
-	}
-
-	public String getCityid() {
-		return cityid;
-	}
-	public void setCityid(String cityid) {
-		this.cityid = cityid;
-	}
-
-	public String getAreaid() {
-		return areaid;
-	}
-	public void setAreaid(String areaid) {
-		this.areaid = areaid;
 	}
 
 	public String getPhone() {

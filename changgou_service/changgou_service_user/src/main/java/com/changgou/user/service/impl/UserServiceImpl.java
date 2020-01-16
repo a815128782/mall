@@ -251,6 +251,7 @@ public class UserServiceImpl implements UserService {
                 redisTemplate.boundValueOps("occupationsList").set(occupationsList);
             }
         }
+        center = centerMapper.selectByPrimaryKey(username);
 
         center.setCitiesList(citiesList);
         center.setProvincesList(provincesList);
@@ -267,6 +268,9 @@ public class UserServiceImpl implements UserService {
     public void addCenter(String username) {
         Center center = new Center();
         center.setUsername(username);
+        center.setProvince("北京市");
+        center.setCity("北京市市辖区");
+        center.setArea("东城区");
         centerMapper.insertSelective(center);
     }
 
@@ -277,6 +281,9 @@ public class UserServiceImpl implements UserService {
      * */
     @Override
     public List<Cities> findCitiesList(String province) {
+        if (province == null){
+            province="北京市";
+        }
         Provinces provinces = findProvinces(province);
         List<Cities>citiesList = (List<Cities>)redisTemplate.boundValueOps(CITY+provinces.getProvinceid()).get();
         if (citiesList == null || citiesList.size()<=0){
@@ -314,6 +321,12 @@ public class UserServiceImpl implements UserService {
     public Integer updateCenter(Center center) {
         int i = centerMapper.updateByPrimaryKeySelective(center);
         return i;
+    }
+
+    @Override
+    public List<Provinces> findProvincesList() {
+        List<Provinces> provincesList = provincesMapper.selectAll();
+        return provincesList;
     }
 
 

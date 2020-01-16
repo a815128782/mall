@@ -73,6 +73,9 @@ public interface UserFeign {
     @PutMapping("/user/updateCenter")
     public Result updateCenter(@RequestBody Center center);
 
+    @GetMapping("/user/findProvincesList")
+    public Result findProvincesList();
+
 
     /*@GetMapping("/user/decr/userPoints")
     public Result decrUserPoints(@RequestParam String username, @RequestParam Integer points);*/

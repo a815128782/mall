@@ -4,10 +4,7 @@ package com.changgou.user.service;
 import com.changgou.common.entity.Result;
 import com.changgou.order.pojo.Order;
 import com.changgou.order.pojo.Task;
-import com.changgou.user.pojo.Areas;
-import com.changgou.user.pojo.Center;
-import com.changgou.user.pojo.Cities;
-import com.changgou.user.pojo.User;
+import com.changgou.user.pojo.*;
 import com.github.pagehelper.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -119,4 +116,12 @@ public interface UserService {
      * */
     Integer updateCenter(Center center);
 
+
+
+    /*
+     * 查询省列表
+     * @param username
+     * @return
+     * */
+    List<Provinces> findProvincesList();
 }

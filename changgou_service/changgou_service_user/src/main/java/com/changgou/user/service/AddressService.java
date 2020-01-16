@@ -70,4 +70,5 @@ public interface AddressService {
      */
     List<Address> list(String username);
 
+    List<Address> findAddressByUsername(String username);
 }

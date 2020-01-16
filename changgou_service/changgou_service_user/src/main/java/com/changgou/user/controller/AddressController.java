@@ -37,7 +37,7 @@ public class AddressController {
      * @return
      */
     @GetMapping("/{id}")
-    public Result findById(@PathVariable Integer id){
+    public Result findById(@PathVariable("id") Integer id){
         Address address = addressService.findById(id);
         return new Result(true,StatusCode.OK,"查询成功",address);
     }
@@ -50,6 +50,8 @@ public class AddressController {
      */
     @PostMapping
     public Result add(@RequestBody Address address){
+        String username = tokenDecode.getUserInfo().get("username");
+        address.setUsername(username);
         addressService.add(address);
         return new Result(true,StatusCode.OK,"添加成功");
     }
@@ -62,7 +64,7 @@ public class AddressController {
      * @return
      */
     @PutMapping(value="/{id}")
-    public Result update(@RequestBody Address address,@PathVariable Integer id){
+    public Result update(@RequestBody Address address,@PathVariable("id") Integer id){
         address.setId(id);
         addressService.update(address);
         return new Result(true,StatusCode.OK,"修改成功");
@@ -75,7 +77,7 @@ public class AddressController {
      * @return
      */
     @DeleteMapping(value = "/{id}" )
-    public Result delete(@PathVariable Integer id){
+    public Result delete(@PathVariable("id") Integer id){
         addressService.delete(id);
         return new Result(true,StatusCode.OK,"删除成功");
     }
@@ -118,4 +120,27 @@ public class AddressController {
         return R.T("查询",addressList);
     }
 
+    @GetMapping("/findAddressByUsername")
+    public Result findAddressByUsername(){
+        String username = tokenDecode.getUserInfo().get("username");
+
+        List<Address> addressList=addressService.findAddressByUsername(username);
+        return new Result(true,StatusCode.OK,"查询成功",addressList);
+    }
+
+    @PutMapping(value="/updateIsDefault/{id}")
+    public Result updateIsDefault(@PathVariable("id") Integer id){
+        String username = tokenDecode.getUserInfo().get("username");
+        List<Address> addressList=addressService.findAddressByUsername(username);
+        for (Address address : addressList) {
+            if (address.getId()==id){
+                address.setIsDefault("1");
+                addressService.update(address);
+            }else {
+                address.setIsDefault("0");
+                addressService.update(address);
+            }
+        }
+        return new Result(true,StatusCode.OK,"修改成功");
+    }
 }

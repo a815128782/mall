@@ -26,6 +26,13 @@ public class CenterController {
         return result;
     }
 
+    @GetMapping("/findProvincesList")
+    @ResponseBody
+    public Result findProvincesList(){
+        Result result = userFeign.findProvincesList();
+        return result;
+    }
+
     @GetMapping("/findCitiesList")
     @ResponseBody
     public Result findCitiesList(@RequestParam("province") String province){
