@@ -51,6 +51,12 @@ public class AddressController {
     @PostMapping
     public Result add(@RequestBody Address address){
         String username = tokenDecode.getUserInfo().get("username");
+        List<Address> addressList=addressService.findAddressByUsername(username);
+        if(addressList == null || addressList.size() <=0 ){
+            address.setIsDefault("1");
+        }else{
+            address.setIsDefault("0");
+        }
         address.setUsername(username);
         addressService.add(address);
         return new Result(true,StatusCode.OK,"添加成功");

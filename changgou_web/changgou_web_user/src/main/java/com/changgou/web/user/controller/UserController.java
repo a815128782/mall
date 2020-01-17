@@ -6,6 +6,7 @@ import com.changgou.order.feign.OrderFeign;
 import com.changgou.order.feign.OrderItemFeign;
 import com.changgou.order.pojo.Vo;
 import com.changgou.pay.feign.PayFeign;
+import org.bouncycastle.math.raw.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -170,6 +171,7 @@ public class UserController {
             SMSUtils.sendShortMessage(SMSUtils.VALIDATE_CODE, phone, "" + validateCode);
         }catch (Exception e){
             e.printStackTrace();
+            redisTemplate.boundValueOps(VALIDATECODE+phone).set(validateCode,300, TimeUnit.SECONDS);
             return R.F("验证码发送");
         }
         redisTemplate.boundValueOps(VALIDATECODE+phone).set(validateCode,300, TimeUnit.SECONDS);
@@ -220,7 +222,9 @@ public class UserController {
     }
 
     @GetMapping("/justtest")
-    public String toComment(){
+    public String toComment(Model model){
+        String username = (String) userFeign.getUsername().getData();
+        model.addAttribute("username",username);
         return "center-order-evaluate";
     }
 

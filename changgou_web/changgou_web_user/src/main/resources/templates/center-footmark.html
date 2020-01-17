@@ -136,8 +136,8 @@
 						<dd ><a th:href="|/api/wuser/user|"  >我的订单</a></dd>
 						<dd><a th:href="|/api/wuser/pay|" >待付款</a></dd>
 						<dd><a th:href="|/api/wuser/sendt|">待发货</a></dd>
-						<dd><a th:href="|/api/wuser/receive|">待收货</a></dd>
-						<dd><a href="center-order-evaluate.html" >待评价</a></dd>
+						<dd><a th:href="|/api/wuser/receive|" >待收货</a></dd>
+						<dd><a th:href="|/api/wuser/justtest|" >待评价</a></dd>
 					</dl>
 					<dl>
 						<dt><i>·</i> 我的中心</dt>
@@ -171,7 +171,7 @@
 										</a>
 										<div class="operate">
 											<a th:href="|http://localhost:8001/api/wcart/addCart/${sku.id}?num=1|" target="_blank" class="sui-btn btn-bordered btn-danger">加入购物车</a>
-											<a href="javascript:void(0);" class="sui-btn btn-bordered" th:@click="|deleteFootMark('${sku.id}')|" >删除足迹</a>
+											<a href="javascript:location.reload();" class="sui-btn btn-bordered" th:@click="|deleteFootMark('${sku.id}')|" >删除足迹</a>
 										</div>
 									</div>
 								</li >
@@ -510,9 +510,9 @@
             },
             deleteFootMark:function (id) {
 				axios.get("/api/wcollect/deleteFootMark/"+id).then(function (res) {
+
                 }).finally(
-                    alert("足迹已删除"),
-                    location.reload()
+                	alert("足迹已删除")
 				)
             }
         }

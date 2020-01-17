@@ -33,7 +33,7 @@
                                     <li class="f-item">畅购欢迎您！</li>
                                     <li class="f-item">请
                                         <a
-                                                th:href="|/api/oauth/toLogin?FROM=http://localhost:8001/api/wuser/index|"
+                                                th:href="|/api/oauth/toLogin?FROM=/api/wuser/index|"
                                                 target="_self">登录</a>
                                         <span>
 									<a th:href="|/api/wuser/register|" target="_self">免费注册</a>
@@ -57,7 +57,7 @@
 
                                         <li class="f-item">
 									<span>
-										<a href="http://localhost:8001/api/wcart/list" target="_self">我的购物车</a>
+										<a th:href="|/api/wcart/list| " target="_self">我的购物车</a>
 									</span>
                                         </li>
                                         <li class="f-item">
@@ -3207,7 +3207,7 @@
                     var label = new BMap.Label(markers[index].title, {offset: new BMap.Size(25, 5)});
                     var content =
                         "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>黑马合肥校区</h4>" +
-                        "<img style='float:right;margin:4px' id='imgDemo' src='/img/heima.png' width='139' height='104' title='合肥校区'/>" +
+                        "<img style='float:right;margin:4px' id='imgDemo' src='https://bkimg.cdn.bcebos.com/pic/aa18972bd40735fa7952400796510fb30e2408e9?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U4MA==,xp_5,yp_5' width='139' height='104' title='合肥校区'/>" +
                         "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>合肥市瑶海区闽商国贸中心1期A座商业4楼</p><br>电话:400-618-9090" +
                         "</div>";
                     var infoWindow = new BMap.InfoWindow(content);

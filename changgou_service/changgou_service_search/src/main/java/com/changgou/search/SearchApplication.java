@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableEurekaClient
-@EnableFeignClients(basePackages = {"com.changgou.goods.feign","com.changgou.user.feign"})
+@EnableFeignClients(basePackages = {"com.changgou.goods.feign","com.changgou.user.feign","com.changgou.order.feign"})
 public class SearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(SearchApplication.class, args);

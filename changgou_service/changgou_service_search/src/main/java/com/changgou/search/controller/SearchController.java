@@ -2,6 +2,7 @@ package com.changgou.search.controller;
 
 import com.changgou.common.entity.Page;
 import com.changgou.common.util.CookieUtil;
+import com.changgou.order.feign.CartFeign;
 import com.changgou.search.pojo.SkuInfo;
 import com.changgou.search.service.SearchService;
 import com.changgou.user.feign.UserFeign;
@@ -29,6 +30,18 @@ public class SearchController {
     private SearchService searchService;
     @Autowired
     UserFeign userFeign;
+    @Autowired
+    CartFeign cartFeign;
+
+//    //查询购物车
+//    @GetMapping("/list")
+//    public String list(Model model) {
+//        Map map = cartFeign.list();
+//        model.addAttribute("items",map);
+//        String username = (String) userFeign.getUsername().getData();
+//        model.addAttribute("username",username);
+//        return "cart";
+//    }
 
     @GetMapping("/list")
     public String list(@RequestParam Map<String,String> searchMap, Model model, HttpServletRequest request) {

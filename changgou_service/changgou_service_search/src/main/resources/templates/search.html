@@ -9,7 +9,7 @@
 
         <link rel="stylesheet" type="text/css" href="/css/all.css"/>
         <link rel="stylesheet" type="text/css" href="/css/pages-list.css"/>
-
+        <script src="//code.tidio.co/rdwglqvtuqmjpt1fbipmljpf45chjrzb.js" async> </script>
     </head>
 
     <body>
@@ -1055,7 +1055,7 @@
                         <div style="visibility: hidden;"
                              class="J-content toolbar-panel tbar-panel-cart toolbar-animate-out">
                             <h3 class="tbar-panel-header J-panel-header">
-                                <a href="" class="title"><i></i><em class="title">购物车</em></a>
+                                <a th:href="|/api/wcart/list|" class="title"><i></i><em class="title">购物车</em></a>
                                 <span class="close-panel J-close"
                                       onclick="cartPanelView.tbar_panel_close('cart');"></span>
                             </h3>
@@ -1076,9 +1076,9 @@
                             </div>
                             <!-- 小计 -->
                             <div id="cart-footer" class="tbar-panel-footer J-panel-footer">
-                                <div class="tbar-checkout">
-                                    <div class="jtc-number"><strong class="J-count" id="cart-number">0</strong>件商品</div>
-                                    <div class="jtc-sum"> 共计：<strong class="J-total" id="cart-sum">¥0</strong></div>
+                                <div class="tbar-checkout" v-for="item in items.orderItemList" :key="item.index">
+                                    <div class="jtc-number"><strong class="J-count" id="cart-number">{{items.totalNum}}</strong>件商品</div>
+                                    <div class="jtc-sum"> 共计：<strong class="J-total" id="cart-sum">¥{{items.totalMoney/100.0}}</strong></div>
                                     <a class="jtc-btn J-btn" href="#none" target="_blank">去购物车结算</a>
                                 </div>
                             </div>
@@ -1179,6 +1179,8 @@
         <script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
         <script src="/js/vue.js"></script>
         <script src="/js/axios.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.8/dist/vue.js"></script>
+        <script src="https://cdn.bootcss.com/element-ui/2.5.4/index.js"></script>
         <script type="text/javascript" src="/js/all.js"></script>
         <script>
             function jump() {
@@ -1189,6 +1191,7 @@
             var app = new Vue({
                 el:"#app",
                 data:{
+                    items:[[${items}]]
                 },
                 methods:{
                     add:function (id) {
