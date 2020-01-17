@@ -61,9 +61,9 @@ public class OrderController implements OrderApi {
     /*
     * 修改发货状态
     * */
-    @GetMapping("/updatesend/{id}")
-    public Result updateSend(@PathVariable("id") String id){
-        orderService.updateConginById(id);
+    @RequestMapping("/updatesend")
+    public Result updateSend(@RequestParam("orderId") String orderId){
+        orderService.updateConginById(orderId);
         return new Result(true,StatusCode.OK,"修改成功");
     }
 

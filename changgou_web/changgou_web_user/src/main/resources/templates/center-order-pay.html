@@ -11,12 +11,14 @@
 	<link rel="stylesheet" type="text/css" href="/css/all.css"/>
 	<link rel="stylesheet" type="text/css" href="/css/pages-seckillOrder.css" />
 	<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=suCtBF0vKGsY2aWxFfR3HOo1KG0kOhLg"></script>
+	<script type="text/javascript" src="/js/vue.js"></script>
 </head>
 
 <body>
     <!-- 头部栏位 -->
     <!--页面顶部-->
-<div id="nav-bottom">
+	<div id="app">
+<div id="nav-bottom" >
 	<!--顶部-->
 	<div class="nav-top">
 		<div class="top">
@@ -110,7 +112,7 @@
                     </div>
                 </div>
                 <!--右侧主内容-->
-                <div class="yui3-u-5-6 order-pay" id="app">
+                <div class="yui3-u-5-6 order-pay">
                     <div class="body">
                         <div class="table-title">
                             <table class="sui-table  order-table">
@@ -173,8 +175,9 @@
 											</td>
                                             <td width="10%" class="center" th:if="${(orderList.Pay_status)=='0'}">
                                                 <ul class="unstyled">
-                                                    <li><a href="#" class="sui-btn btn-info">立即付款</a></li>
-                                                    <li><a href="#" @click="send(orderItem.orderId)">取消订单</a></li>
+													<li><a href="#"  th:@click="|topay('${orderItem.orderId}','${orderItem.payMoney}')|"
+														   class="sui-btn btn-info">立即付款</a></li>
+													<li><a th:@click="|off('${orderItem.orderId}')|">取消订单</a></li>
                                                 </ul>
                                             </td>
 											<td width="10%" class="center" th:if="${(orderList.Pay_status)=='1'}">
@@ -284,7 +287,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <!-- 底部栏位 -->
     <!--页面底部-->
 <div class="clearfix footer">
@@ -418,18 +420,35 @@
 	</div>
 </div>
 <!--页面底部END-->
+	</div>
+
 
 </body>
-
+<script type="text/javascript" src="/js/all.js"></script>
+<script type="text/javascript" src="/js/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="/js/pages/index.js"></script>
+<script type="text/javascript" src="/js/axios.js"></script>
 <script th:inline="javascript">
-   // var app =new Vue({
-	//    el:"#account",
-	//    data:{
-   //         orderLists:[[${orderLists}]]
-	//    },
-	//    methods:{
-	//        send(id)
-	//    }
-   // })
+    var app= new Vue({
+        el: '#app',
+        data: {
+        },
+        methods: {
+            topay(orderId,money){
+                alert(orderId)
+                location.href="http://localhost:8001/api/worder/toPayPage/?orderId="+orderId+"&payMoney="+money;
+            },
+            off(orderId){
+                if(confirm("是否确定取消订单")) {
+                    axios.get("http://localhost:8001/api/order/delete/?orderId=" + orderId)
+                        .then(function (response) {
+                            if (response.data.success) {
+                                location.reload();
+                            }
+                        })
+                }
+            },
+        },
+    })
 </script>
 </html>

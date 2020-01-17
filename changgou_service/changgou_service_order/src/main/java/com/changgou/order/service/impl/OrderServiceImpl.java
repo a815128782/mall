@@ -434,6 +434,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void updateConginById(String id) {
         orderMapper.updateCsById(id);
     }

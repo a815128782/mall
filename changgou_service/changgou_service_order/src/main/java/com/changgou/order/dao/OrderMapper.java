@@ -16,6 +16,8 @@ public interface OrderMapper extends Mapper<Order> {
 //    List<Order> findConsignByUsername(@Param("username") String username);
     @Select("UPDATE tb_order SET consign_status='1' WHERE id = #{id}")
     void updateCsById(@Param("id") String id);
+
+
     @Select("UPDATE tb_order SET pay_status='1' WHERE id = #{id}")
     void updatepyById(String id);
 

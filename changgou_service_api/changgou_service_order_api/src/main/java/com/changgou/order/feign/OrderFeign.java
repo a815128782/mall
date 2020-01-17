@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author LiXiang
  */
-@FeignClient(name = "order")
+@FeignClient(name = "order",configuration = FeignClient.class)
 public interface OrderFeign {
 
     @PostMapping("/order")
@@ -52,4 +52,5 @@ public interface OrderFeign {
      * */
     @RequestMapping("/order/findConsignByUsername")
     public Result<List<Vo>> findConsignByUsername(@RequestParam("username")String username);
+
 }
