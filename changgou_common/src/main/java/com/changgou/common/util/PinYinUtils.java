@@ -16,7 +16,6 @@ public class PinYinUtils {
 
     /**
      * 将文字转为汉语拼音
-     *
      * @param chineselanguage 要转成拼音的中文
      */
     public String toHanyuPinyin(String chineselanguage) {
